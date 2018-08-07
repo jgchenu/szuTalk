@@ -1,20 +1,23 @@
 <template>
-    <div class="talkList">
-        <div class="header">
+    <div class="taskList">
+         <div class="header">
             <div class="avatar">
-                <img src="http://test.jgchen.xin/static/images/3.jpg" alt="头像">
+                ￥5111
             </div>
             <div class="msg">
-                <div class="name">the_J</div>
+                <div class="name">其他任务</div>
                 <div class="time">17:23</div>
             </div>
-            <div class="identity">
-                学生
+            <div class="orderWrap">
+                <div class="order">
+                    接单!
+                </div>
             </div>
+
         </div>
-        <div class="content">
+         <div class="content">
           <div class="message">
-            <div class="label">#南区#</div>发现南区超市门口好多条狗，他们都叫单身狗，突然发现我也skr单身狗。。
+            <div class="label">#杜鹃山到冬筑#</div>帮忙去KFC买个全家桶，再加一盒阿姨炒粉；加急送到乔梧！！饿死我了orz
           </div>
           <div class="images">
                 <img src="http://test.jgchen.xin/static/images/1.jpg" alt="头像">
@@ -26,20 +29,15 @@
                 </div>          
           </div>
         </div>
-        <div class="footer">
-          <div class="like"><img src="/static/images/index/like.png" alt="" class="likeIcon">6</div>
-          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">3</div>
-        </div>
     </div>
 </template>
 
 <script>
 export default {};
 </script>
-
 <style lang="scss" scoped>
 @import "../style/vars.scss";
-.talkList {
+.taskList {
   border: 2rpx solid #dddddd;
   padding: 10rpx 20rpx;
   box-shadow: 0 0 20rpx #bbbbbb;
@@ -50,13 +48,13 @@ export default {};
     align-items: center;
     height: 100rpx;
     .avatar {
-      width: 80rpx;
-      height: 80rpx;
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
+      padding: 5rpx;
+      border-radius: 10%;
+      background-color: $coinBg;
+      color: $coinColor;
+      line-height: 80rpx;
+      text-align: center;
+      font-weight: bold;
     }
     .msg {
       padding: 0 20rpx;
@@ -71,16 +69,22 @@ export default {};
         color: #bbbbbb;
       }
     }
-    .identity {
-      width: 80rpx;
-      height: 40rpx;
-      line-height: 40rpx;
-      background-color: $identityBg;
-      text-align: center;
-      border-radius: 20rpx;
+    .orderWrap {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
       align-self: flex-start;
-      margin-top: 10rpx;
-      color: #ffffff;
+      .order {
+        padding: 0 10rpx;
+        height: 60rpx;
+        line-height: 60rpx;
+        background-color: $coinBg;
+        text-align: center;
+        border-radius: 10rpx;
+        margin-top: 10rpx;
+        color: $coinColor;
+        border: 2rpx solid rgb(255, 102, 21);
+      }
     }
   }
   .content {
@@ -124,23 +128,6 @@ export default {};
           margin: 0 6rpx;
           vertical-align: middle;
         }
-      }
-    }
-  }
-  .footer {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    .like,
-    .comment {
-      margin-right: 100rpx;
-      display: flex;
-      align-items: flex-end;
-      .likeIcon,
-      .commentIcon {
-        width: 50rpx;
-        height: 50rpx;
-        margin-right: 10rpx;
       }
     }
   }
