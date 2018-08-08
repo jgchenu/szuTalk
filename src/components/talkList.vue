@@ -138,8 +138,8 @@ export default {};
       align-items: flex-end;
       .likeIcon,
       .commentIcon {
-        width: 50rpx;
-        height: 50rpx;
+        width: 40rpx;
+        height: 40rpx;
         margin-right: 10rpx;
       }
     }

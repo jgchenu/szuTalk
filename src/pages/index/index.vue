@@ -1,68 +1,105 @@
 <template>
   <div class="container">
-      <scroll-view  class="Tabs" style="width:100%">
-          <div v-for="(item,index) in tabs" :id="index" :class="{item_on:activeIndex == index }"  :scroll-into-view="index" @click="tabClick" :key="index" class="tabItem">{{item}}
-        </div>
-        <!-- <div class="weui-navbar-slider" :style="{transform:'translateX('+slideOffset+'px)'}"></div> -->
-      </scroll-view>
-    <swiper :current="activeIndex" >
-      <swiper-item>
-        <talkList></talkList>
+     <div class="header">
+        <Tabs :tabs="tabs" :activeIndex.sync="activeIndex" :tabW="tabW" style="width:300rpx"></Tabs>
+         <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div>
+       </div> 
+    <swiper :current="activeIndex" class="swiperBox" @change="bindChange">
+      <swiper-item class="swiperItem" >
+        <talkList />
+        <talkList />
+        <talkList />
+        <talkList />
+        <talkList />
       </swiper-item>
-      <swiper-item>
-          <taskList></taskList>
+      <swiper-item class="swiperItem">
+        <talkList />
       </swiper-item>
-    </swiper>
-
-       
+      <swiper-item class="swiperItem">
+         <taskList></taskList>
+         <taskList></taskList>
+         <taskList></taskList>
+         <taskList></taskList>
+         <taskList></taskList>
+      </swiper-item>
+    </swiper>       
   </div>
 </template>
 
 <script>
 import talkList from "../../components/talkList";
 import taskList from "../../components/taskList";
-
+import Tabs from "../../components/tabs";
 export default {
   data() {
     return {
       motto: "Hello World",
       userInfo: {},
-      tabs: [
-        "综合与绘画",
-        "艺术喷漆",
-        "泥塑",
-        "纸面绘画",
-        "布面绘画",
-        "中国油画",
-        "水墨画"
-      ],
+      tabs: ["首页", "热门", "任务"],
       activeIndex: 0,
-      slideOffset: 0,
-      tabW: 0
+      tabW: 187.5
     };
   },
-
   components: {
     talkList,
-    taskList
+    taskList,
+    Tabs
   },
 
   methods: {
-    tabClick() {}
-  },
-
-  created() {}
+    tabClick(e) {
+      var idIndex = e.currentTarget.id;
+      this.activeIndex = idIndex;
+    },
+    bindChange(e) {
+      var current = e.target.current;
+      // if ((current + 1) % 4 == 0) {
+      // }
+      // console.log(this.activeIndex)
+      this.activeIndex = current;
+    },
+    goSearch() {
+      wx.navigateTo({ url: "../search/main" });
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../style/vars.scss";
 .container {
-  .Tabs {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-    .tabItem {
+  overflow: auto;
+  .header {
+    width: 100%;
+    position: fixed;
+    box-sizing: border-box;
+    white-space: nowrap;
+    z-index: 100;
+    background: white;
+    height: 80rpx;
+    .search {
+      position: absolute;
+      right: 100rpx;
+      top: 20rpx;
+      width: 40rpx;
+      height: 40rpx;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .swiperBox {
+    height: 1040rpx;
+    margin-top: 80rpx;
+    .swiperItem {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -webkit-overflow-scrolling: touch;
+      overflow: scroll;
+      text-align: center;
+      height: 100%;
     }
   }
 }
