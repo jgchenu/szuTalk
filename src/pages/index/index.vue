@@ -1,28 +1,28 @@
 <template>
   <div class="container">
      <div class="header">
-        <Tabs :tabs="tabs" :activeIndex.sync="activeIndex" :tabW="tabW" style="width:300rpx"></Tabs>
+        <Tabs :tabs="tabs" :activeIndex.sync="activeIndex" :tabW="tabW"></Tabs>
          <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div>
        </div> 
-    <swiper :current="activeIndex" class="swiperBox" @change="bindChange">
-      <swiper-item class="swiperItem" >
-        <talkList />
-        <talkList />
-        <talkList />
-        <talkList />
-        <talkList />
-      </swiper-item>
-      <swiper-item class="swiperItem">
-        <talkList />
-      </swiper-item>
-      <swiper-item class="swiperItem">
-         <taskList></taskList>
-         <taskList></taskList>
-         <taskList></taskList>
-         <taskList></taskList>
-         <taskList></taskList>
-      </swiper-item>
-    </swiper>       
+      <swiper :current="activeIndex" class="swiperBox" @change="bindChange">
+        <swiper-item class="swiperItem" >
+          <talkList />
+          <talkList />
+          <talkList />
+          <talkList />
+          <talkList />
+        </swiper-item>
+        <swiper-item class="swiperItem">
+          <talkList />
+        </swiper-item>
+        <swiper-item class="swiperItem">
+          <taskList></taskList>
+          <taskList></taskList>
+          <taskList></taskList>
+          <taskList></taskList>
+          <taskList></taskList>
+        </swiper-item>
+      </swiper>       
   </div>
 </template>
 

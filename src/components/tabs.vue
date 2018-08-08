@@ -2,7 +2,7 @@
     <div class="container">
        <scroll-view  class="Tabs">
           <div v-for="(item,index) in tabs" :id="index" :class="{item_on:activeIndex == index }" @click="tabClick" :key="index" class="tabItem" :style="{width:tabW+'rpx'}">{{item}}</div>
-          <div class="slider" :style="{transform:'translateX('+activeIndex*tabW+'rpx)'}"></div>
+          <div class="slider" :style="{'transform':'translateX('+activeIndex*tabW+'rpx)','width':tabW+'rpx'}"></div>
       </scroll-view>
     </div>
 </template>
@@ -35,6 +35,7 @@ export default {
     display: inline-block;
     text-align: center;
     font-size: 32rpx;
+    border-right: 1rpx solid #eeefff;
   }
   .search {
     display: inline-block;
@@ -52,7 +53,6 @@ export default {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 187.5rpx;
     height: 2px;
     background: $topMenu;
     transition: transform 0.3s;
