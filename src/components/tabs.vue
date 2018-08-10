@@ -35,7 +35,7 @@ export default {
     display: inline-block;
     text-align: center;
     font-size: 32rpx;
-    border-right: 1rpx solid #eeefff;
+    // border-right: 1rpx solid #eeefff;
   }
   .search {
     display: inline-block;

@@ -47,10 +47,6 @@ export default {
   },
 
   methods: {
-    tabClick(e) {
-      var idIndex = e.currentTarget.id;
-      this.activeIndex = idIndex;
-    },
     bindChange(e) {
       var current = e.target.current;
       // if ((current + 1) % 4 == 0) {
@@ -60,6 +56,9 @@ export default {
     },
     goSearch() {
       wx.navigateTo({ url: "../search/main" });
+    },
+    goDetail(){
+      wx.navigateTo({url:'../detail/main'})
     }
   }
 };

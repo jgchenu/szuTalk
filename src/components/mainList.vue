@@ -1,17 +1,5 @@
 <template>
-    <div class="talkList" @click="goDetail">
-        <div class="header">
-            <div class="avatar">
-                <img src="http://test.jgchen.xin/static/images/3.jpg" alt="头像">
-            </div>
-            <div class="msg">
-                <div class="name">the_J</div>
-                <div class="time">17:23</div>
-            </div>
-            <div class="identity">
-                学生
-            </div>
-        </div>
+    <div class="talkList">
         <div class="content">
           <div class="message">
             <div class="label">#南区#</div>发现南区超市门口好多条狗，他们都叫单身狗，突然发现我也skr单身狗。。
@@ -27,6 +15,7 @@
           </div>
         </div>
         <div class="footer">
+          <div class="time">2018-7-29 17:23</div>
           <div class="like"><img src="/static/images/index/like.png" alt="" class="likeIcon">6</div>
           <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">3</div>
         </div>
@@ -34,15 +23,7 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    goDetail() {
-      wx.navigateTo({
-        url: "../detail/main"
-      });
-    }
-  }
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>
@@ -52,45 +33,6 @@ export default {
   padding: 10rpx 20rpx;
   box-shadow: 0 0 20rpx #bbbbbb;
   margin: 10px;
-  .header {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    height: 100rpx;
-    .avatar {
-      width: 80rpx;
-      height: 80rpx;
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
-    }
-    .msg {
-      padding: 0 20rpx;
-      text-align: center;
-      line-height: 40rpx;
-      .name {
-        font-size: 30rpx;
-        vertical-align: top;
-      }
-      .time {
-        font-size: 12px;
-        color: #bbbbbb;
-      }
-    }
-    .identity {
-      width: 80rpx;
-      height: 40rpx;
-      line-height: 40rpx;
-      background-color: $identityBg;
-      text-align: center;
-      border-radius: 20rpx;
-      align-self: flex-start;
-      margin-top: 10rpx;
-      color: #ffffff;
-    }
-  }
   .content {
     .message {
       font-size: 16px;
@@ -137,18 +79,23 @@ export default {
   }
   .footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    .like,
-    .comment {
-      margin-right: 100rpx;
+    .like {
+      font-size: 24rpx;
+      font-weight: bold;
       display: flex;
-      align-items: flex-end;
-      .likeIcon,
-      .commentIcon {
+      align-items: center;
+      .likeIcon {
         width: 40rpx;
         height: 40rpx;
         margin-right: 10rpx;
+      }
+    }
+    .comment {
+      @extend .like;
+      .commentIcon {
+        @extend .likeIcon;
       }
     }
   }

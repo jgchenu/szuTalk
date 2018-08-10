@@ -77,12 +77,12 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 80rpx;
+    height: 90rpx;
     box-sizing: border-box;
     padding-left: 30rpx;
     .searchInput {
       width: 620rpx;
-      height: 40rpx;
+      height: 60rpx;
       padding-left: 20rpx;
       background-color: #eeeeee;
       border-radius: 20rpx;

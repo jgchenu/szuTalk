@@ -1,16 +1,17 @@
 <template>
-    <div class="talkList" @click="goDetail">
+    <div class="talkList" >
         <div class="header">
             <div class="avatar">
                 <img src="http://test.jgchen.xin/static/images/3.jpg" alt="头像">
             </div>
             <div class="msg">
                 <div class="name">the_J</div>
-                <div class="time">17:23</div>
+                <div class="time">18-7-29 17:23</div>
             </div>
             <div class="identity">
                 学生
             </div>
+            <div class="report"><img src="/static/images/index/report.png" alt="举报"></div>
         </div>
         <div class="content">
           <div class="message">
@@ -19,35 +20,32 @@
           <div class="images">
                 <img src="http://test.jgchen.xin/static/images/1.jpg" alt="头像">
                 <img src="http://test.jgchen.xin/static/images/2.jpg" alt="头像">
-                <img src="http://test.jgchen.xin/static/images/3.jpg" alt="头像"> 
-                <div class="omitWrap">
-                  <img src="/static/images/index/omit.png" alt="omit">
-                   <span>9</span>
-                </div>          
+                <img src="http://test.jgchen.xin/static/images/3.jpg" alt="头像">      
+                <img src="http://test.jgchen.xin/static/images/4.jpg" alt="头像">      
+                <img src="http://test.jgchen.xin/static/images/5.jpg" alt="头像">      
+                <img src="http://test.jgchen.xin/static/images/6.jpg" alt="头像">  
+                <img src="http://test.jgchen.xin/static/images/7.jpg" alt="头像">      
+                <img src="http://test.jgchen.xin/static/images/8.jpg" alt="头像">      
+                <img src="http://test.jgchen.xin/static/images/2.jpg" alt="头像">      
           </div>
         </div>
         <div class="footer">
-          <div class="like"><img src="/static/images/index/like.png" alt="" class="likeIcon">6</div>
-          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">3</div>
+          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">1评论</div>
+           <div class="like"><img src="/static/images/index/like.png" alt="" class="likeIcon">6赞</div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    goDetail() {
-      wx.navigateTo({
-        url: "../detail/main"
-      });
-    }
-  }
+
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../style/vars.scss";
 .talkList {
+  position: relative;
   border: 2rpx solid #dddddd;
   padding: 10rpx 20rpx;
   box-shadow: 0 0 20rpx #bbbbbb;
@@ -90,6 +88,14 @@ export default {
       margin-top: 10rpx;
       color: #ffffff;
     }
+    .report {
+      position: absolute;
+      right: 20rpx;
+      img {
+        width: 40rpx;
+        height: 40rpx;
+      }
+    }
   }
   .content {
     .message {
@@ -100,55 +106,33 @@ export default {
       }
     }
     .images {
-      position: relative;
       padding: 10rpx 0;
-      overflow-x: scroll;
-      overflow-y: hidden;
-      white-space: nowrap;
       width: 100%;
-      height: 200rpx;
-      &::-webkit-scrollbar {
-        display: none;
-      }
       img {
         width: 200rpx;
         height: 200rpx;
         margin: 0 10rpx;
       }
-      .omitWrap {
-        position: absolute;
-        right: 30rpx;
-        bottom: 20rpx;
-        padding: 2rpx;
-        background-color: rgba($color: #000000, $alpha: 0.2);
-        font-size: 20rpx;
-        color: #ffffff;
-        display: flex;
-        align-items: center;
-        border-radius: 4rpx;
-        img {
-          width: 30rpx;
-          height: 30rpx;
-          margin: 0 6rpx;
-          vertical-align: middle;
-        }
-      }
     }
   }
   .footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    .like,
-    .comment {
-      margin-right: 100rpx;
-      display: flex;
-      align-items: flex-end;
-      .likeIcon,
-      .commentIcon {
+    padding: 10rpx;
+    .like {
+      font-size: 24rpx;
+      font-weight: bold;
+      .likeIcon {
         width: 40rpx;
         height: 40rpx;
-        margin-right: 10rpx;
+        margin-right: 20rpx;
+      }
+    }
+    .comment {
+      @extend .like;
+      .commentIcon {
+        @extend .likeIcon;
       }
     }
   }

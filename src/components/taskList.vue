@@ -55,6 +55,7 @@ export default {};
       line-height: 80rpx;
       text-align: center;
       font-weight: bold;
+      border: 2rpx solid $coinBorder;
     }
     .msg {
       padding: 0 20rpx;
@@ -83,7 +84,7 @@ export default {};
         border-radius: 10rpx;
         margin-top: 10rpx;
         color: $coinColor;
-        border: 2rpx solid rgb(255, 102, 21);
+        border: 2rpx solid $coinBorder;
       }
     }
   }
