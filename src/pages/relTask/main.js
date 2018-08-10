@@ -6,7 +6,6 @@ app.$mount()
 
 export default {
   config: {
-     "navigationBarTitleText": "钱包",
 
   }
 }

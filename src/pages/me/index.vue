@@ -14,7 +14,7 @@
         <div class="container">
             <div class="menus">
               <div class="main" @click="goMain"><img src="/static/images/me/main.png" alt="点赞"><div class="detail">我的主页</div></div>
-              <div class="comment"><img src="/static/images/me/comment.png" alt="点赞"><div class="detail">评论</div></div>
+              <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="点赞"><div class="detail">评论</div></div>
               <div class="order"><img src="/static/images/me/order.png" alt="点赞"><div class="detail">任务</div></div>
               <div class="wallet" @click="goWallet"><img src="/static/images/me/wallet.png" alt="点赞"><div class="detail">钱包</div></div>
               <div class="customer"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">客服</div></div>
@@ -41,6 +41,11 @@ export default {
     goWallet() {
       wx.navigateTo({
         url: "../wallet/main"
+      });
+    },
+    goComment() {
+      wx.navigateTo({
+        url: "../comment/main"
       });
     }
   }

@@ -1,30 +1,24 @@
 <template>
   <div class="container">
-  
+    <commentList></commentList>
+    <commentList></commentList>
+    <commentList></commentList>
   </div>
 </template>
 
 <script>
-
-
+import commentList from '../../components/commentList'
 export default {
-  components: {
+  components: {commentList},
 
+  data() {
+    return {};
   },
 
-  data () {
-    return {
-  
-    }
-  },
-
-  created () {
-
-  }
-}
+  created() {}
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>
 

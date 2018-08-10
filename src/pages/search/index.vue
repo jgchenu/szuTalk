@@ -65,6 +65,13 @@ export default {
       } else {
         this.contentShow = false;
       }
+    },
+    bindChange(e) {
+      var current = e.target.current;
+      // if ((current + 1) % 4 == 0) {
+      // }
+      // console.log(this.activeIndex)
+      this.activeIndex = current;
     }
   }
 };
