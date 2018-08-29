@@ -9,7 +9,7 @@
                 <div class="time">18-7-29 17:23</div>
             </div>
             <div class="identity">
-                学生
+                <img src="../../static/images/me/auth.png" alt="auth">
             </div>
             <div class="report"><img src="/static/images/index/report.png" alt="举报"></div>
         </div>
@@ -30,6 +30,7 @@
           </div>
         </div>
         <div class="footer">
+           <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon">分享</div>
           <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">1评论</div>
            <div class="like"><img src="/static/images/index/like.png" alt="" class="likeIcon">6赞</div>
         </div>
@@ -37,18 +38,15 @@
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>
 @import "../style/vars.scss";
 .talkList {
   position: relative;
-  border: 2rpx solid #dddddd;
+  border-bottom: 2rpx solid #dddddd;
   padding: 10rpx 20rpx;
-  box-shadow: 0 0 20rpx #bbbbbb;
   margin: 10px;
   .header {
     display: flex;
@@ -78,19 +76,22 @@ export default {
       }
     }
     .identity {
-      width: 80rpx;
+      width: 40rpx;
       height: 40rpx;
       line-height: 40rpx;
-      background-color: $identityBg;
       text-align: center;
       border-radius: 20rpx;
       align-self: flex-start;
       margin-top: 10rpx;
       color: #ffffff;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
     .report {
       position: absolute;
-      right: 20rpx;
+      right: 40rpx;
       img {
         width: 40rpx;
         height: 40rpx;
@@ -108,10 +109,12 @@ export default {
     .images {
       padding: 10rpx 0;
       width: 100%;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
       img {
         width: 200rpx;
         height: 200rpx;
-        margin: 0 10rpx;
       }
     }
   }
@@ -122,7 +125,6 @@ export default {
     padding: 10rpx;
     .like {
       font-size: 24rpx;
-      font-weight: bold;
       .likeIcon {
         width: 40rpx;
         height: 40rpx;
@@ -132,6 +134,12 @@ export default {
     .comment {
       @extend .like;
       .commentIcon {
+        @extend .likeIcon;
+      }
+    }
+    .share {
+      @extend .like;
+      .shareIcon {
         @extend .likeIcon;
       }
     }
