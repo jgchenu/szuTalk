@@ -37,10 +37,18 @@
 </template>
 
 <script>
+var qcloud = require("./../../wafer2/index.js");
+var config = require("./../../config.js");
 import talkList from "../../components/talkList";
 import taskList from "../../components/taskList";
 import Tabs from "../../components/tabs";
 export default {
+  mounted() {
+    const session = qcloud.Session.get();
+    if (!session) {
+      wx.navigateTo({ url: "../auth/main" });
+    }
+  },
   data() {
     return {
       motto: "Hello World",
