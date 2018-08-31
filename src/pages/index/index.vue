@@ -39,11 +39,14 @@
 <script>
 var qcloud = require("./../../wafer2/index.js");
 var config = require("./../../config.js");
-var auth = require("../../utils/auth,js");
+var auth = require("../../utils/auth.js");
 import talkList from "../../components/talkList";
 import taskList from "../../components/taskList";
 import Tabs from "../../components/tabs";
 export default {
+  onReachBottom(){
+    console.log('到底了')
+  },
   mounted() {
     auth();
   },
