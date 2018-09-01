@@ -10,7 +10,7 @@
 var util = require("../../utils/index.js");
 var qcloud = require("../../wafer2/index.js");
 var config = require("../../config.js");
-qcloud.setLoginUrl(`${config.host}/login`);
+qcloud.setLoginUrl(`${config.loginUrl}`);
 export default {
   methods: {
     onGetUserinfo(e) {

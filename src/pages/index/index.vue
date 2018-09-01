@@ -33,19 +33,34 @@
               <div class="relTask" @click="relTask"><img src="/static/images/bottom/task.png" alt=""><div class="taskText">任务</div></div>
            </div>
        </div>  
+
+        <!-- <tabMenu></tabMenu> -->
   </div>
 </template>
 
 <script>
 var qcloud = require("./../../wafer2/index.js");
-var config = require("./../../config.js");
+var http = require("../../utils/http.js");
 var auth = require("../../utils/auth.js");
 import talkList from "../../components/talkList";
 import taskList from "../../components/taskList";
 import Tabs from "../../components/tabs";
+// import tabMenu from "../../components/tabMenu";
+
 export default {
-  onReachBottom(){
-    console.log('到底了')
+  onReachBottom() {
+    console.log("到底了");
+    http(
+      "/say",
+      "GET",
+      { page: 1 },
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   },
   mounted() {
     auth();
