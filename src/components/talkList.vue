@@ -2,43 +2,89 @@
     <div class="talkList" @click="goDetail">
         <div class="header">
             <div class="avatar">
-                <img src="http://test.jgchen.xin/static/images/3.jpg" alt="头像">
+                <img :src="List.user.avatar_url" alt="头像">
             </div>
             <div class="msg">
-                <div class="name">the_J</div>
-                <div class="time">17:23</div>
+                <div class="name">{{List.user.name}}</div>
+                <div class="time">{{computedTime}}</div>
             </div>
-            <div class="identity">
+            <!-- <div class="identity">
                 学生
-            </div>
+            </div> -->
         </div>
         <div class="content">
           <div class="message">
-            <div class="label">#南区#</div>发现南区超市门口好多条狗，他们都叫单身狗，突然发现我也skr单身狗。。
+            <!-- <div class="label"></div> -->
+            {{computedContent}}
           </div>
           <div class="images">
-                <img src="http://test.jgchen.xin/static/images/1.jpg" alt="头像">
-                <img src="http://test.jgchen.xin/static/images/2.jpg" alt="头像">
-                <img src="http://test.jgchen.xin/static/images/3.jpg" alt="头像"> 
-                <div class="omitWrap">
+            <img :src="item.url" alt="" v-for="(item,index) in computedImages" :key="index"> 
+                <div class="omitWrap" v-if="List.file_urls.length>3">
                   <img src="/static/images/index/omit.png" alt="omit">
-                   <span>9</span>
+                   <span>{{List.file_urls.length}}</span>
                 </div>          
           </div>
         </div>
         <div class="footer">
-          <div class="like"><img src="/static/images/index/like.png" alt="" class="likeIcon">6</div>
-          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">3</div>
+          <div class="like"><img :src="computedStar" alt="" class="likeIcon" @click="handleStar">{{List.star_count}}</div>
+          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">{{List.comment_count}}</div>
         </div>
     </div>
 </template>
 
 <script>
+var http = require("../utils/http.js");
+
 export default {
+  props: {
+    List: {
+      type: Object,
+      default: {}
+    }
+  },
+  data() {
+    return {
+      isStar: this.List.is_star
+    };
+  },
+  computed: {
+    computedTime() {
+      return this.List.updated_at.split(" ")[1];
+    },
+    computedContent() {
+      let content = this.List.content.slice(0, 100);
+      content = content.length < 60 ? content : content + "...";
+      return content;
+    },
+    computedImages() {
+      let arr = this.List.file_urls.slice(0, 3);
+      return arr;
+    },
+    computedStar() {
+      let url = "/static/images/index/" + this.isStar ? "" : "no-" + "like.png";
+      console.log(url);
+      return url;
+    }
+  },
   methods: {
     goDetail() {
       wx.navigateTo({
         url: "../detail/main"
+      });
+    },
+    handleStar() {
+      http({
+        api: "/say",
+        data: {
+          id: this.List.id
+        },
+        method: "POST",
+        success: res => {
+          console.log(res);
+        },
+        fail: err => {
+          console.log(err);
+        }
       });
     }
   }
@@ -92,8 +138,14 @@ export default {
     }
   }
   .content {
+    text-align: left;
+    width: 100%;
     .message {
+      width: 100%;
       font-size: 16px;
+      word-wrap: break-word;
+      overflow: auto;
+      //div强制换行
       .label {
         color: $identityBg;
         display: inline-block;
