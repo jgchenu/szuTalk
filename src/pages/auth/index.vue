@@ -38,9 +38,9 @@ export default {
       });
     },
     doLogin: function(e) {
-      console.log(e)
+      console.log(e);
       if (e.mp.detail.errMsg === "getUserInfo:fail auth deny") {
-        util.showModel("授权失败","您需要允许授权才能使用");
+        util.showModel("授权失败", "您需要允许授权才能使用");
       } else {
         const session = qcloud.Session.get();
         if (session) {

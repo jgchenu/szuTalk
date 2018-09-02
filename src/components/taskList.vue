@@ -2,7 +2,7 @@
     <div class="taskList">
          <div class="header">
             <div class="avatar">
-                ￥5111
+                任务
             </div>
             <div class="msg">
                 <div class="name">其他任务</div>
@@ -48,13 +48,15 @@ export default {};
     align-items: center;
     height: 100rpx;
     .avatar {
-      padding: 5rpx;
-      border-radius: 10%;
+      border-radius: 50%;
       background-color: $coinBg;
       color: $coinColor;
-      line-height: 80rpx;
+      height: 70rpx;
+      width: 70rpx;
       text-align: center;
       font-weight: bold;
+      font-size: 26rpx;
+      line-height: 70rpx;
       border: 2rpx solid $coinBorder;
     }
     .msg {
@@ -79,12 +81,13 @@ export default {};
         padding: 0 10rpx;
         height: 60rpx;
         line-height: 60rpx;
-        background-color: $coinBg;
+        background-color: $orderBg;
         text-align: center;
         border-radius: 10rpx;
         margin-top: 10rpx;
-        color: $coinColor;
+        color: #ffffff;
         border: 2rpx solid $coinBorder;
+        box-shadow: 0 0  10rpx #aaaaaa;
       }
     }
   }

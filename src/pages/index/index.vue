@@ -23,10 +23,6 @@
           <taskList></taskList>
         </swiper-item>
       </swiper>     
-
-
-
-        <!-- <tabMenu></tabMenu> -->
   </div>
 </template>
 
@@ -41,17 +37,17 @@ import Tabs from "../../components/tabs";
 export default {
   onReachBottom() {
     console.log("到底了");
-    http(
-      "/say",
-      "GET",
-      { page: 1 },
-      res => {
+    http({
+      api: "/say",
+      method: "GET",
+      data: { page: 1 },
+      success: res => {
         console.log(res);
       },
-      err => {
+      fail: err => {
         console.log(err);
       }
-    );
+    });
   },
   mounted() {
     auth();
@@ -85,12 +81,6 @@ export default {
     },
     goDetail() {
       wx.navigateTo({ url: "../detail/main" });
-    },
-    relTalk() {
-      wx.navigateTo({ url: "../relTalk/main" });
-    },
-    relTask() {
-      wx.navigateTo({ url: "../relTask/main" });
     }
   }
 };
@@ -133,7 +123,6 @@ export default {
       height: 100%;
     }
   }
-
 }
 </style>
 

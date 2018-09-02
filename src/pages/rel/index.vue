@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-      <div class="buttons">
               <div class="relTalk" @click="relTalk"><img src="/static/images/bottom/talk.png" alt=""><div class="talkText">说说</div></div>
               <div class="relTask" @click="relTask"><img src="/static/images/bottom/task.png" alt=""><div class="taskText">任务</div></div>
-      </div>
+              <div class="express" @click="relExpress"><img src="/static/images/bottom/express.png" alt=""><div class="expressText">快递</div></div>
   </div>
 </template>
 
@@ -14,7 +13,17 @@ export default {
   data() {
     return {};
   },
-
+  methods: {
+    relTalk() {
+      wx.navigateTo({ url: "../relTalk/main" });
+    },
+    relTask() {
+      wx.navigateTo({ url: "../relTask/main" });
+    },
+    relExpress() {
+      wx.navigateTo({ url: "../express/main" });
+    }
+  },
   created() {}
 };
 </script>
@@ -23,30 +32,20 @@ export default {
 @import "../../style/vars.scss";
 .container {
   width: 100%;
-  .buttons {
-    width: 340rpx;
-    height: 200rpx;
-    border: 4rpx dotted $identityBg;
-    border-radius: 80rpx;
-    transition: transform 0.8s, opacity 0.8s;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    .relTalk {
-      margin-top: 10rpx;
-      flex: 1;
-      text-align: center;
-      border-right: 4rpx dotted $identityBg;
-      img {
-        width: 100rpx;
-        height: 100rpx;
-      }
+  display: flex;
+  .relTalk {
+    margin-top: 10rpx;
+    text-align: center;
+    flex: 1;
+    img {
+      width: 100rpx;
+      height: 100rpx;
     }
-    .relTask {
-      @extend .relTalk;
-      border-right: none;
-    }
+  }
+  .relTask,
+  .express {
+    @extend .relTalk;
+    border-right: none;
   }
 }
 </style>

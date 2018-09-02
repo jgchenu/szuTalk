@@ -3,21 +3,23 @@ var login = require('./lib/login');
 var Session = require('./lib/session');
 var request = require('./lib/request');
 var Tunnel = require('./lib/tunnel');
+var upload = require('./lib/upload');
 
 var exports = module.exports = {
-    login: login.login,
-    loginWithCode: login.loginWithCode,
-    setLoginUrl: login.setLoginUrl,
-    Session,
-    clearSession: Session.clear,
-    request: request.request,
-    RequestError: request.RequestError,
-    Tunnel: Tunnel,
+  login: login.login,
+  loginWithCode: login.loginWithCode,
+  setLoginUrl: login.setLoginUrl,
+  Session,
+  clearSession: Session.clear,
+  request: request.request,
+  RequestError: request.RequestError,
+  Tunnel: Tunnel,
+  upload: upload.upload
 };
 
 // 导出错误类型码
 Object.keys(constants).forEach(function (key) {
-    if (key.indexOf('ERR_') === 0) {
-        exports[key] = constants[key];
-    }
+  if (key.indexOf('ERR_') === 0) {
+    exports[key] = constants[key];
+  }
 });

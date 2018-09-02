@@ -18,6 +18,8 @@
               <div class="order"><img src="/static/images/me/order.png" alt="点赞"><div class="detail">任务</div></div>
               <div class="wallet" @click="goWallet"><img src="/static/images/me/wallet.png" alt="点赞"><div class="detail">钱包</div></div>
               <div class="customer"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">客服</div></div>
+              <div class="customer" @click="goRegister"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">注册</div></div>
+
             </div>
         </div>
     </div>
@@ -46,6 +48,11 @@ export default {
     goComment() {
       wx.navigateTo({
         url: "../comment/main"
+      });
+    },
+    goRegister() {
+      wx.navigateTo({
+        url: "../register/main"
       });
     }
   }

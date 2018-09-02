@@ -1,3 +1,6 @@
+const {
+  host
+} = require('./../config')
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -13,6 +16,7 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+
 
 
 // 显示繁忙提示
