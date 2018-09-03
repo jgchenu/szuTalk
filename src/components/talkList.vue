@@ -17,7 +17,7 @@
             <!-- <div class="label"></div> -->
             {{computedContent}}
           </div>
-          <div class="images">
+          <div class="images" v-if="List.file_urls.length>0">
             <img :src="item.url" alt="" v-for="(item,index) in computedImages" :key="index"> 
                 <div class="omitWrap" v-if="List.file_urls.length>3">
                   <img src="/static/images/index/omit.png" alt="omit">
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="footer">
-          <div class="like"><img :src="computedStar" alt="" class="likeIcon" @click="handleStar">{{List.star_count}}</div>
+          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"  >{{starCount}}</div>
           <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">{{List.comment_count}}</div>
         </div>
     </div>
@@ -44,7 +44,8 @@ export default {
   },
   data() {
     return {
-      isStar: this.List.is_star
+      isStar: this.List.is_star,
+      starCount: this.List.star_count
     };
   },
   computed: {
@@ -61,26 +62,30 @@ export default {
       return arr;
     },
     computedStar() {
-      let url = "/static/images/index/" + this.isStar ? "" : "no-" + "like.png";
-      console.log(url);
+      let url = `/static/images/index/${this.isStar ? "" : "no-"}like.png`;
       return url;
     }
   },
   methods: {
     goDetail() {
       wx.navigateTo({
-        url: "../detail/main"
+        url: `../detail/main?id=${this.List.id}`
       });
     },
     handleStar() {
+      let method = this.isStar ? "DELETE" : "POST";
       http({
-        api: "/say",
-        data: {
-          id: this.List.id
-        },
-        method: "POST",
+        api: `/say/${this.List.id}/star`,
+        method,
         success: res => {
-          console.log(res);
+          if (res.statusCode === 200) {
+            this.isStar = !this.isStar;
+            if (method === "DELETE") {
+              this.starCount--;
+            } else {
+              this.starCount++;
+            }
+          }
         },
         fail: err => {
           console.log(err);
@@ -94,9 +99,9 @@ export default {
 <style lang="scss" scoped>
 @import "../style/vars.scss";
 .talkList {
-  border: 2rpx solid #dddddd;
+  border-bottom: 2rpx solid #dddddd;
   padding: 10rpx 20rpx;
-  box-shadow: 0 0 20rpx #bbbbbb;
+  // box-shadow: 0 0 20rpx #bbbbbb;
   margin: 10px;
   .header {
     display: flex;

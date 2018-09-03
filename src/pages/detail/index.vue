@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="JSON.stringify(talkDetail)!=='{}'">
     <div class="talkDetail">
-      <talkListDetail></talkListDetail>
+      <talkListDetail :talkDetail="talkDetail"></talkListDetail>
     </div>
     <div class="commentContent">
         <FComment></FComment>
@@ -30,20 +30,39 @@
 <script>
 import talkListDetail from "../../components/talkListDetail";
 import FComment from "../../components/FComment";
+const http = require("../../utils/http.js");
+
 export default {
+  onLoad() {
+    let id = this.$root.$mp.query.id;
+    console.log(this.$root.$mp.query);
+    http({
+      api: `/say/${id}`,
+      method: "GET",
+      success: res => {
+        console.log(res);
+        if (res.statusCode === 200) {
+          this.talkDetail = res.data.data;
+        }
+      },
+      fail: err => {
+        console.log(err);
+      }
+    });
+  },
   components: {
     talkListDetail,
     FComment
   },
 
   data() {
-    return { isFocus: false };
+    return { isFocus: false, talkDetail: {} };
   },
   methods: {
     onFocus() {
       this.isFocus = true;
-    }
-    ,onBlur(){
+    },
+    onBlur() {
       this.isFocus = false;
     }
   }
@@ -62,7 +81,7 @@ export default {
     background-color: #ffffff;
     .pics {
       line-height: 100rpx;
-      img{
+      img {
         height: 80rpx;
         width: 80rpx;
         padding: 0 10rpx;

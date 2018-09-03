@@ -5,8 +5,12 @@
          <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div>
        </div> 
       <swiper :current="activeIndex" class="swiperBox" @change="bindChange">
-        <swiper-item class="swiperItem" v-if="indexList.length!==0">
+        <swiper-item class="swiperItem">
+          <div class="refresh" v-show="loading&&isRefresh">下拉刷新</div>
+          <scroll-view scroll-y="true" @scrolltolower="loadMore" @scrolltoupper="refresh" class="scrollView" lower-threshold='10'>
           <talkList v-for="(item,index) in indexList" :key="index" :List="item"/>
+          </scroll-view>
+          <div class="loadMore" v-show="(loading&&!isRefresh)||finish">{{finish?'全部加载完成':'上拉加载更多'}}</div>
         </swiper-item>
         <swiper-item class="swiperItem">
           <!-- <talkList /> -->
@@ -33,10 +37,6 @@ import taskList from "../../components/taskList";
 import Tabs from "../../components/tabs";
 // import tabMenu from "../../components/tabMenu";
 export default {
-  onReachBottom() {
-    console.log("到底了");
-    this.loadData();
-  },
   mounted() {
     auth();
     this.loadData();
@@ -52,7 +52,8 @@ export default {
       indexList: [],
       page: 1,
       finish: false,
-      loading: false
+      loading: false,
+      isRefresh: false
     };
   },
   components: {
@@ -86,6 +87,8 @@ export default {
         data: { page: this.page },
         success: res => {
           this.loading = false;
+          this.isRefresh = false;
+
           if (res.statusCode === 200) {
             if (res.data.data.data.length > 0) {
               if (res.data.data.links.next_page_url) {
@@ -105,6 +108,17 @@ export default {
           console.log(err);
         }
       });
+    },
+    loadMore() {
+      console.log("到底了");
+      this.loadData();
+    },
+    refresh() {
+      this.finish = false;
+      this.isRefresh = true;
+      this.page = 1;
+      this.indexList = [];
+      this.loadData();
     }
   }
 };
@@ -135,16 +149,34 @@ export default {
     }
   }
   .swiperBox {
-    height: 1040rpx;
+    height: 1020rpx;
     margin-top: 80rpx;
     .swiperItem {
-      &::-webkit-scrollbar {
-        display: none;
-      }
-      -webkit-overflow-scrolling: touch;
-      overflow: scroll;
-      text-align: center;
       height: 100%;
+      position: relative;
+      .refresh,
+      .loadMore {
+        width: 100%;
+        position: absolute;
+        height: 40rpx;
+        text-align: center;
+        color: #dddddd;
+      }
+      .refresh {
+        top: 0;
+      }
+      .loadMore {
+        bottom: 0;
+      }
+      .scrollView {
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        -webkit-overflow-scrolling: touch;
+        overflow: scroll;
+        text-align: center;
+        height: 100%;
+      }
     }
   }
 }
