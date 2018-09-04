@@ -21,8 +21,8 @@
 <script>
 import Button from "../../components/Button";
 const { host } = require("./../../config.js");
-var http = require("../../utils/http.js");
-var util = require("../../utils/index.js");
+const http = require("../../utils/http.js");
+const util = require("../../utils/index.js");
 
 const qcloud = require("./../../wafer2/index.js");
 export default {
@@ -44,32 +44,41 @@ export default {
           sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
           success: res => {
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+            if (this.imagePaths.length + res.tempFilePaths.length > 3) {
+              reject("最多只能上传九张哦");
+              return;
+            }
             this.imagePaths = this.imagePaths.concat(res.tempFilePaths);
             resolve(res.tempFilePaths);
           }
         });
-      }).then(paths => {
-        for (let i = 0; i < paths.length; i++) {
-          qcloud.upload({
-            url: `${host}/image`,
-            filePath: paths[i],
-            header: {
-              accept: "application/json" // 默认值
-            },
-            name: "image",
-            success: res => {
-              let data = JSON.parse(res.data);
-              if (data.code === 0) {
-                this.imageIds.push(data.data.id);
+      }).then(
+        paths => {
+          for (let i = 0; i < paths.length; i++) {
+            qcloud.upload({
+              url: `${host}/image`,
+              filePath: paths[i],
+              header: {
+                accept: "application/json" // 默认值
+              },
+              name: "image",
+              success: res => {
+                let data = JSON.parse(res.data);
+                if (data.code === 0) {
+                  this.imageIds.push(data.data.id);
+                }
+                console.log(res);
+              },
+              fail: error => {
+                console.log(error);
               }
-              console.log(res);
-            },
-            fail: error => {
-              console.log(error);
-            }
-          });
+            });
+          }
+        },
+        tip => {
+          util.showModel("提醒", tip);
         }
-      });
+      );
     },
     preImage(e) {
       if (this.imagePaths.length) {

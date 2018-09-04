@@ -31,13 +31,15 @@
           </div>
         </div>
         <div class="footer">
-          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">1评论</div>
+          <div class="comment"  @click="showSecondComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">1评论</div>
            <div class="like"><img src="/static/images/index/like.png" alt="" class="likeIcon">6赞</div>
         </div>
         <div class="secondComments">
-          <SComment></SComment>
-          <SComment></SComment>
-          <SComment></SComment>
+          <div class="container" @click="showSecondComment">
+              <span class="from">光 </span>回复<span class="to"> 煮的米</span>: <span class="content">
+                开门，查水表！！
+              </span>
+          </div>
         </div>
       </div>
         
@@ -45,10 +47,12 @@
 </template>
 
 <script>
-import SComment from "../components/SComment";
 export default {
-  components: {
-    SComment
+  components: {},
+  methods: {
+    showSecondComment() {
+      this.$emit("showSecondComment");
+    }
   }
 };
 </script>
@@ -71,7 +75,7 @@ export default {
   }
   .container {
     box-sizing: border-box;
-    margin-left: 80rpx;
+    padding-left: 80rpx;
     border-bottom: 2rpx solid #dddddd;
     .header {
       display: flex;
@@ -158,6 +162,20 @@ export default {
     }
     .secondComments {
       width: 100%;
+      overflow: auto;
+      .container {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10rpx;
+        font-size: 24rpx;
+        .from {
+          color: $identityBg;
+          font-weight: bold;
+        }
+        .to {
+          @extend .from;
+        }
+      }
     }
   }
 }

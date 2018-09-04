@@ -24,7 +24,7 @@
         </div>
         <div class="footer">
            <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon">分享</div>
-          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">{{talkDetail.comments.length}}评论</div>
+          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" >{{talkDetail.comments.length}}评论</div>
            <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon">{{starCount}}赞</div>
         </div>
     </div>
@@ -89,7 +89,10 @@ export default {
           urls: this.computedUrls // 需要预览的图片http链接列表
         });
       }
-    }
+    },
+    showFirstComment(){
+      this.$emit('showFirstComment');
+    },
   }
 };
 </script>
