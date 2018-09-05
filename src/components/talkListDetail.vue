@@ -2,11 +2,11 @@
     <div class="talkList">
         <div class="header">
             <div class="avatar">
-                <img :src="talkDetail.user.avatar_url" alt="头像">
+                <img :src="detailData.user.avatar_url" alt="头像">
             </div>
             <div class="msg">
-                <div class="name">{{talkDetail.user.name}}</div>
-                <div class="time">{{talkDetail.updated_at}}</div>
+                <div class="name">{{detailData.user.name}}</div>
+                <div class="time">{{detailData.updated_at}}</div>
             </div>
             <!-- <div class="identity">
                 <img src="../../static/images/me/auth.png" alt="auth">
@@ -16,15 +16,15 @@
         <div class="content">
           <div class="message">
             <!-- <div class="label">#南区#</div> -->
-            {{talkDetail.content}}
+            {{detailData.content}}
           </div>
           <div class="images">
-              <img :src="item.url"  v-for="(item,index) in talkDetail.file_urls" :key="index" :data-id="index" @click="preImage">  
+              <img :src="item.url"  v-for="(item,index) in detailData.file_urls" :key="index" :data-id="index" @click="preImage">  
           </div>
         </div>
         <div class="footer">
            <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon">分享</div>
-          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" >{{talkDetail.comments.length}}评论</div>
+          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" >{{detailData.comments.length}}评论</div>
            <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon">{{starCount}}赞</div>
         </div>
     </div>
@@ -34,15 +34,15 @@
 const http = require("../utils/http.js");
 export default {
   props: {
-    talkDetail: {
+    detailData: {
       type: Object,
       default: {}
     }
   },
   data() {
     return {
-      isStar: this.talkDetail.is_star,
-      starCount: this.talkDetail.star_count
+      isStar: this.detailData.is_star,
+      starCount: this.detailData.star_count
     };
   },
   computed: {
@@ -51,7 +51,7 @@ export default {
       return url;
     },
     computedUrls() {
-      let urls = this.talkDetail.file_urls.map(item => {
+      let urls = this.detailData.file_urls.map(item => {
         return item.url;
       });
       return urls;
@@ -61,7 +61,7 @@ export default {
     handleStar() {
       let method = this.isStar ? "DELETE" : "POST";
       http({
-        api: `/say/${this.talkDetail.id}/star`,
+        api: `/say/${this.detailData.id}/star`,
         method,
         success: res => {
           if (res.statusCode === 200) {

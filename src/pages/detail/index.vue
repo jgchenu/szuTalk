@@ -1,12 +1,12 @@
 <template>
-  <div class="container" v-if="JSON.stringify(talkDetail)!=='{}'">
+  <div class="container" v-if="JSON.stringify(detailData)!=='{}'">
     <div class="talkDetail">
-      <talkListDetail :talkDetail="talkDetail" @showFirstComment="showFirstComment"></talkListDetail>
+      <talkListDetail :detailData="detailData" @showFirstComment="showFirstComment"></talkListDetail>
     </div>
     <div class="commentContent">
-        <FComment @showSecondComment="showSecondComment"></FComment>
+        <FComment @showSecondComment="showSecondComment" :detailData="item" v-for="(item,index) in detailData.comments" :key="index"></FComment>
     </div>
-    <div class="FcommentInput" v-show="Fstatus">
+    <div class="FcommentInput" v-show="Fstatus||imagePaths.length">
         <div class="images" @click="preImage" v-show="imagePaths.length">
             <div class="imageItem" v-for="(item,index) in imagePaths" :key="index" >
               <img :src="item" alt="image" :data-id="index">
@@ -15,14 +15,14 @@
         </div>
         <div class="sub">
           <img src="/static/images/rel/addPic-no.png" alt="addPic" class="addPicIcon" @click="chooseImage">
-          <input type="text" placeholder="说说你的看法..." :focus="Fstatus">
-          <div class="subButton" >发表</div>
+          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent">
+          <div class="subButton" @click="relFComment">发表</div>
         </div>
     </div>
       <div class="ScommentInput" v-show="Sstatus">
         <div class="sub">
-          <input type="text" placeholder="说说你的看法..." :focus="Sstatus" @blur="blur">
-          <div class="subButton" >发表</div>
+          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="blur" v-model="Scontent">
+          <div class="subButton" @click="relScomment">发表</div>
         </div>
     </div>
   </div>
@@ -38,7 +38,7 @@ const util = require("../../utils/index.js");
 
 export default {
   onLoad() {
-    let id = (this.$root.$mp.query.id );
+    let id = this.$root.$mp.query.id;
     console.log(this.$root.$mp.query);
     http({
       api: `/say/${id}`,
@@ -46,7 +46,7 @@ export default {
       success: res => {
         console.log(res);
         if (res.statusCode === 200) {
-          this.talkDetail = res.data.data;
+          this.detailData = res.data.data;
         }
       },
       fail: err => {
@@ -62,11 +62,14 @@ export default {
   data() {
     return {
       isFocus: false,
-      talkDetail: {},
+      detailData: {},
       imagePaths: [],
       imageIds: [],
       Fstatus: false,
-      Sstatus: false
+      Sstatus: false,
+      Fcontent: "",
+      Scontent: "",
+      toWho: {}
     };
   },
   methods: {
@@ -93,6 +96,7 @@ export default {
       this.imageIds.splice(index, 1);
     },
     chooseImage() {
+      this.Fstatus = true;
       new Promise((resolve, reject) => {
         wx.chooseImage({
           count: 9, // 默认9
@@ -140,14 +144,80 @@ export default {
       this.Fstatus = true;
       this.Sstatus = false;
     },
-    showSecondComment() {
+    showSecondComment(event) {
+      this.toWho = event;
       this.Fstatus = false;
       this.Sstatus = true;
     },
     blur() {
       this.Fstatus = false;
       this.Sstatus = false;
-    }
+    },
+    relFComment() {
+      http({
+        api: `/say/comment`,
+        method: "POST",
+        data: {
+          content: this.Fcontent,
+          images: this.imageIds,
+          say_id: this.detailData.id
+        },
+        success: res => {
+          console.log("add Fcomment:", res);
+          if (res.data.code === 0) {
+            util.showSuccess("发布成功");
+            this.imagePaths = [];
+            this.imageIds = [];
+            this.Fcontent = "";
+            this.Fstatus = false;
+            this.Sstatus = false;
+          }
+        }
+      });
+    },
+    relScomment() {
+      if (typeof this.toWho.toId === "number") {
+        http({
+          api: `/say/comment/comment`,
+          method: "POST",
+          data: {
+            content: this.Scontent,
+            say_comment_id: this.toWho.id,
+            to_say_comment_comment_id: this.toWho.toId
+          },
+          success: res => {
+            console.log("add Scomment:", res);
+            if (res.data.code === 0) {
+              util.showSuccess("发布成功");
+              this.toWho = {};
+              this.Scontent = "";
+              this.Fstatus = false;
+              this.Sstatus = false;
+            }
+          }
+        });
+      } else {
+        http({
+          api: `/say/comment/comment`,
+          method: "POST",
+          data: {
+            content: this.Scontent,
+            say_comment_id: this.toWho.id
+          },
+          success: res => {
+            console.log("add Scomment:", res);
+            if (res.data.code === 0) {
+              util.showSuccess("发布成功");
+              this.toWho = {};
+              this.Scontent = "";
+              this.Fstatus = false;
+              this.Sstatus = true;
+            }
+          }
+        });
+      }
+    },
+    refreshFcomment() {}
   }
 };
 </script>
