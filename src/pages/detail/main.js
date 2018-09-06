@@ -5,6 +5,8 @@ const app = new Vue(App)
 app.$mount()
 
 export default {
-     "navigationBarTitleText": "详情",
-
-}
+    config: {
+      navigationBarTitleText: '详情',
+      enablePullDownRefresh:true
+    }
+  }

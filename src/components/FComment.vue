@@ -28,7 +28,7 @@
            <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon">{{starCount}}赞</div>
         </div>
         <div class="secondComments" >
-          <div class="container"  v-for="(item,index) in detailData.comments" :key="index" :currentid="item.id" @click="showSecondComment(item.id)">
+          <div class="container"  v-for="(item,index) in detailData.comments" :key="index" :currentid="item.id" @click="showApply(item.id,item.user.name)">
             <div v-if="!item.to_user">
               <span class="from">{{item.user.name}}</span>: <span class="content">
                {{item.content}}
@@ -55,6 +55,10 @@ export default {
     detailData: {
       type: Object,
       default: {}
+    },
+    commentIndex:{
+      type:Number,
+      default:0
     }
   },
   data() {
@@ -77,12 +81,19 @@ export default {
     }
   },
   methods: {
-    showSecondComment(id) {
-      id=typeof(id)==='object'?'':id;
+    showSecondComment() {
       this.$emit("showSecondComment", {
         id: this.detailData.id,
-        toId: id,
-        name: this.detailData.user.name
+        name: this.detailData.user.name,
+        commentIndex:this.commentIndex
+      });
+    },
+    showApply(toId,name) {
+      this.$emit("showApply", {
+        id: this.detailData.id,
+        toId,
+        name,
+        commentIndex:this.commentIndex
       });
     },
     handleStar() {

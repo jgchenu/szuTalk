@@ -4,7 +4,7 @@
       <talkListDetail :detailData="detailData" @showFirstComment="showFirstComment"></talkListDetail>
     </div>
     <div class="commentContent">
-        <FComment @showSecondComment="showSecondComment" :detailData="item" v-for="(item,index) in detailData.comments" :key="index"></FComment>
+        <FComment @showSecondComment="showSecond" @showApply="showSecond" :detailData="item" v-for="(item,index) in detailData.comments" :key="index" :commentIndex="index"></FComment>
     </div>
     <div class="FcommentInput" v-show="Fstatus||imagePaths.length">
         <div class="images" @click="preImage" v-show="imagePaths.length">
@@ -21,7 +21,7 @@
     </div>
       <div class="ScommentInput" v-show="Sstatus">
         <div class="sub">
-          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="blur" v-model="Scontent">
+          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="onBlur" v-model="Scontent">
           <div class="subButton" @click="relScomment">发表</div>
         </div>
     </div>
@@ -38,21 +38,12 @@ const util = require("../../utils/index.js");
 
 export default {
   onLoad() {
-    let id = this.$root.$mp.query.id;
+    this.id = this.$root.$mp.query.id;
     console.log(this.$root.$mp.query);
-    http({
-      api: `/say/${id}`,
-      method: "GET",
-      success: res => {
-        console.log(res);
-        if (res.statusCode === 200) {
-          this.detailData = res.data.data;
-        }
-      },
-      fail: err => {
-        console.log(err);
-      }
-    });
+    this.loadData();
+  },
+  onPullDownRefresh() {
+    this.loadData();
   },
   components: {
     talkListDetail,
@@ -61,7 +52,6 @@ export default {
 
   data() {
     return {
-      isFocus: false,
       detailData: {},
       imagePaths: [],
       imageIds: [],
@@ -69,15 +59,26 @@ export default {
       Sstatus: false,
       Fcontent: "",
       Scontent: "",
-      toWho: {}
+      toWho: {},
+      id: 0
     };
   },
   methods: {
-    onFocus() {
-      this.isFocus = true;
-    },
-    onBlur() {
-      this.isFocus = false;
+    loadData() {
+      http({
+        api: `/say/${this.id}`,
+        method: "GET",
+        success: res => {
+          console.log(res);
+          if (res.statusCode === 200) {
+            this.detailData = res.data.data;
+          }
+          wx.stopPullDownRefresh();
+        },
+        fail: err => {
+          console.log(err);
+        }
+      });
     },
     preImage(e) {
       if (this.imagePaths.length) {
@@ -124,7 +125,7 @@ export default {
               name: "image",
               success: res => {
                 let data = JSON.parse(res.data);
-                if (data.code === 0) {
+                if (res.statusCode === 0) {
                   this.imageIds.push(data.data.id);
                 }
                 console.log(res);
@@ -144,12 +145,13 @@ export default {
       this.Fstatus = true;
       this.Sstatus = false;
     },
-    showSecondComment(event) {
+    showSecond(event) {
       this.toWho = event;
+      console.log(event);
       this.Fstatus = false;
       this.Sstatus = true;
     },
-    blur() {
+    onBlur() {
       this.Fstatus = false;
       this.Sstatus = false;
     },
@@ -164,19 +166,20 @@ export default {
         },
         success: res => {
           console.log("add Fcomment:", res);
-          if (res.data.code === 0) {
+          if (res.statusCode === 0) {
             util.showSuccess("发布成功");
             this.imagePaths = [];
             this.imageIds = [];
             this.Fcontent = "";
             this.Fstatus = false;
             this.Sstatus = false;
+            this.loadData();
           }
         }
       });
     },
     relScomment() {
-      if (typeof this.toWho.toId === "number") {
+      if (this.toWho.toId) {
         http({
           api: `/say/comment/comment`,
           method: "POST",
@@ -187,13 +190,7 @@ export default {
           },
           success: res => {
             console.log("add Scomment:", res);
-            if (res.data.code === 0) {
-              util.showSuccess("发布成功");
-              this.toWho = {};
-              this.Scontent = "";
-              this.Fstatus = false;
-              this.Sstatus = false;
-            }
+            this.refreshFcomment(res);
           }
         });
       } else {
@@ -205,19 +202,35 @@ export default {
             say_comment_id: this.toWho.id
           },
           success: res => {
-            console.log("add Scomment:", res);
-            if (res.data.code === 0) {
+            console.log("add apply:", res);
+            this.refreshFcomment(res);
+          }
+        });
+      }
+    },
+    refreshFcomment(res) {
+      let index = this.toWho.commentIndex;
+      this.toWho = {};
+      this.Scontent = "";
+      this.Fstatus = false;
+      this.Sstatus = false;
+      if (res.statusCode === 200) {
+        http({
+          api: `/say/comment/${this.detailData.comments[index].id}`,
+          method: "GET",
+          success: res => {
+            console.log(res);
+            if (res.statusCode === 200) {
               util.showSuccess("发布成功");
-              this.toWho = {};
-              this.Scontent = "";
-              this.Fstatus = false;
-              this.Sstatus = true;
+              this.$set(this.detailData.comments, index, res.data.data);
+              // this.detailData.comments[index] = res.data.data;
+              console.log(this.detailData.comments[index]);
             }
           }
         });
       }
     },
-    refreshFcomment() {}
+    relSuccess() {}
   }
 };
 </script>
