@@ -5,11 +5,11 @@
               <img src="http://test.jgchen.xin/static/images/2.jpg" alt="头像" class="avatar">
               <div class="name">the_J <img src="/static/images/me/edit.png" alt="编辑"></div>
             </div>
-            <div class="msg">
+            <!-- <div class="msg">
               <div class="like"><img src="/static/images/me/like.png" alt="点赞"><div class="detail">获赞数:<span>66</span></div></div>
               <div class="auth"><img src="/static/images/me/auth.png" alt="认证"><div class="detail">认证:<span>学生</span></div></div>
               <div class="evaluate"><img src="/static/images/me/evaluate.png" alt="好评"><div class="detail">好评:<span>77%</span></div></div>
-            </div>
+            </div> -->
         </div>
         <div class="container">
             <div class="menus">

@@ -37,6 +37,10 @@ const { host } = require("./../../config.js");
 const util = require("../../utils/index.js");
 
 export default {
+  mounted() {
+    console.log(111)
+    this.resetData()
+  },
   onLoad() {
     this.id = this.$root.$mp.query.id;
     console.log(this.$root.$mp.query);
@@ -166,7 +170,7 @@ export default {
         },
         success: res => {
           console.log("add Fcomment:", res);
-          if (res.statusCode === 0) {
+          if (res.statusCode === 200) {
             util.showSuccess("发布成功");
             this.imagePaths = [];
             this.imageIds = [];
@@ -230,7 +234,16 @@ export default {
         });
       }
     },
-    relSuccess() {}
+    resetData() {
+      this.detailData = {};
+      this.imagePaths = [];
+      this.Fstatus = false;
+      this.Sstatus = false;
+      this.Fcontent = "";
+      this.Scontent = "";
+      this.toWho = {};
+      this.id = 0;
+    }
   }
 };
 </script>
