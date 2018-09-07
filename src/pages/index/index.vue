@@ -7,7 +7,7 @@
       <swiper :current="activeIndex" class="swiperBox" @change="bindChange">
         <swiper-item class="swiperItem">
           <div class="refresh" v-show="tabsData[activeIndex].loading&&tabsData[activeIndex].isRefresh">下拉刷新</div>
-          <scroll-view scroll-y="true" @scrolltolower="loadMore" @scrolltoupper="tabsData[activeIndex].refresh" class="scrollView" lower-threshold='10'>
+          <scroll-view scroll-y="true" @scrolltolower="loadMore" @scrolltoupper="refresh                                                                        " class="scrollView" lower-threshold='10'>
           <talkList v-for="(item,index) in tabsData[activeIndex].indexList" :key="index" :List="item"/>
            <div class="loadMore" v-show="(tabsData[activeIndex].loading&&!tabsData[activeIndex].isRefresh)||tabsData[activeIndex].finish">{{tabsData[activeIndex].finish?'全部加载完成':'上拉加载更多'}}</div>
           </scroll-view>
@@ -62,6 +62,13 @@ export default {
           finish: false,
           loading: false,
           isRefresh: false
+        },
+        {
+          indexList: [],
+          page: 1,
+          finish: false,
+          loading: false,
+          isRefresh: false
         }
       ]
     };
@@ -87,28 +94,34 @@ export default {
       wx.navigateTo({ url: "../detail/main" });
     },
     loadData() {
-      let activeIndex=this.activeIndex;
-      if (this.tabsData[activeIndex].finish || this.tabsData[activeIndex].loading) {
+      let activeIndex = this.activeIndex;
+      if (
+        this.tabsData[activeIndex].finish ||
+        this.tabsData[activeIndex].loading
+      ) {
         return;
       }
       this.tabsData[activeIndex].loading = true;
       http({
         api: "/say",
         method: "GET",
-        data: { page: this.page },
+        data: { page: this.tabsData[activeIndex].page },
         success: res => {
           this.tabsData[activeIndex].loading = false;
           this.tabsData[activeIndex].isRefresh = false;
-
           if (res.statusCode === 200) {
             if (res.data.data.data.length > 0) {
               if (res.data.data.links.next_page_url) {
-                this.tabsData[activeIndex].page = res.data.data.links.next_page_url.split("=")[1];
+                this.tabsData[
+                  activeIndex
+                ].page = res.data.data.links.next_page_url.split("=")[1];
               } else {
                 this.tabsData[activeIndex].finish = true;
                 this.tabsData[activeIndex].page = 0;
               }
-              this.tabsData[activeIndex].indexList = this.tabsData[activeIndex].indexList.concat(res.data.data.data);
+              this.tabsData[activeIndex].indexList = this.tabsData[
+                activeIndex
+              ].indexList.concat(res.data.data.data);
             } else {
               util.showModel("抱歉", "已经加载完了");
             }
@@ -125,7 +138,7 @@ export default {
       this.loadData();
     },
     refresh() {
-      let activeIndex=this.activeIndex;
+      let activeIndex = this.activeIndex;
       this.tabsData[activeIndex].finish = false;
       this.tabsData[activeIndex].isRefresh = true;
       this.tabsData[activeIndex].page = 1;

@@ -6,7 +6,6 @@ module.exports = (success) => {
     success: res => {
       if (res.authSetting["scope.userInfo"]) {
         const session = qcloud.Session.get();
-        console.log(session)
         if (!session) {
           //如果有授权，但是没有登录态，会去登录态
           qcloud.login({

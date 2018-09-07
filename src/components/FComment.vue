@@ -12,7 +12,7 @@
             <!-- <div class="identity">
                 <img src="../../static/images/me/auth.png" alt="auth">
             </div> -->
-            <div class="report"><img src="/static/images/index/report.png" alt="举报"></div>
+            <div class="report"><img src="/static/images/index/report.png" alt="举报" @click="handleAction('comment')" v-if="selfId===detailData.user.id"></div>
         </div>
         <div class="content">
           <div class="message">
@@ -28,7 +28,7 @@
            <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon">{{starCount}}赞</div>
         </div>
         <div class="secondComments" >
-          <div class="container"  v-for="(item,index) in detailData.comments" :key="index" :currentid="item.id" @click="showApply(item.id,item.user.name)">
+          <div class="container"  v-for="(item,index) in detailData.comments" :key="index"  @click="handleApply(item)">
             <div v-if="!item.to_user">
               <span class="from">{{item.user.name}}</span>: <span class="content">
                {{item.content}}
@@ -56,9 +56,13 @@ export default {
       type: Object,
       default: {}
     },
-    commentIndex:{
-      type:Number,
-      default:0
+    commentIndex: {
+      type: Number,
+      default: 0
+    },
+    selfId: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -85,16 +89,46 @@ export default {
       this.$emit("showSecondComment", {
         id: this.detailData.id,
         name: this.detailData.user.name,
-        commentIndex:this.commentIndex
+        commentIndex: this.commentIndex
       });
     },
-    showApply(toId,name) {
-      this.$emit("showApply", {
-        id: this.detailData.id,
-        toId,
-        name,
-        commentIndex:this.commentIndex
-      });
+    handleApply(item) {
+      if (item.user.id === this.selfId) {
+        wx.showActionSheet({
+          itemList: [`回复 ${item.user.name}:`, "删除"],
+          success: res => {
+            console.log(res.tapIndex);
+            if (res.tapIndex === 0) {
+              this.$emit("showApply", {
+                id: this.detailData.id,
+                toId: item.id,
+                name: item.user.name,
+                commentIndex: this.commentIndex
+              });
+            } else if (res.tapIndex === 1) {
+                this.$emit("handleAction", {
+                type: "apply",
+                id: item.id,
+                commentIndex: this.commentIndex
+              });
+            }
+          }
+        });
+      } else {
+        wx.showActionSheet({
+          itemList: [`回复 ${item.user.name}:`],
+          success: res => {
+            console.log(res.tapIndex);
+            if (res.tapIndex === 0)
+              this.$emit("showApply", {
+                id: this.detailData.id,
+                toId: item.id,
+                name: item.user.name,
+                commentIndex: this.commentIndex
+              });
+          }
+        });
+      }
     },
     handleStar() {
       let method = this.isStar ? "DELETE" : "POST";
@@ -127,6 +161,16 @@ export default {
           urls: this.computedUrls // 需要预览的图片http链接列表
         });
       }
+    },
+    handleAction(type) {
+      wx.showActionSheet({
+        itemList: ["删除"],
+        success: res => {
+          if (res.tapIndex === 0) {
+            this.$emit("handleAction", { type, id: this.detailData.id });
+          }
+        }
+      });
     }
   }
 };

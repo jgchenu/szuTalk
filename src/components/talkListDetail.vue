@@ -11,7 +11,7 @@
             <!-- <div class="identity">
                 <img src="../../static/images/me/auth.png" alt="auth">
             </div> -->
-            <div class="report"><img src="/static/images/index/report.png" alt="举报"></div>
+            <div class="report"><img src="/static/images/index/report.png" alt="举报" @click="handleAction('detail')" v-if="selfId===detailData.user.id"></div>
         </div>
         <div class="content">
           <div class="message">
@@ -37,6 +37,10 @@ export default {
     detailData: {
       type: Object,
       default: {}
+    },
+    selfId: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -90,9 +94,18 @@ export default {
         });
       }
     },
-    showFirstComment(){
-      this.$emit('showFirstComment');
+    showFirstComment() {
+      this.$emit("showFirstComment");
     },
+    handleAction(type) {
+      wx.showActionSheet({
+        itemList: ["删除"],
+        success: res => {
+          console.log(res);
+          this.$emit("handleAction", { type, id: this.detailData.id });
+        }
+      });
+    }
   }
 };
 </script>

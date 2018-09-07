@@ -1,14 +1,14 @@
 <template>
   <div class="container" v-if="JSON.stringify(detailData)!=='{}'">
     <div class="talkDetail">
-      <talkListDetail :detailData="detailData" @showFirstComment="showFirstComment"></talkListDetail>
+      <talkListDetail :detailData="detailData" @showFirstComment="showFirstComment" :selfId="selfId" @handleAction="handleAction"></talkListDetail>
     </div>
     <div class="commentContent">
-        <FComment @showSecondComment="showSecond" @showApply="showSecond" :detailData="item" v-for="(item,index) in detailData.comments" :key="index" :commentIndex="index"></FComment>
+        <FComment @showSecondComment="showSecond" @showApply="showSecond" :detailData="item" v-for="(item,index) in detailData.comments" :key="index" :commentIndex="index" :selfId="selfId" @handleAction="handleAction"></FComment>
     </div>
     <div class="FcommentInput" v-show="Fstatus||imagePaths.length">
         <div class="images" @click="preImage" v-show="imagePaths.length">
-            <div class="imageItem" v-for="(item,index) in imagePaths" :key="index" >
+            <div class="imageItem" v-for="(item,index) in imagePaths" :key="index">
               <img :src="item" alt="image" :data-id="index">
               <div class="delete" @click.stop="deleteImage(index)">x</div>
             </div>
@@ -37,14 +37,15 @@ const { host } = require("./../../config.js");
 const util = require("../../utils/index.js");
 
 export default {
-  mounted() {
-    console.log(111)
-    this.resetData()
-  },
   onLoad() {
+    this.resetData();
+    const session = qcloud.Session.get();
+    this.selfId = session.user.id;
+    console.log("mounted");
     this.id = this.$root.$mp.query.id;
-    console.log(this.$root.$mp.query);
+    console.log(this.id);
     this.loadData();
+    console.log("onload");
   },
   onPullDownRefresh() {
     this.loadData();
@@ -64,7 +65,8 @@ export default {
       Fcontent: "",
       Scontent: "",
       toWho: {},
-      id: 0
+      id: 0,
+      selfId: 0
     };
   },
   methods: {
@@ -105,7 +107,7 @@ export default {
       new Promise((resolve, reject) => {
         wx.chooseImage({
           count: 9, // 默认9
-          sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+          sizeType: [ "compressed"], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
           success: res => {
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
@@ -114,6 +116,7 @@ export default {
               return;
             }
             this.imagePaths = this.imagePaths.concat(res.tempFilePaths);
+            util.showBusy("上传中", 20000);
             resolve(res.tempFilePaths);
           }
         });
@@ -129,8 +132,11 @@ export default {
               name: "image",
               success: res => {
                 let data = JSON.parse(res.data);
-                if (res.statusCode === 0) {
+                if (res.statusCode === 200) {
                   this.imageIds.push(data.data.id);
+                  if (i === this.imagePaths.length - 1) {
+                    wx.hideToast();
+                  }
                 }
                 console.log(res);
               },
@@ -194,7 +200,9 @@ export default {
           },
           success: res => {
             console.log("add Scomment:", res);
-            this.refreshFcomment(res);
+            if (res.statusCode === 200) {
+              this.refreshFcomment(this.toWho.commentIndex);
+            }
           }
         });
       } else {
@@ -207,32 +215,31 @@ export default {
           },
           success: res => {
             console.log("add apply:", res);
-            this.refreshFcomment(res);
-          }
-        });
-      }
-    },
-    refreshFcomment(res) {
-      let index = this.toWho.commentIndex;
-      this.toWho = {};
-      this.Scontent = "";
-      this.Fstatus = false;
-      this.Sstatus = false;
-      if (res.statusCode === 200) {
-        http({
-          api: `/say/comment/${this.detailData.comments[index].id}`,
-          method: "GET",
-          success: res => {
-            console.log(res);
             if (res.statusCode === 200) {
-              util.showSuccess("发布成功");
-              this.$set(this.detailData.comments, index, res.data.data);
-              // this.detailData.comments[index] = res.data.data;
-              console.log(this.detailData.comments[index]);
+              this.refreshFcomment(this.toWho.commentIndex);
             }
           }
         });
       }
+    },
+    refreshFcomment(index) {
+      this.toWho = {};
+      this.Scontent = "";
+      this.Fstatus = false;
+      this.Sstatus = false;
+      http({
+        api: `/say/comment/${this.detailData.comments[index].id}`,
+        method: "GET",
+        success: res => {
+          console.log(res);
+          if (res.statusCode === 200) {
+            util.showSuccess("发布成功");
+            this.$set(this.detailData.comments, index, res.data.data);
+            // this.detailData.comments[index] = res.data.data;
+            console.log(this.detailData.comments[index]);
+          }
+        }
+      });
     },
     resetData() {
       this.detailData = {};
@@ -242,7 +249,53 @@ export default {
       this.Fcontent = "";
       this.Scontent = "";
       this.toWho = {};
-      this.id = 0;
+    },
+    handleAction({ type, id, commentIndex }) {
+      if (type === "detail") {
+        http({
+          api: `/say/${id}`,
+          method: "DELETE",
+          success: res => {
+            if (res.statusCode == 200) {
+              util.showSuccess("删除成功");
+              wx.switchTab({
+                url: "../index/main"
+              });
+            }
+          },
+          fail: err => {
+            console.log(err);
+          }
+        });
+      } else if (type === "comment") {
+        http({
+          api: `/say/comment/${id}`,
+          method: "DELETE",
+          success: res => {
+            if (res.statusCode == 200) {
+              util.showSuccess("删除成功");
+              this.loadData();
+            }
+          },
+          fail: err => {
+            console.log(err);
+          }
+        });
+      } else if (type === "apply") {
+        http({
+          api: `/say/comment/comment/${id}`,
+          method: "DELETE",
+          success: res => {
+            if (res.statusCode == 200) {
+              util.showSuccess("删除成功");
+              this.refreshFcomment(commentIndex);
+            }
+          },
+          fail: err => {
+            console.log(err);
+          }
+        });
+      }
     }
   }
 };

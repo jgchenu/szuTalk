@@ -40,7 +40,7 @@ export default {
       new Promise((resolve, reject) => {
         wx.chooseImage({
           count: 9, // 默认9
-          sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+          sizeType: ["compressed"], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
           success: res => {
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
@@ -49,6 +49,7 @@ export default {
               return;
             }
             this.imagePaths = this.imagePaths.concat(res.tempFilePaths);
+            util.showBusy("上传中", 20000);
             resolve(res.tempFilePaths);
           }
         });
@@ -63,11 +64,15 @@ export default {
               },
               name: "image",
               success: res => {
-                let data = JSON.parse(res.data);
-                if (data.code === 0) {
-                  this.imageIds.push(data.data.id);
-                }
                 console.log(res);
+
+                let data = JSON.parse(res.data);
+                if (res.statusCode === 200) {
+                  this.imageIds.push(data.data.id);
+                  if (i === this.imagePaths.length - 1) {
+                    wx.hideToast();
+                  }
+                }
               },
               fail: error => {
                 console.log(error);
