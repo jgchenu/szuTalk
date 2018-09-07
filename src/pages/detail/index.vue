@@ -233,7 +233,6 @@ export default {
         success: res => {
           console.log(res);
           if (res.statusCode === 200) {
-            util.showSuccess("发布成功");
             this.$set(this.detailData.comments, index, res.data.data);
             // this.detailData.comments[index] = res.data.data;
             console.log(this.detailData.comments[index]);
