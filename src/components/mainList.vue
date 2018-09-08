@@ -29,9 +29,8 @@ export default {};
 <style lang="scss" scoped>
 @import "../style/vars.scss";
 .talkList {
-  border: 2rpx solid #dddddd;
-  padding: 10rpx 20rpx;
-  box-shadow: 0 0 20rpx #bbbbbb;
+  border-bottom: 4rpx solid #cccccc;
+  padding: 20rpx 20rpx;
   margin: 10px;
   .content {
     .message {

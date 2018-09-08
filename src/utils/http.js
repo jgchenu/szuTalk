@@ -10,13 +10,13 @@ module.exports = function ({
   success,
   fail
 }) {
-  util.showBusy('加载中', 10000)
+  // util.showBusy('加载中', 10000)
   qcloud.request({
     url: `${host}${api}`,
     data,
     method,
     success: (res) => {
-      wx.hideToast();
+      // wx.hideToast();
       success(res)
     },
     fail: (error) => {

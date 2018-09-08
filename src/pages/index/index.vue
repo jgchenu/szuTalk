@@ -1,30 +1,20 @@
 <template>
   <div class="container">
-     <div class="header">
-        <Tabs :tabs="tabs" :activeIndex.sync="activeIndex" tabW=187.5 ></Tabs>
+
+     
+        <div class="header">
+        <Tabs :tabs="tabs" :activeIndex.sync="activeIndex" :tabW="tabW" ></Tabs>
          <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div>
        </div> 
-      <swiper :current="activeIndex" class="swiperBox" @change="bindChange">
-        <swiper-item class="swiperItem">
-          <div class="refresh" v-show="tabsData[activeIndex].loading&&tabsData[activeIndex].isRefresh">下拉刷新</div>
-          <scroll-view scroll-y="true" @scrolltolower="loadMore" @scrolltoupper="refresh                                                                        " class="scrollView" lower-threshold='10'>
-          <talkList v-for="(item,index) in tabsData[activeIndex].indexList" :key="index" :List="item"/>
-           <div class="loadMore" v-show="(tabsData[activeIndex].loading&&!tabsData[activeIndex].isRefresh)||tabsData[activeIndex].finish">{{tabsData[activeIndex].finish?'全部加载完成':'上拉加载更多'}}</div>
-          </scroll-view>
-         
-        </swiper-item>
-        <swiper-item class="swiperItem">
-          <!-- <talkList /> -->
-        </swiper-item>
-        <swiper-item class="swiperItem">
-          <!-- <taskList></taskList>
-          <taskList></taskList>
-          <taskList></taskList>
-          <taskList></taskList>
-          <taskList></taskList> -->
-        </swiper-item>
-      </swiper>     
-  </div>
+        <div  class="dataBox"  >
+          <!-- <div class="refresh" v-show="loading&&isRefresh">下拉刷新</div> -->
+          <talkList v-for="(item,index) in indexList" :key="index" :List="item"/>
+           <div class="loadMore" v-show="(loading&&!isRefresh)||finish">{{finish?'全部加载完成':'正在加载...'}}</div>
+
+          </div>
+
+      </div>     
+  
 </template>
 
 <script>
@@ -38,8 +28,19 @@ import taskList from "../../components/taskList";
 import Tabs from "../../components/tabs";
 // import tabMenu from "../../components/tabMenu";
 export default {
+  onPullDownRefresh: function() {
+    console.log("下拉");
+    this.refresh();
+  },
+  onReachBottom: function() {
+    console.log("上拉");
+    this.loadMore();
+  },
   mounted() {
     auth();
+  },
+  onLoad() {},
+  onShow() {
     this.loadData();
   },
   data() {
@@ -48,29 +49,14 @@ export default {
       userInfo: {},
       tabs: ["全部", "热门", "任务"],
       activeIndex: 0,
-      tabsData: [
-        {
-          indexList: [],
-          page: 1,
-          finish: false,
-          loading: false,
-          isRefresh: false
-        },
-        {
-          indexList: [],
-          page: 1,
-          finish: false,
-          loading: false,
-          isRefresh: false
-        },
-        {
-          indexList: [],
-          page: 1,
-          finish: false,
-          loading: false,
-          isRefresh: false
-        }
-      ]
+      scrollHeight: 0,
+      scrollTop: 0,
+      indexList: [],
+      page: 1,
+      finish: false,
+      loading: false,
+      isRefresh: false,
+      tabW: 187.5
     };
   },
   components: {
@@ -95,35 +81,30 @@ export default {
     },
     loadData() {
       let activeIndex = this.activeIndex;
-      if (
-        this.tabsData[activeIndex].finish ||
-        this.tabsData[activeIndex].loading
-      ) {
+      if (this.finish || this.loading) {
         return;
       }
-      this.tabsData[activeIndex].loading = true;
+      this.loading = true;
       http({
         api: "/say",
         method: "GET",
-        data: { page: this.tabsData[activeIndex].page },
+        data: { page: this.page },
         success: res => {
-          this.tabsData[activeIndex].loading = false;
-          this.tabsData[activeIndex].isRefresh = false;
+          this.loading = false;
+          this.isRefresh = false;
           if (res.statusCode === 200) {
             if (res.data.data.data.length > 0) {
               if (res.data.data.links.next_page_url) {
-                this.tabsData[
-                  activeIndex
-                ].page = res.data.data.links.next_page_url.split("=")[1];
+                this.page = res.data.data.links.next_page_url.split("=")[1];
               } else {
-                this.tabsData[activeIndex].finish = true;
-                this.tabsData[activeIndex].page = 0;
+                this.finish = true;
+                this.page = 0;
               }
-              this.tabsData[activeIndex].indexList = this.tabsData[
-                activeIndex
-              ].indexList.concat(res.data.data.data);
+              wx.stopPullDownRefresh();
+
+              this.indexList = this.indexList.concat(res.data.data.data);
             } else {
-              util.showModel("抱歉", "已经加载完了");
+              util.showBusy("已经加载完了", 1000);
             }
           }
           console.log(res);
@@ -139,11 +120,15 @@ export default {
     },
     refresh() {
       let activeIndex = this.activeIndex;
-      this.tabsData[activeIndex].finish = false;
-      this.tabsData[activeIndex].isRefresh = true;
-      this.tabsData[activeIndex].page = 1;
-      this.tabsData[activeIndex].indexList = [];
+      this.finish = false;
+      this.isRefresh = true;
+      this.page = 1;
+      this.indexList = [];
       this.loadData();
+    },
+    scroll(event) {
+      // console.log(event)
+      this.scrollTop = event.target.scrollTop;
     }
   }
 };
@@ -152,10 +137,12 @@ export default {
 <style lang="scss" scoped>
 @import "../../style/vars.scss";
 .container {
+  height: 100%;
   overflow: auto;
+  background-color: #ffffff;
   .header {
     width: 100%;
-    position: fixed;
+    // position: fixed;
     box-sizing: border-box;
     white-space: nowrap;
     z-index: 100;
@@ -173,28 +160,27 @@ export default {
       }
     }
   }
-  .swiperBox {
-    height: 1020rpx;
-    margin-top: 80rpx;
-    .swiperItem {
+  .dataBox {
+    height: 100%;
+    box-sizing: border-box;
+    // height: calc( 100% - 81px );
+    // padding-top: 80rpx;
+    .refresh {
+      line-height: 60rpx;
+      text-align: center;
+      color: #dddddd;
+    }
+    .scrollView {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -webkit-overflow-scrolling: touch;
+      overflow: scroll;
+      text-align: center;
       height: 100%;
-      .refresh {
-        line-height: 60rpx;
-        text-align: center;
-        color: #bbbbbb;
-      }
-      .scrollView {
-        &::-webkit-scrollbar {
-          display: none;
-        }
-        -webkit-overflow-scrolling: touch;
-        overflow: scroll;
-        text-align: center;
-        height: 100%;
-        .loadMore {
-          @extend .refresh;
-        }
-      }
+    }
+    .loadMore {
+      @extend .refresh;
     }
   }
 }

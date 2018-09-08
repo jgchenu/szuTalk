@@ -7,6 +7,8 @@ app.$mount()
 export default {
     config: {
       navigationBarTitleText: '详情',
-      enablePullDownRefresh:true
+      enablePullDownRefresh:true,
+     "backgroundTextStyle": "dark"
+
     }
   }

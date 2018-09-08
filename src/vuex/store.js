@@ -2,21 +2,35 @@
 // make sure to call Vue.use(Vuex) if using a module system
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import http from '../utils/http'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    switchTab: 'index'
+    userInfo: {}
   },
   mutations: {
-    changeSwitchTab: (state) => {
-      const {
-        switchTab
-      } = state;
-      switchTab === 'index' ? state.switchTab = 'me' : state.switchTab = 'index';
-      wx.switchTab({
-        url: `../${switchTab}/main`
+    setUserInfo: (state, userInfo) => {
+      console.log('commit')
+      state.userInfo = userInfo;
+    }
+
+  },
+  actions: {
+    loadUserInfo({
+      commit
+    }, userId) {
+      http({
+        api: `/user/${userId}`,
+        method: 'GET',
+        success: res => {
+          if (res.statusCode === 200) {
+            commit('setUserInfo', res.data.data)
+            wx.stopPullDownRefresh();
+
+            console.log(res)
+          }
+        }
       })
     }
   }

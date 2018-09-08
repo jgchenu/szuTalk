@@ -7,6 +7,8 @@ app.$mount()
 export default {
   config: {
     navigationBarTitleText: "我",
-    navigationStyle: 'custom'
+    navigationStyle: 'custom',
+    enablePullDownRefresh: true,
+    "backgroundTextStyle": "dark"
   }
 }

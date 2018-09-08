@@ -1,12 +1,16 @@
 import {
   mapState,
-  mapMutation
+  mapMutations,
+  mapActions
 } from 'vuex'
-module.exports = {
+import store from './../vuex/store'
+export default {
   methods: {
-    ...mapMutation(['changeSwitchTab'])
+    ...mapMutations(['loadUserInfo']),
+    ...mapActions(['loadUserInfo'])
   },
   computed: {
-    ...mapState(['switchTab'])
-  }
+    ...mapState(['userInfo'])
+  },
+  store
 }

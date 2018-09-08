@@ -1,30 +1,30 @@
 <template>
   <div class="container">
       <div class="header">
-            <img class="avatar" src="http://test.jgchen.xin/static/images/2.jpg" alt="头像" >
-            <div class="msg"><div class="name">the_J的主页</div> <div class="label">学生</div></div>
-            <div class="like"><img class="likeIcon" src="/static/images/me/no-like.png" alt="点赞"><div class="likeText">获得赞：<span>66</span></div></div>
+            <img class="avatar" :src="userInfo.avatar_url" alt="头像" >
+            <div class="msg"><div class="name">{{userInfo.name}}</div></div>
+            <div class="like"><img class="likeIcon" src="/static/images/me/like.png" alt="点赞"><div class="likeText">获得赞：<span>{{userInfo.star_count}}</span></div></div>
       </div>
       <div class="content">
         <mainList></mainList>
         <mainList></mainList>
         <mainList></mainList>
-
       </div>
   </div>
 </template>
 
 <script>
 import mainList from "../../components/mainList";
+import vuexMixin from "../../mixin/vuex.mixin.js";
+
 export default {
-  components: {
-    mainList
-  },
+  mixins: [vuexMixin],
   data() {
     return {};
   },
-
-  created() {}
+  components: {
+    mainList
+  }
 };
 </script>
 
