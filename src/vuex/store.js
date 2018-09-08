@@ -11,7 +11,6 @@ const store = new Vuex.Store({
   },
   mutations: {
     setUserInfo: (state, userInfo) => {
-      console.log('commit')
       state.userInfo = userInfo;
     }
 

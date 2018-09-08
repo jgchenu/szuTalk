@@ -4,7 +4,7 @@
             <div class="person">
               <img :src="userInfo.avatar_url" alt="头像" class="avatar">
               <div class="name">{{userInfo.name}}</div>
-              <div class="likeAll"><img src="/static/images/me/like.png" alt="点赞"><span class="likeText">一共收到<span class="likeCount">&nbsp;{{userInfo.star_count}}&nbsp;</span>赞</span></div>
+              <div class="likeAll"><img src="/static/images/me/like.png" alt="点赞"><span class="likeText">累计收到<span class="likeCount">&nbsp;{{userInfo.star_count}}&nbsp;</span>赞</span></div>
             </div>
             <!-- <div class="msg">
               <div class="like"><img src="/static/images/me/index.png" alt="我的主页"><div class="detail">获赞数:<span>66</span></div></div>
@@ -14,7 +14,7 @@
             <div class="msg">
               <div class="index" @click="goMain"><img src="/static/images/me/index.png" alt="我的主页"><span class="detail">我的主页</span></div>
               <div class="line"></div>
-              <div class="edit"><img src="/static/images/me/edit.png" alt="编辑资料"><span class="detail">编辑资料</span></div>
+              <div class="edit"><img src="/static/images/me/edit.png" alt="编辑资料"><span class="detail">个人资料</span></div>
              
             </div>
         </div>
