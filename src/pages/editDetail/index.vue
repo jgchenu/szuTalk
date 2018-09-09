@@ -16,14 +16,14 @@
 import vuexMixin from "../../mixin/vuex.mixin.js";
 const qcloud = require("./../../wafer2/index.js");
 const util = require("../../utils/index.js");
-const http = require("../../utils/http.js");
+const {http} = require("../../utils/http.js");
 import Button from "../../components/Button";
 export default {
   mixins: [vuexMixin],
   data() {
     return {
       nameInputFocus: false,
-      name:''
+      name: ""
     };
   },
   components: { Button },
@@ -35,6 +35,10 @@ export default {
       this.nameInputFocus = false;
     },
     updateUser() {
+      if (this.name.length > 26) {
+        util.showModel("提醒", "不能超过26个字符");
+        return;
+      }
       http({
         api: `/user/${this.userInfo.id}`,
         method: "PUT",
@@ -44,7 +48,10 @@ export default {
         success: res => {
           if (res.statusCode === 200) {
             this.setUserInfo(res.data.data);
-            util.showSuccess('保存成功')
+            util.showSuccess("保存成功");
+            setTimeout(() => {
+              wx.navigateBack({ delta: 1 });
+            }, 1000);
           }
         }
       });

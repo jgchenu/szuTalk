@@ -19,7 +19,7 @@
 
 <script>
 var qcloud = require("./../../wafer2/index.js");
-var http = require("../../utils/http.js");
+const { http } = require("../../utils/http.js");
 var auth = require("../../utils/auth.js");
 var util = require("../../utils/index.js");
 
@@ -66,9 +66,9 @@ export default {
   },
 
   methods: {
-    bindChange({index}) {
+    bindChange({ index }) {
       this.activeIndex = index;
-      this.refresh()
+      this.refresh();
     },
     goSearch() {
       wx.navigateTo({ url: "../search/main" });
@@ -94,7 +94,7 @@ export default {
             if (res.data.data.data.length > 0) {
               if (res.data.data.links.next_page_url) {
                 // this.page = res.data.data.links.next_page_url.split("=")[1];
-                this.page=res.data.data.meta.next_page;
+                this.page = res.data.data.meta.next_page;
               } else {
                 this.finish = true;
                 this.page = 0;

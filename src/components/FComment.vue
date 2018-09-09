@@ -48,7 +48,7 @@
 </template>
 
 <script>
-const http = require("../utils/http.js");
+const {http} = require("../utils/http.js");
 
 export default {
   props: {
@@ -133,7 +133,7 @@ export default {
     handleStar() {
       let method = this.isStar ? "DELETE" : "POST";
       http({
-        api: `/say/${this.detailData.id}/star`,
+        api: `/say/comment/${this.detailData.id}/star`,
         method,
         success: res => {
           if (res.statusCode === 200) {

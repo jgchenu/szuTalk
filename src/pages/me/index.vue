@@ -36,7 +36,7 @@
 
 <script>
 var qcloud = require("./../../wafer2/index.js");
-var http = require("../../utils/http.js");
+const { http } = require("../../utils/http.js");
 import vuexMixin from "../../mixin/vuex.mixin.js";
 export default {
   onPullDownRefresh() {

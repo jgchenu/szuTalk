@@ -5,11 +5,11 @@
           <textarea  cols="30" rows="10" placeholder="写下在深大遇到的趣事吧~" v-model="content"></textarea>
         </div>
         <div class="actionIcon">
-          <div class="addPic" @click="chooseImage"><img src="/static/images/rel/addPic.png" alt="添加图片"></div>
+          <div class="addPic" @click="chooseImage" v-show="imagePaths.length!==9"><img src="/static/images/rel/addPic.png" alt="添加图片"></div>
           <!-- <div class="addTopic"><img src="/static/images/rel/addTopic.png" alt="添加话题"></div> -->
         </div>
-        <div class="images" @click="preImage" v-show="imagePaths.length">
-            <div class="imageItem" v-for="(item,index) in imagePaths" :key="index" >
+        <div class="images" @click="preImage"  v-show="imagePaths.length">
+            <div class="imageItem" v-for="(item,index) in imagePaths" :key="index">
               <img :src="item" alt="image" :data-id="index">
               <div class="delete" @click.stop="deleteImage(index)">x</div>
             </div>
@@ -21,7 +21,7 @@
 <script>
 import Button from "../../components/Button";
 const { host } = require("./../../config.js");
-const http = require("../../utils/http.js");
+const { http, uploadFile } = require("../../utils/http.js");
 const util = require("../../utils/index.js");
 
 const qcloud = require("./../../wafer2/index.js");
@@ -38,45 +38,37 @@ export default {
   methods: {
     chooseImage() {
       new Promise((resolve, reject) => {
+        // if (this.imagePaths.length ===9) {
+        //   reject("最多只能上传九张哦");
+        //   return;
+        // }
         wx.chooseImage({
-          count: 9, // 默认9
-          sizeType: ["compressed","original"], // 可以指定是原图还是压缩图，默认二者都有
+          count: 9 - this.imagePaths.length, // 默认9
+          sizeType: ["compressed", "original"], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
           success: res => {
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-            if (this.imagePaths.length + res.tempFilePaths.length > 9) {
-              reject("最多只能上传九张哦");
-              return;
-            }
             this.imagePaths = this.imagePaths.concat(res.tempFilePaths);
-            util.showBusy("上传中", 20000);
             resolve(res.tempFilePaths);
           }
         });
       }).then(
         paths => {
           for (let i = 0; i < paths.length; i++) {
-            qcloud.upload({
-              url: `${host}/image`,
+            uploadFile({
+              api: `/image`,
               filePath: paths[i],
-              header: {
-                accept: "application/json" // 默认值
-              },
               name: "image",
               success: res => {
                 console.log(res);
-
-                let data = JSON.parse(res.data);
                 if (res.statusCode === 200) {
-                  this.imageIds.push(data.data.id);
-                  if (i === this.imagePaths.length - 1) {
-                    wx.hideToast();
-                  }
+                  this.imageIds.push(res.data.data.id);
+                  // if (i === this.imagePaths.length - 1) {
+                  //   wx.hideToast();
+                  // }
                 }
               },
-              fail: error => {
-                console.log(error);
-              }
+              fail: error => {}
             });
           }
         },
@@ -111,7 +103,7 @@ export default {
         },
         success: res => {
           console.log("add say:", res);
-          if (res.data.code === 0) {
+          if (res.statusCode === 200) {
             util.showSuccess("发布成功");
             this.imagePaths = [];
             this.imageIds = [];
@@ -120,8 +112,7 @@ export default {
         }
       });
     }
-  },
-  created() {}
+  }
 };
 </script>
 

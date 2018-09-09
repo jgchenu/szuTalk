@@ -33,7 +33,7 @@
 </template>
 
 <script>
-var http = require("../utils/http.js");
+const {http} = require("../utils/http.js");
 
 export default {
   props: {

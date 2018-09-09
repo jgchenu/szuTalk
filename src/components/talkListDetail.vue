@@ -31,7 +31,7 @@
 </template>
 
 <script>
-const http = require("../utils/http.js");
+const {http} = require("../utils/http.js");
 export default {
   props: {
     detailData: {

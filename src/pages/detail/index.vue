@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="sub">
-          <img src="/static/images/rel/addPic-no.png" alt="addPic" class="addPicIcon" @click="chooseImage">
+          <img src="/static/images/rel/addPic-no.png" alt="addPic" class="addPicIcon" @click="chooseImage" v-show="imagePaths.length!==3">
           <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent">
           <div class="subButton" @click="relFComment">发表</div>
         </div>
@@ -31,7 +31,7 @@
 <script>
 import talkListDetail from "../../components/talkListDetail";
 import FComment from "../../components/FComment";
-const http = require("../../utils/http.js");
+const { http, uploadFile } = require("../../utils/http.js");
 const qcloud = require("./../../wafer2/index.js");
 const { host } = require("./../../config.js");
 const util = require("../../utils/index.js");
@@ -106,39 +106,32 @@ export default {
       this.Fstatus = true;
       new Promise((resolve, reject) => {
         wx.chooseImage({
-          count: 9, // 默认9
-          sizeType: [ "compressed","original"], // 可以指定是原图还是压缩图，默认二者都有
+          count: 3 - this.imagePaths.length, // 默认3
+          sizeType: ["compressed", "original"], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
           success: res => {
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-            if (this.imagePaths.length + res.tempFilePaths.length > 3) {
-              reject("最多只能上传三张哦");
-              return;
-            }
+            // if (this.imagePaths.length + res.tempFilePaths.length > 3) {
+            //   reject("最多只能上传三张哦");
+            //   return;
+            // }
             this.imagePaths = this.imagePaths.concat(res.tempFilePaths);
-            util.showBusy("上传中", 20000);
+
             resolve(res.tempFilePaths);
           }
         });
       }).then(
         paths => {
           for (let i = 0; i < paths.length; i++) {
-            qcloud.upload({
-              url: `${host}/image`,
+            uploadFile({
+              url: `/image`,
               filePath: paths[i],
-              header: {
-                accept: "application/json" // 默认值
-              },
               name: "image",
               success: res => {
-                let data = JSON.parse(res.data);
-                if (res.statusCode === 200) {
-                  this.imageIds.push(data.data.id);
-                  if (i === this.imagePaths.length - 1) {
-                    wx.hideToast();
-                  }
-                }
                 console.log(res);
+                if (res.statusCode === 200) {
+                  this.imageIds.push(res.data.data.id);
+                }
               },
               fail: error => {
                 console.log(error);
