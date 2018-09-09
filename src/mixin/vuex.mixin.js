@@ -6,7 +6,7 @@ import {
 import store from './../vuex/store'
 export default {
   methods: {
-    ...mapMutations(['loadUserInfo']),
+    ...mapMutations(['setUserInfo']),
     ...mapActions(['loadUserInfo'])
   },
   computed: {

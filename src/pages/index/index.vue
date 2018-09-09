@@ -3,7 +3,7 @@
 
      
         <div class="header">
-        <Tabs :tabs="tabs" :activeIndex.sync="activeIndex" :tabW="tabW" ></Tabs>
+        <Tabs :tabs="tabs" :activeIndex="activeIndex" :tabW="tabW" @bindChange="bindChange"></Tabs>
          <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div>
        </div> 
         <div  class="dataBox"  >
@@ -26,7 +26,7 @@ var util = require("../../utils/index.js");
 import talkList from "../../components/talkList";
 import taskList from "../../components/taskList";
 import Tabs from "../../components/tabs";
-// import tabMenu from "../../components/tabMenu";
+import mta from "mta-wechat-analysis";
 export default {
   onPullDownRefresh: function() {
     console.log("下拉");
@@ -39,16 +39,16 @@ export default {
   mounted() {
     auth();
   },
-  onLoad() {},
-  onShow() {
+  onLoad() {
+    mta.Page.init();
     this.loadData();
   },
   data() {
     return {
-      motto: "Hello World",
       userInfo: {},
-      tabs: ["全部", "热门", "任务"],
+      tabs: ["全部", "热门"],
       activeIndex: 0,
+      tabsApi: ["/say", "/say/hot"],
       scrollHeight: 0,
       scrollTop: 0,
       indexList: [],
@@ -66,12 +66,9 @@ export default {
   },
 
   methods: {
-    bindChange(e) {
-      var current = e.target.current;
-      // if ((current + 1) % 4 == 0) {
-      // }
-      // console.log(this.activeIndex)
-      this.activeIndex = current;
+    bindChange({index}) {
+      this.activeIndex = index;
+      this.refresh()
     },
     goSearch() {
       wx.navigateTo({ url: "../search/main" });
@@ -86,28 +83,28 @@ export default {
       }
       this.loading = true;
       http({
-        api: "/say",
+        api: this.tabsApi[activeIndex],
         method: "GET",
         data: { page: this.page },
         success: res => {
+          console.log(res);
           this.loading = false;
           this.isRefresh = false;
           if (res.statusCode === 200) {
             if (res.data.data.data.length > 0) {
               if (res.data.data.links.next_page_url) {
-                this.page = res.data.data.links.next_page_url.split("=")[1];
+                // this.page = res.data.data.links.next_page_url.split("=")[1];
+                this.page=res.data.data.meta.next_page;
               } else {
                 this.finish = true;
                 this.page = 0;
               }
               wx.stopPullDownRefresh();
-
               this.indexList = this.indexList.concat(res.data.data.data);
             } else {
-              util.showBusy("已经加载完了", 1000);
+              util.showTip("已经加载完了", 1000);
             }
           }
-          console.log(res);
         },
         fail: err => {
           console.log(err);
@@ -119,7 +116,6 @@ export default {
       this.loadData();
     },
     refresh() {
-      let activeIndex = this.activeIndex;
       this.finish = false;
       this.isRefresh = true;
       this.page = 1;

@@ -16,7 +16,7 @@ export default {
   methods: {
     tabClick(e) {
       var idIndex = e.currentTarget.id;
-      this.$emit("update:activeIndex", parseInt(idIndex));
+      this.$emit("bindChange",{index:parseInt(idIndex)});
     }
   }
 };
