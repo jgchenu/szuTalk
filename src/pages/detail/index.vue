@@ -15,13 +15,13 @@
         </div>
         <div class="sub">
           <img src="/static/images/rel/addPic-no.png" alt="addPic" class="addPicIcon" @click="chooseImage" v-show="imagePaths.length!==3">
-          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent">
+          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent" confirm-type="send" @confirm="relFComment">
           <div class="subButton" @click="relFComment">发表</div>
         </div>
     </div>
       <div class="ScommentInput" v-show="Sstatus">
         <div class="sub">
-          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="onBlur" v-model="Scontent">
+          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="onBlur" v-model="Scontent" confirm-type="send" @confirm="relScomment">
           <div class="subButton" @click="relScomment">发表</div>
         </div>
     </div>

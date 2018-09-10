@@ -29,8 +29,8 @@
         </div>
         <div class="secondComments" >
           <div class="container"  v-for="(item,index) in detailData.comments" :key="index"  @click="handleApply(item)">
-            <div v-if="!item.to_user" @click.stop="toUserMain(item.user.id)">
-              <span class="from">{{item.user.name}}</span>: <span class="content">
+            <div v-if="!item.to_user" >
+              <span class="from" @click.stop="toUserMain(item.user.id)">{{item.user.name}}</span>: <span class="content">
                {{item.content}}
               </span>
             </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-const {http} = require("../utils/http.js");
+const { http } = require("../utils/http.js");
 
 export default {
   props: {
@@ -106,7 +106,7 @@ export default {
                 commentIndex: this.commentIndex
               });
             } else if (res.tapIndex === 1) {
-                this.$emit("handleAction", {
+              this.$emit("handleAction", {
                 type: "apply",
                 id: item.id,
                 commentIndex: this.commentIndex
@@ -172,10 +172,10 @@ export default {
         }
       });
     },
-    toUserMain(userId){
+    toUserMain(userId) {
       wx.navigateTo({
-        url:`../main/main?userId=${userId}`
-      })
+        url: `../main/main?userId=${userId}`
+      });
     }
   }
 };
@@ -189,8 +189,9 @@ export default {
   margin: 10px;
   .avatar {
     position: absolute;
-    width: 80rpx;
-    height: 80rpx;
+    width: 68rpx;
+    height: 68rpx;
+
     img {
       width: 100%;
       height: 100%;
@@ -208,14 +209,14 @@ export default {
       height: 100rpx;
       .msg {
         padding: 0 20rpx;
-        text-align: center;
+        text-align: left;
         line-height: 40rpx;
         .name {
-          font-size: 30rpx;
+          font-size: 26rpx;
           vertical-align: top;
         }
         .time {
-          font-size: 12px;
+          font-size: 20rpx;
           color: #bbbbbb;
         }
       }

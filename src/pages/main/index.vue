@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="JSON.stringify(userInfo)!=='{}'">
       <div class="header">
-            <img class="avatar" :src="userInfo.avatar_url" alt="头像" @click="preImage">
+            <img class="avatar" :src="userInfo.avatar_url" alt="头像" @click="preImage" >
             <div class="msg"><div class="name">{{userInfo.name}}</div></div>
             <div class="like"><img class="likeIcon" src="/static/images/me/like.png" alt="点赞"><div class="likeText">获得赞：<span>{{userInfo.star_count}}</span></div></div>
       </div>
@@ -16,27 +16,27 @@
 <script>
 import mainList from "../../components/mainList";
 const { http } = require("./../../utils/http.js");
+const util = require("./../../utils/index.js");
+
 export default {
   onPullDownRefresh: function() {
-    console.log("下拉");
     this.refresh();
   },
   onReachBottom: function() {
-    console.log("上拉");
     this.loadMore();
   },
   onLoad() {
     //由于在http中做了节流操作，时间为100ms，所以要进行计时之后才能进行第二个请求
     this.userId = this.$root.$mp.query.userId;
-    console.log(this.userId);
     new Promise((resolve, reject) => {
-      setTimeout(() => {
-        this.loadUser(resolve);
-      },101);
+      this.loadUser(resolve);
     }).then(() => {
-      this.loadData()
+      setTimeout(() => {
+        this.loadData();
+      }, 101);
     });
   },
+  onUnload() {this.clearCahe()},
   data() {
     return {
       userId: "",
@@ -68,7 +68,6 @@ export default {
         method: "GET",
         data: { page: this.page },
         success: res => {
-          console.log(res);
           this.loading = false;
           this.isRefresh = false;
           if (res.statusCode === 200) {
@@ -93,7 +92,6 @@ export default {
       });
     },
     loadMore() {
-      console.log("上拉加载");
       this.loadData();
     },
     refresh() {
@@ -114,6 +112,12 @@ export default {
           }
         }
       });
+    },
+    clearCahe() {
+      this.page = 1;
+      this.finish = false;
+      this.userInfo = {};
+      this.indexList = [];
     }
   }
 };
@@ -127,7 +131,7 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 160rpx;
+    height: 180rpx;
     width: 100%;
     background: -webkit-gradient(
       linear,
@@ -172,7 +176,6 @@ export default {
     }
   }
   .dataBox {
-    height: 100%;
     box-sizing: border-box;
     // height: calc( 100% - 81px );
     // padding-top: 80rpx;

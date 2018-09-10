@@ -3,9 +3,6 @@ const {
 } = require("../utils/http.js");
 
 export default {
-  onLoad() {
-    console.log('mixin')
-  },
   props: {
     List: {
       type: Object,

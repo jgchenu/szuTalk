@@ -44,7 +44,6 @@ export default {
   },
   onLoad() {
     this.userId = qcloud.Session.get().user.id;
-    console.log(this.userId);
   },
   onShow() {
     this.loadUserInfo(this.userId);

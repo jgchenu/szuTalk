@@ -127,6 +127,7 @@ export default {
     align-items: center;
     height: 100rpx;
     .avatar {
+      align-self: flex-start;
       width: 80rpx;
       height: 80rpx;
       img {
@@ -137,7 +138,7 @@ export default {
     }
     .msg {
       padding: 0 20rpx;
-      text-align: center;
+      text-align: left;
       line-height: 40rpx;
       .name {
         font-size: 30rpx;
