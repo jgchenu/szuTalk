@@ -1,18 +1,14 @@
 <template>
   <div class="container">
-
-     
         <div class="header">
         <Tabs :tabs="tabs" :activeIndex="activeIndex" :tabW="tabW" @bindChange="bindChange"></Tabs>
          <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div>
        </div> 
-        <div  class="dataBox"  >
+        <div  class="dataBox">
           <!-- <div class="refresh" v-show="loading&&isRefresh">下拉刷新</div> -->
           <talkList v-for="(item,index) in indexList" :key="index" :List="item"/>
            <div class="loadMore" v-show="(loading&&!isRefresh)||finish">{{finish?'全部加载完成':'正在加载...'}}</div>
-
           </div>
-
       </div>     
   
 </template>
@@ -49,8 +45,6 @@ export default {
       tabs: ["全部", "热门"],
       activeIndex: 0,
       tabsApi: ["/say", "/say/hot"],
-      scrollHeight: 0,
-      scrollTop: 0,
       indexList: [],
       page: 1,
       finish: false,
@@ -97,7 +91,7 @@ export default {
                 this.page = res.data.data.meta.next_page;
               } else {
                 this.finish = true;
-                this.page = 0;
+                this.page = 1;
               }
               wx.stopPullDownRefresh();
               this.indexList = this.indexList.concat(res.data.data.data);
@@ -122,10 +116,6 @@ export default {
       this.indexList = [];
       this.loadData();
     },
-    scroll(event) {
-      // console.log(event)
-      this.scrollTop = event.target.scrollTop;
-    }
   }
 };
 </script>

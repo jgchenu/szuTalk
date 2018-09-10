@@ -37,7 +37,7 @@
 <script>
 var qcloud = require("./../../wafer2/index.js");
 const { http } = require("../../utils/http.js");
-import vuexMixin from "../../mixin/vuex.mixin.js";
+import vuexMixin from "../../mixin/vuex.js";
 export default {
   onPullDownRefresh() {
     this.loadUserInfo(this.userId);
@@ -58,7 +58,7 @@ export default {
   methods: {
     goMain() {
       wx.navigateTo({
-        url: "../main/main"
+        url: `../main/main?userId=${this.userInfo.id}`
       });
     },
     goWallet() {

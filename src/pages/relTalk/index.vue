@@ -14,19 +14,25 @@
               <div class="delete" @click.stop="deleteImage(index)">x</div>
             </div>
         </div>
-        <div class="subButtonWrap" @click="rel"> <Button buttonText="发布" /></div>
+        <!-- <div class="subButtonWrap" @click="rel"> <Button buttonText="发布" /></div> -->
+        <div class="subButtonWrap">
+        <form report-submit="true" @submit="formSubmit" >
+          <button formType="submit" type="default"  class="submitButton">发布</button>
+        </form>
+        </div>
+
   </div>
 </template>
 
 <script>
-import Button from "../../components/Button";
+// import Button from "../../components/Button";
 const { host } = require("./../../config.js");
 const { http, uploadFile } = require("../../utils/http.js");
 const util = require("../../utils/index.js");
 
 const qcloud = require("./../../wafer2/index.js");
 export default {
-  components: { Button },
+  // components: { Button },
 
   data() {
     return {
@@ -93,13 +99,17 @@ export default {
       this.imagePaths.splice(index, 1);
       this.imageIds.splice(index, 1);
     },
-    rel() {
+    rel() {},
+    formSubmit(event) {
+      let reg = new RegExp("\n", "g");
+      let str = this.content.replace(reg, "<br>");
       http({
         api: "/say",
         method: "POST",
         data: {
-          content: this.content,
-          images: this.imageIds
+          content: str,
+          images: this.imageIds,
+          form_id:event.mp.detail.formId
         },
         success: res => {
           console.log("add say:", res);
@@ -188,6 +198,19 @@ export default {
     margin-top: 120rpx;
     width: 100%;
     text-align: center;
+    .submitButton {
+      height: 80rpx;
+      line-height: 80rpx;
+      padding: 4rpx 60rpx;
+      text-align: center;
+      background-color: $identityBg;
+      color: #ffffff;
+      display: inline-block;
+      border-radius: 10rpx;
+      font-size: 34rpx;
+      font-weight: bold;
+      box-shadow: 0 0 8rpx #aaaaaa;
+    }
   }
 }
 </style>

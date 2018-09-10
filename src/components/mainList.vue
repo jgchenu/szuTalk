@@ -1,40 +1,92 @@
 <template>
-    <div class="talkList">
+    <div class="talkList" @click="goDetail">
         <div class="content">
           <div class="message">
-            <div class="label">#南区#</div>发现南区超市门口好多条狗，他们都叫单身狗，突然发现我也skr单身狗。。
+            {{computedContent}}
           </div>
-          <div class="images">
-                <img src="http://test.jgchen.xin/static/images/1.jpg" alt="头像">
-                <img src="http://test.jgchen.xin/static/images/2.jpg" alt="头像">
-                <img src="http://test.jgchen.xin/static/images/3.jpg" alt="头像"> 
-                <div class="omitWrap">
+          <div class="images" v-if="List.file_urls.length>0">
+            <img :src="item.url" alt="" v-for="(item,index) in computedImages" :key="index"> 
+                <div class="omitWrap" v-if="List.file_urls.length>3">
                   <img src="/static/images/index/omit.png" alt="omit">
-                   <span>9</span>
+                   <span>{{List.file_urls.length}}</span>
                 </div>          
           </div>
         </div>
         <div class="footer">
-          <div class="time">2018-7-29 17:23</div>
-          <div class="like"><img src="/static/images/index/like.png" alt="" class="likeIcon">6</div>
-          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">3</div>
+          <div class="time">{{computedTime}}</div>
+          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"  >{{starCount}}</div>
+          <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">{{List.comment_count}}</div>
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+import listMixin from "../mixin/list.js";
+export default {
+  mixins: [listMixin],
+  computed: {
+    computedTime() {
+      return this.List.updated_at.split(" ")[0];
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 @import "../style/vars.scss";
 .talkList {
-  border-bottom: 4rpx solid #cccccc;
+  border-bottom: 4rpx solid #dddddd;
   padding: 20rpx 20rpx;
+  // box-shadow: 0 0 20rpx #bbbbbb;
   margin: 10px;
+  .header {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: 100rpx;
+    .avatar {
+      width: 90rpx;
+      height: 90rpx;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    .msg {
+      padding: 0 20rpx;
+      text-align: left;
+      line-height: 40rpx;
+      .name {
+        font-size: 30rpx;
+        vertical-align: top;
+      }
+      .time {
+        font-size: 12px;
+        color: #bbbbbb;
+      }
+    }
+    .identity {
+      width: 80rpx;
+      height: 40rpx;
+      line-height: 40rpx;
+      background-color: $identityBg;
+      text-align: center;
+      border-radius: 20rpx;
+      align-self: flex-start;
+      margin-top: 10rpx;
+      color: #ffffff;
+    }
+  }
   .content {
+    text-align: left;
+    width: 100%;
     .message {
+      width: 100%;
       font-size: 16px;
+      word-wrap: break-word;
+      overflow: auto;
+      //div强制换行
       .label {
         color: $identityBg;
         display: inline-block;
@@ -80,22 +132,19 @@ export default {};
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .like {
-      font-size: 24rpx;
-      font-weight: bold;
+    .like,
+    .comment {
       display: flex;
-      align-items: center;
-      .likeIcon {
+      align-items: flex-end;
+      .likeIcon,
+      .commentIcon {
         width: 40rpx;
         height: 40rpx;
         margin-right: 10rpx;
       }
     }
-    .comment {
-      @extend .like;
-      .commentIcon {
-        @extend .likeIcon;
-      }
+    .time {
+      color: #cccccc;
     }
   }
 }

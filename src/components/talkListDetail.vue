@@ -2,7 +2,7 @@
     <div class="talkList">
         <div class="header">
             <div class="avatar">
-                <img :src="detailData.user.avatar_url" alt="头像">
+                <img :src="detailData.user.avatar_url" alt="头像" @click="toUserMain(detailData.user.id)">
             </div>
             <div class="msg">
                 <div class="name">{{detailData.user.name}}</div>
@@ -14,9 +14,8 @@
             <div class="report"><img src="/static/images/index/report.png" alt="举报" @click="handleAction('detail')" v-if="selfId===detailData.user.id"></div>
         </div>
         <div class="content">
-          <div class="message">
+          <div class="message" v-html="detailData.content">
             <!-- <div class="label">#南区#</div> -->
-            {{detailData.content}}
           </div>
           <div class="images">
               <img :src="item.url"  v-for="(item,index) in detailData.file_urls" :key="index" :data-id="index" @click="preImage">  
@@ -31,7 +30,7 @@
 </template>
 
 <script>
-const {http} = require("../utils/http.js");
+const { http } = require("../utils/http.js");
 export default {
   props: {
     detailData: {
@@ -104,6 +103,11 @@ export default {
           console.log(res);
           this.$emit("handleAction", { type, id: this.detailData.id });
         }
+      });
+    },
+    toUserMain(userId) {
+      wx.navigateTo({
+        url: `../main/main?userId=${userId}`
       });
     }
   }

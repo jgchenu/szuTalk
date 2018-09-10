@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import vuexMixin from "../../mixin/vuex.mixin.js";
+import vuexMixin from "../../mixin/vuex.js";
 const qcloud = require("./../../wafer2/index.js");
 const util = require("../../utils/index.js");
 const {http} = require("../../utils/http.js");
@@ -35,8 +35,8 @@ export default {
       this.nameInputFocus = false;
     },
     updateUser() {
-      if (this.name.length > 26) {
-        util.showModel("提醒", "不能超过26个字符");
+      if (this.name.length > 18) {
+        util.showModel("提醒", "不能超过18个字符");
         return;
       }
       http({

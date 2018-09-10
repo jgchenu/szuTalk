@@ -33,7 +33,7 @@
 </template>
 
 <script>
-const {http} = require("../utils/http.js");
+const { http } = require("../utils/http.js");
 
 export default {
   props: {
@@ -53,7 +53,9 @@ export default {
       return this.List.updated_at.split(" ")[1];
     },
     computedContent() {
-      let content = this.List.content.slice(0, 100);
+      let reg = new RegExp("<br>", "g");
+      let str = this.List.content.replace(reg, "\n");
+      let content = str.slice(0, 100);
       content = content.length < 60 ? content : content + "...";
       return content;
     },
@@ -109,8 +111,8 @@ export default {
     align-items: center;
     height: 100rpx;
     .avatar {
-      width: 80rpx;
-      height: 80rpx;
+      width: 90rpx;
+      height: 90rpx;
       img {
         width: 100%;
         height: 100%;
@@ -119,7 +121,7 @@ export default {
     }
     .msg {
       padding: 0 20rpx;
-      text-align: center;
+      text-align: left;
       line-height: 40rpx;
       .name {
         font-size: 30rpx;

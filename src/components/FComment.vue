@@ -29,14 +29,14 @@
         </div>
         <div class="secondComments" >
           <div class="container"  v-for="(item,index) in detailData.comments" :key="index"  @click="handleApply(item)">
-            <div v-if="!item.to_user">
+            <div v-if="!item.to_user" @click.stop="toUserMain(item.user.id)">
               <span class="from">{{item.user.name}}</span>: <span class="content">
                {{item.content}}
               </span>
             </div>
             <div v-if="item.to_user">
-              <span class="from">{{item.user.name}}</span> 回复
-              <span class="to">{{item.to_user.name}}</span>: <span class="content">
+              <span class="from" @click.stop="toUserMain(item.user.id)">{{item.user.name}}</span> 回复
+              <span class="to" @click.stop="toUserMain(item.to_user.id)">{{item.to_user.name}}</span>: <span class="content">
                {{item.content}}
               </span>
             </div>
@@ -171,6 +171,11 @@ export default {
           }
         }
       });
+    },
+    toUserMain(userId){
+      wx.navigateTo({
+        url:`../main/main?userId=${userId}`
+      })
     }
   }
 };
