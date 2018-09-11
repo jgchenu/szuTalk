@@ -27,7 +27,7 @@
               <div class="customer"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">客服</div></div>
               <div class="customer" @click="goRegister"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">注册</div></div> -->
 
-              <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.say_count!==0">{{userInfo.say_count}}</div></div></div>
+              <!-- <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.say_count!==0">{{userInfo.say_count}}</div></div></div> -->
               <div class="customer"><img src="/static/images/me/customer.png" alt="客服"><div class="detail">客服</div></div>
             </div>
         </div>
