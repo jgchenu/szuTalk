@@ -15,7 +15,8 @@
       </div>
     </div>
     <div class="content">
-        我在马路边捡到一分钱，把它交到警察叔叔手里面~
+      <div class="image"></div>
+      <div class="msg"> 我在马路边捡到一分钱，把它交到警察叔叔手里面~</div>
     </div>
   </div>
 
@@ -38,7 +39,7 @@ export default {
 .container {
   padding: 10rpx 20rpx;
   box-sizing: border-box;
-  box-shadow: 0 2rpx 4rpx #bbbbbb; 
+  box-shadow: 0 2rpx 4rpx #bbbbbb;
   .header {
     display: flex;
     align-items: center;
@@ -74,7 +75,7 @@ export default {
       margin-top: 12rpx;
     }
   }
-  .content{
+  .content {
     font-size: 26rpx;
     padding: 20rpx 0;
   }

@@ -22,9 +22,9 @@
           </div>
         </div>
         <div class="footer">
-           <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon">分享</div>
-          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" >{{detailData.comments.length}}评论</div>
-           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon">{{starCount}}赞</div>
+           <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon"><span>分享</span></div>
+          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" ><span>{{detailData.comments.length}}</span></div>
+           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span>{{starCount}}</span></div>
         </div>
     </div>
 </template>
@@ -118,7 +118,6 @@ export default {
 @import "../style/vars.scss";
 .talkList {
   position: relative;
-  border-bottom: 2rpx solid #dddddd;
   padding: 10rpx 20rpx;
   margin: 10px;
   .header {
@@ -203,6 +202,8 @@ export default {
     align-items: center;
     padding: 10rpx;
     .like {
+      display: flex;
+      align-items: center;
       font-size: 24rpx;
       .likeIcon {
         width: 40rpx;

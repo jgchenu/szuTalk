@@ -2,7 +2,7 @@
   <div class="container">
         <div class="header">
         <Tabs :tabs="tabs" :activeIndex="activeIndex" :tabW="tabW" @bindChange="bindChange"></Tabs>
-         <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div>
+         <!-- <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div> -->
        </div> 
         <div  class="dataBox">
           <!-- <div class="refresh" v-show="loading&&isRefresh">下拉刷新</div> -->
@@ -149,12 +149,14 @@ export default {
   .dataBox {
     height: 100%;
     box-sizing: border-box;
+    background-color: #eeeeee;
     // height: calc( 100% - 81px );
     // padding-top: 80rpx;
     .refresh {
       line-height: 60rpx;
       text-align: center;
       color: #dddddd;
+      background-color: #ffffff;
     }
     .scrollView {
       &::-webkit-scrollbar {

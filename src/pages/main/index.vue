@@ -2,8 +2,10 @@
   <div class="container" v-if="JSON.stringify(userInfo)!=='{}'">
       <div class="header">
             <img class="avatar" :src="userInfo.avatar_url" alt="头像" @click="preImage" >
+            <div class="right">
             <div class="msg"><div class="name">{{userInfo.name}}</div></div>
-            <div class="like"><img class="likeIcon" src="/static/images/me/like.png" alt="点赞"><div class="likeText">获得赞：<span>{{userInfo.star_count}}</span></div></div>
+            <div class="like"><img class="likeIcon" src="/static/images/me/like.png" alt="点赞"><span class="likeText">获得<span>{{userInfo.star_count}}赞</span></span></div>
+            </div>
       </div>
         <div  class="dataBox">
           <!-- <div class="refresh" v-show="loading&&isRefresh">下拉刷新</div> -->
@@ -28,7 +30,7 @@ export default {
   onLoad() {
     //由于在http中做了节流操作，时间为100ms，所以要进行计时之后才能进行第二个请求
     this.userId = this.$root.$mp.query.userId;
-    this.refresh()
+    this.refresh();
   },
   onUnload() {
     this.clearCahe();
@@ -64,11 +66,12 @@ export default {
         method: "GET",
         data: { page: this.page },
         success: res => {
+          console.log(res);
           this.loading = false;
           this.isRefresh = false;
           if (res.statusCode === 200) {
             if (res.data.data.data.length > 0) {
-              if (res.data.data.links.next_page_url) {
+              if (res.data.data.meta.next_page) {
                 // this.page = res.data.data.links.next_page_url.split("=")[1];
                 this.page = res.data.data.meta.next_page;
               } else {
@@ -131,48 +134,53 @@ export default {
   height: 100%;
   .header {
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    height: 180rpx;
+    height: 200rpx;
     width: 100%;
-    background: -webkit-gradient(
-      linear,
-      0 0,
-      100% 0,
-      from($meHeaderBgLeft),
-      to($meHeaderBgRight)
-    );
+ background: linear-gradient(to bottom, $meHeaderBgRight, $meHeaderBgLeft);
+    // background-color: #198af4;
     .avatar {
-      height: 120rpx;
-      width: 120rpx;
+      margin: 0 40rpx;
+      height: 140rpx;
+      width: 140rpx;
       border-radius: 50%;
       box-shadow: 0 0 30rpx #ffffff;
     }
-    .msg {
-      color: #ffffff;
-      .name {
-        font-size: 30rpx;
-        font-weight: bold;
-        margin-bottom: 10rpx;
+    .right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      line-height: 60rpx;
+      .msg {
+        color: #ffffff;
+        .name {
+          font-size: 36rpx;
+          font-weight: bold;
+          margin-bottom: 10rpx;
+        }
+        .label {
+          text-align: center;
+          width: 100rpx;
+          padding: 4rpx 8rpx;
+          border-radius: 6rpx;
+          background-color: $identityBg;
+        }
       }
-      .label {
+      .like {
+        display: flex;
+        align-items: center;
         text-align: center;
-        width: 100rpx;
-        padding: 4rpx 8rpx;
-        border-radius: 6rpx;
-        background-color: $identityBg;
-      }
-    }
-    .like {
-      text-align: center;
-      color: #ffffff;
-      .likeIcon {
-        width: 50rpx;
-        height: 50rpx;
-      }
-      .likeText {
-        span {
-          color: $coinColor;
+        color: #ffffff;
+        font-size: 26rpx;
+        .likeIcon {
+          width: 40rpx;
+          height: 40rpx;
+        }
+        .likeText {
+          margin-left: 10rpx;
+          span {
+            color: $coinColor;
+          }
         }
       }
     }

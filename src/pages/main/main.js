@@ -8,7 +8,8 @@ export default {
   config: {
     "navigationBarTitleText": "个人主页",
     "enablePullDownRefresh": true,
-    "backgroundTextStyle": "dark"
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": '#198AF4',
 
   }
 }

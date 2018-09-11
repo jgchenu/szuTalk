@@ -40,7 +40,7 @@ exports.http = function ({
           timer = false;
         }
       })
-    }, 100);
+    }, 10);
   } else {
     return;
   }

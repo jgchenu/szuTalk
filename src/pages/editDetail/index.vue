@@ -20,6 +20,9 @@ const {http} = require("../../utils/http.js");
 import Button from "../../components/Button";
 export default {
   mixins: [vuexMixin],
+  onLoad(){
+    this.name=this.userInfo.name;
+  },
   data() {
     return {
       nameInputFocus: false,

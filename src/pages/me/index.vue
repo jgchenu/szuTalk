@@ -4,7 +4,7 @@
             <div class="person">
               <img :src="userInfo.avatar_url" @click="preImage" alt="头像" class="avatar">
               <div class="name" >{{userInfo.name}}</div>
-              <div class="likeAll"><img src="/static/images/me/like.png" alt="点赞"><span class="likeText">累计收到<span class="likeCount">&nbsp;{{userInfo.star_count}}&nbsp;</span>赞</span></div>
+              <div class="likeAll"><img src="/static/images/me/like.png" alt="点赞">&nbsp;<span class="likeText">获得<span class="likeCount">{{userInfo.star_count}}</span></span>赞</div>
             </div>
             <!-- <div class="msg">
               <div class="like"><img src="/static/images/me/index.png" alt="我的主页"><div class="detail">获赞数:<span>66</span></div></div>
@@ -27,7 +27,7 @@
               <div class="customer"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">客服</div></div>
               <div class="customer" @click="goRegister"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">注册</div></div> -->
 
-              <!-- <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.say_count!==0">{{userInfo.say_count}}</div></div></div> -->
+              <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.say_count!==0">{{userInfo.say_count}}</div></div></div>
               <div class="customer"><img src="/static/images/me/customer.png" alt="客服"><div class="detail">客服</div></div>
             </div>
         </div>
@@ -96,13 +96,7 @@ export default {
   .header {
     height: 460rpx;
     width: 100%;
-    background: -webkit-gradient(
-      linear,
-      0 0,
-      100% 0,
-      from($meHeaderBgLeft),
-      to($meHeaderBgRight)
-    );
+    background: linear-gradient(to bottom, $meHeaderBgRight, $meHeaderBgLeft);
     position: relative;
     display: table;
     .person {
@@ -152,12 +146,19 @@ export default {
       align-items: center;
       text-align: center;
       box-shadow: 5rpx 5rpx 10rpx #aaaaaa;
-      color: $meIcon;
+      color: $headerBg;
       font-weight: bold;
+      .index,.edit{
+        flex:99;
+        display: flex;
+        align-items: center;
+        justify-content:center;
+      }
       .line {
-        background-color: $meIcon;
-        height: 60rpx;
-        width: 2rpx;
+        flex:1;
+        background-color: #dddddd;
+        height: 50rpx;
+        width: 1rpx;
       }
       img {
         width: 40rpx;
@@ -200,7 +201,7 @@ export default {
           margin-bottom: 10rpx;
         }
       }
-      //增加消息条数的样式
+      // 增加消息条数的样式
       .comment {
         .detail {
           position: relative;

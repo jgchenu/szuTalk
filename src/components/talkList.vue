@@ -101,15 +101,17 @@ export default {
 <style lang="scss" scoped>
 @import "../style/vars.scss";
 .talkList {
-  border-bottom: 2rpx solid #dddddd;
-  padding: 10rpx 20rpx;
+  // border-bottom: 2rpx solid #dddddd;
+  padding:10rpx 30rpx 10rpx 30rpx;
+  background-color: #ffffff;
   // box-shadow: 0 0 20rpx #bbbbbb;
-  margin: 10px;
+  margin:18rpx 0;
   .header {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     height: 100rpx;
+    padding: 10rpx 0;
     .avatar {
       width: 90rpx;
       height: 90rpx;
@@ -147,11 +149,13 @@ export default {
   .content {
     text-align: left;
     width: 100%;
+    padding:10rpx 0 20rpx 0;
     .message {
       width: 100%;
       font-size: 16px;
       word-wrap: break-word;
       overflow: auto;
+      padding: 10rpx 0;
       //div强制换行
       .label {
         color: $identityBg;
@@ -198,17 +202,21 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    padding-bottom:10rpx;
+
     .like,
     .comment {
-      margin-right: 100rpx;
       display: flex;
-      align-items: flex-end;
+      align-items:center;
       .likeIcon,
       .commentIcon {
-        width: 40rpx;
-        height: 40rpx;
+        width: 32rpx;
+        height: 32rpx;
         margin-right: 10rpx;
       }
+    }
+    .like {
+      margin-right: 100rpx;
     }
   }
 }

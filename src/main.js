@@ -23,7 +23,7 @@ export default {
       color: '#999999',
       selectedColor: '#198AF4',
       backgroundColor: '#ffffff',
-      borderStyle: 'white',
+      borderStyle: 'black',
       list: [{
           pagePath: 'pages/index/main',
           text: '说说',
@@ -32,8 +32,8 @@ export default {
         },
         {
           pagePath: 'pages/relTalk/main',
-          text: '发布',
-          iconPath: 'static/images/bottom/no-sub.png',
+          text: '',
+          iconPath: 'static/images/bottom/sub.png',
           selectedIconPath: 'static/images/bottom/sub.png'
         }, {
           pagePath: 'pages/me/main',

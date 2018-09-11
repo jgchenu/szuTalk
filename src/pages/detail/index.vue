@@ -6,7 +6,8 @@
     <div class="commentContent">
         <FComment @showSecondComment="showSecond" @showApply="showSecond" :detailData="item" v-for="(item,index) in detailData.comments" :key="index" :commentIndex="index" :selfId="selfId" @handleAction="handleAction"></FComment>
     </div>
-    <div class="FcommentInput" v-show="Fstatus||imagePaths.length">
+
+    <div class="FcommentInput" >
         <div class="images" @click="preImage" v-show="imagePaths.length">
             <div class="imageItem" v-for="(item,index) in imagePaths" :key="index">
               <img :src="item" alt="image" :data-id="index">
@@ -15,17 +16,22 @@
         </div>
         <div class="sub">
           <img src="/static/images/rel/addPic-no.png" alt="addPic" class="addPicIcon" @click="chooseImage" v-show="imagePaths.length!==3">
-          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent">
+          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent" @focus="onFFocus" @blur="onFBlur">
           <form report-submit="true" @submit="relFComment" >
-          <button formType="submit" type="default"  class="subButton">发布</button>
+          <button formType="submit" type="default"  class="subButton">发送</button>
           </form>
         </div>
     </div>
+
+    <div class="commentInputButton" v-show="!Fstatus&&!Sstatus" @click="onFFocus">
+        说说你的看法
+    </div>   
+
       <div class="ScommentInput" v-show="Sstatus">
         <div class="sub">
           <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="onBlur" v-model="Scontent" >
           <form report-submit="true" @submit="relScomment" >
-          <button formType="submit" type="default"  class="subButton">发布</button>
+          <button formType="submit" type="default"  class="subButton">发送</button>
           </form>
         </div>
     </div>
@@ -45,7 +51,7 @@ export default {
     this.resetData();
     const session = qcloud.Session.get();
     this.selfId = session.user.id;
-    this.id = this.$root.$mp.query.id ;
+    this.id = this.$root.$mp.query.id;
     console.log(this.id);
     this.loadData();
   },
@@ -294,6 +300,12 @@ export default {
           }
         });
       }
+    },
+    onFFocus(){
+      this.Fstatus=true;
+    },
+    onFBlur(){
+      this.Fstatus=false;
     }
   }
 };
@@ -302,7 +314,13 @@ export default {
 <style lang="scss" scoped>
 @import "../../style/vars.scss";
 .container {
-  padding-bottom: 100rpx;
+  background-color: #eeeeee;
+  .talkDetail {
+    background-color: #ffffff;
+  }
+  .commentContent {
+    background-color: #ffffff;
+  }
   .FcommentInput {
     position: fixed;
     bottom: 0;
@@ -362,14 +380,19 @@ export default {
         height: 60rpx;
         border: 1px solid #dddddd;
         white-space: nowrap;
+        border-radius: 10rpx;
+
       }
       .subButton {
         box-sizing: border-box;
         width: 100rpx;
-        font-size: 20rpx;
+        font-size: 22rpx;
         height: 60rpx;
         line-height: 60rpx;
         text-align: center;
+        border: none;
+        color:$headerBg;
+        background-color: #ffffff;
       }
     }
   }
@@ -380,12 +403,13 @@ export default {
     border: 2rpx solid #dddddd;
     box-sizing: border-box;
     background-color: #ffffff;
+    padding-bottom: 10rpx;
     .sub {
       height: 90rpx;
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      // justify-content: space-around;
       .addPicIcon {
         width: 50rpx;
         height: 50rpx;
@@ -398,17 +422,34 @@ export default {
         height: 60rpx;
         border: 1px solid #dddddd;
         white-space: nowrap;
+        border-radius: 10rpx;
       }
       .subButton {
         box-sizing: border-box;
         width: 100rpx;
-        font-size: 20rpx;
+        font-size: 22rpx;
         height: 60rpx;
         line-height: 60rpx;
         text-align: center;
+        border: none;
+        color:$headerBg;
+        background-color: #ffffff;
       }
     }
   }
+  .commentInputButton {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border: 2rpx solid #dddddd;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    height: 93rpx;
+    line-height: 93rpx;
+    color: #dddddd;
+    padding-left: 40rpx;
+  }
+
 }
 </style>
 

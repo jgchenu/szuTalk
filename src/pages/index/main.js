@@ -7,6 +7,9 @@ export default {
   config: {
      "navigationBarTitleText": "首页",
      "enablePullDownRefresh": true,
-     "backgroundTextStyle": "dark"
+     "backgroundTextStyle": "dark",
+     "navigationBarBackgroundColor": '#ffffff',
+     "navigationBarTextStyle":'black'
+
   }
 }

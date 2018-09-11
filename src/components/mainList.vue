@@ -86,6 +86,7 @@ export default {
       font-size: 16px;
       word-wrap: break-word;
       overflow: auto;
+      padding: 0 0 34rpx 0;
       //div强制换行
       .label {
         color: $identityBg;
@@ -94,7 +95,7 @@ export default {
     }
     .images {
       position: relative;
-      padding: 10rpx 0;
+      padding: 0 0 30rpx 0;
       overflow-x: scroll;
       overflow-y: hidden;
       white-space: nowrap;

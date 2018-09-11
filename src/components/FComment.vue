@@ -24,11 +24,11 @@
           </div>
         </div>
         <div class="footer">
-          <div class="comment"  @click="showSecondComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">{{detailData.comments.length}}评论</div>
-           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon">{{starCount}}赞</div>
+          <div class="comment"  @click="showSecondComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon"><span>{{detailData.comments.length}}</span></div>
+           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span>{{starCount}}</span></div>
         </div>
         <div class="secondComments" >
-          <div class="container"  v-for="(item,index) in detailData.comments" :key="index"  @click="handleApply(item)">
+          <div class="secondContainer"  v-for="(item,index) in detailData.comments" :key="index"  @click="handleApply(item)">
             <div v-if="!item.to_user" >
               <span class="from" @click.stop="toUserMain(item.user.id)">{{item.user.name}}</span>: <span class="content">
                {{item.content}}
@@ -185,13 +185,12 @@ export default {
 @import "../style/vars.scss";
 .FComment {
   position: relative;
-  padding: 10rpx 20rpx;
-  margin: 10px;
+  padding: 10rpx 30rpx;
   .avatar {
     position: absolute;
     width: 68rpx;
     height: 68rpx;
-
+    top: 21rpx;
     img {
       width: 100%;
       height: 100%;
@@ -208,7 +207,6 @@ export default {
       align-items: center;
       height: 100rpx;
       .msg {
-        padding: 0 20rpx;
         text-align: left;
         line-height: 40rpx;
         .name {
@@ -238,8 +236,8 @@ export default {
         position: absolute;
         right: 40rpx;
         img {
-          width: 40rpx;
-          height: 40rpx;
+          width: 28rpx;
+          height: 28rpx;
         }
       }
     }
@@ -271,9 +269,11 @@ export default {
       padding: 10rpx;
       box-sizing: border-box;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       .like {
+        display: flex;
+        align-items: center;
         font-size: 20rpx;
         .likeIcon {
           width: 30rpx;
@@ -283,6 +283,7 @@ export default {
       }
       .comment {
         @extend .like;
+        margin-right: 60rpx;
         .commentIcon {
           @extend .likeIcon;
         }
@@ -291,7 +292,9 @@ export default {
     .secondComments {
       width: 100%;
       overflow: auto;
-      .container {
+      background-color: #fafafa;
+      margin-bottom: 20rpx;
+      .secondContainer {
         box-sizing: border-box;
         width: 100%;
         padding: 14rpx;
