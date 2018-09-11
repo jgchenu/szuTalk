@@ -15,14 +15,18 @@
         </div>
         <div class="sub">
           <img src="/static/images/rel/addPic-no.png" alt="addPic" class="addPicIcon" @click="chooseImage" v-show="imagePaths.length!==3">
-          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent" confirm-type="send" @confirm="relFComment">
-          <div class="subButton" @click="relFComment">发表</div>
+          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent">
+          <form report-submit="true" @submit="relFComment" >
+          <button formType="submit" type="default"  class="subButton">发布</button>
+          </form>
         </div>
     </div>
       <div class="ScommentInput" v-show="Sstatus">
         <div class="sub">
-          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="onBlur" v-model="Scontent" confirm-type="send" @confirm="relScomment">
-          <div class="subButton" @click="relScomment">发表</div>
+          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="onBlur" v-model="Scontent" >
+          <form report-submit="true" @submit="relScomment" >
+          <button formType="submit" type="default"  class="subButton">发布</button>
+          </form>
         </div>
     </div>
   </div>
@@ -41,11 +45,9 @@ export default {
     this.resetData();
     const session = qcloud.Session.get();
     this.selfId = session.user.id;
-    console.log("mounted");
-    this.id = this.$root.$mp.query.id;
+    this.id = this.$root.$mp.query.id ;
     console.log(this.id);
     this.loadData();
-    console.log("onload");
   },
   onPullDownRefresh() {
     this.loadData();
@@ -124,7 +126,7 @@ export default {
         paths => {
           for (let i = 0; i < paths.length; i++) {
             uploadFile({
-              url: `/image`,
+              api: `/image`,
               filePath: paths[i],
               name: "image",
               success: res => {
@@ -158,14 +160,15 @@ export default {
       this.Fstatus = false;
       this.Sstatus = false;
     },
-    relFComment() {
+    relFComment(event) {
       http({
         api: `/say/comment`,
         method: "POST",
         data: {
           content: this.Fcontent,
           images: this.imageIds,
-          say_id: this.detailData.id
+          say_id: this.detailData.id,
+          form_id: event.mp.detail.formId
         },
         success: res => {
           console.log("add Fcomment:", res);
@@ -181,7 +184,8 @@ export default {
         }
       });
     },
-    relScomment() {
+    relScomment(event) {
+      let formId = event.mp.detail.formId;
       if (this.toWho.toId) {
         http({
           api: `/say/comment/comment`,
@@ -189,7 +193,8 @@ export default {
           data: {
             content: this.Scontent,
             say_comment_id: this.toWho.id,
-            to_say_comment_comment_id: this.toWho.toId
+            to_say_comment_comment_id: this.toWho.toId,
+            form_id: formId
           },
           success: res => {
             console.log("add Scomment:", res);
@@ -204,7 +209,8 @@ export default {
           method: "POST",
           data: {
             content: this.Scontent,
-            say_comment_id: this.toWho.id
+            say_comment_id: this.toWho.id,
+            form_id: formId
           },
           success: res => {
             console.log("add apply:", res);
@@ -358,7 +364,11 @@ export default {
         white-space: nowrap;
       }
       .subButton {
-        width: 80rpx;
+        box-sizing: border-box;
+        width: 100rpx;
+        font-size: 20rpx;
+        height: 60rpx;
+        line-height: 60rpx;
         text-align: center;
       }
     }
@@ -390,7 +400,11 @@ export default {
         white-space: nowrap;
       }
       .subButton {
-        width: 80rpx;
+        box-sizing: border-box;
+        width: 100rpx;
+        font-size: 20rpx;
+        height: 60rpx;
+        line-height: 60rpx;
         text-align: center;
       }
     }

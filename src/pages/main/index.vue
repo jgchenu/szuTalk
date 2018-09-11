@@ -28,15 +28,11 @@ export default {
   onLoad() {
     //由于在http中做了节流操作，时间为100ms，所以要进行计时之后才能进行第二个请求
     this.userId = this.$root.$mp.query.userId;
-    new Promise((resolve, reject) => {
-      this.loadUser(resolve);
-    }).then(() => {
-      setTimeout(() => {
-        this.loadData();
-      }, 101);
-    });
+    this.refresh()
   },
-  onUnload() {this.clearCahe()},
+  onUnload() {
+    this.clearCahe();
+  },
   data() {
     return {
       userId: "",
@@ -99,7 +95,13 @@ export default {
       this.isRefresh = true;
       this.page = 1;
       this.indexList = [];
-      this.loadData();
+      new Promise((resolve, reject) => {
+        this.loadUser(resolve);
+      }).then(() => {
+        setTimeout(() => {
+          this.loadData();
+        }, 101);
+      });
     },
     loadUser(resolve) {
       http({

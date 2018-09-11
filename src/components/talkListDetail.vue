@@ -5,7 +5,7 @@
                 <img :src="detailData.user.avatar_url" alt="头像" @click="toUserMain(detailData.user.id)">
             </div>
             <div class="msg">
-                <div class="name">{{detailData.user.name}}</div>
+                <div class="name" >{{detailData.user.name}}</div>
                 <div class="time">{{detailData.updated_at}}</div>
             </div>
             <!-- <div class="identity">
@@ -173,9 +173,10 @@ export default {
     }
   }
   .content {
+    margin: 16rpx 0;
     .message {
       width: 100%;
-      font-size: 16px;
+      font-size: 38rpx;
       word-wrap: break-word;
       overflow: auto;
       .label {

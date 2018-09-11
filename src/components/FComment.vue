@@ -1,7 +1,7 @@
 <template>
     <div class="FComment" >
       <div class="avatar">
-          <img :src="detailData.user.avatar_url" alt="头像">
+          <img :src="detailData.user.avatar_url" alt="头像" @click="toUserMain(detailData.user.id)">
       </div>
       <div class="container">
         <div class="header">
@@ -200,7 +200,7 @@ export default {
   }
   .container {
     box-sizing: border-box;
-    padding-left: 80rpx;
+    padding-left: 100rpx;
     border-bottom: 1rpx solid #dddddd;
     .header {
       display: flex;
@@ -246,7 +246,7 @@ export default {
     .content {
       .message {
         width: 100%;
-        font-size: 16px;
+        font-size: 14px;
         word-wrap: break-word;
         overflow: auto;
         .label {
@@ -255,14 +255,14 @@ export default {
         }
       }
       .images {
-        padding: 10rpx 0;
+        padding: 20rpx 0;
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        text-align: left;
+        justify-content: space-around;
         img {
-          width: 180rpx;
-          height: 180rpx;
+          width: 160rpx;
+          height: 160rpx;
           margin: 0 6rpx;
         }
       }
