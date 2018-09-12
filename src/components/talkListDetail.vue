@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="footer">
-           <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon"><span>分享</span></div>
+           <!-- <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon"><span>分享</span></div> -->
           <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" ><span>{{detailData.comments.length}}</span></div>
            <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span>{{starCount}}</span></div>
         </div>
@@ -184,7 +184,6 @@ export default {
       }
     }
     .images {
-      padding: 10rpx 0;
       width: 100%;
       display: flex;
       flex-wrap: wrap;
@@ -192,13 +191,13 @@ export default {
       img {
         width: 200rpx;
         height: 200rpx;
-        margin: 10rpx;
+        margin: 10rpx 20rpx 10rpx 0;
       }
     }
   }
   .footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 10rpx;
     .like {
@@ -213,6 +212,8 @@ export default {
     }
     .comment {
       @extend .like;
+      margin-right: 100rpx;
+
       .commentIcon {
         @extend .likeIcon;
       }

@@ -27,9 +27,13 @@ export default {
   onReachBottom: function() {
     this.loadMore();
   },
-  onLoad() {
+  onLoad(option) {
     //由于在http中做了节流操作，时间为100ms，所以要进行计时之后才能进行第二个请求
-    this.userId = this.$root.$mp.query.userId;
+    // this.userId = this.$root.$mp.query.userId;
+  },
+  onShow() {
+    const pages = getCurrentPages();
+    this.userId = pages[pages.length - 1].options.userId;
     this.refresh();
   },
   onUnload() {
@@ -137,7 +141,7 @@ export default {
     align-items: center;
     height: 200rpx;
     width: 100%;
- background: linear-gradient(to bottom, $meHeaderBgRight, $meHeaderBgLeft);
+    background: linear-gradient(to bottom, $meHeaderBgRight, $meHeaderBgLeft);
     // background-color: #198af4;
     .avatar {
       margin: 0 40rpx;

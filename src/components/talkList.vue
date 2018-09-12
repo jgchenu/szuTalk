@@ -26,8 +26,8 @@
           </div>
         </div>
         <div class="footer">
-          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"  >{{starCount}}</div>
           <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">{{List.comment_count}}</div>
+          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"  >{{starCount}}</div>
         </div>
     </div>
 </template>
@@ -102,10 +102,10 @@ export default {
 @import "../style/vars.scss";
 .talkList {
   // border-bottom: 2rpx solid #dddddd;
-  padding:10rpx 30rpx 10rpx 30rpx;
+  padding: 10rpx 30rpx 10rpx 30rpx;
   background-color: #ffffff;
   // box-shadow: 0 0 20rpx #bbbbbb;
-  margin:18rpx 0;
+  margin: 18rpx 0;
   .header {
     display: flex;
     flex-wrap: nowrap;
@@ -149,7 +149,7 @@ export default {
   .content {
     text-align: left;
     width: 100%;
-    padding:10rpx 0 20rpx 0;
+    padding: 10rpx 0 20rpx 0;
     .message {
       width: 100%;
       font-size: 16px;
@@ -170,17 +170,19 @@ export default {
       white-space: nowrap;
       width: 100%;
       height: 200rpx;
+      display: flex;
+      justify-content: space-between;
       &::-webkit-scrollbar {
         display: none;
       }
       img {
         width: 200rpx;
         height: 200rpx;
-        margin: 0 10rpx;
+        // margin: 0 10rpx;
       }
       .omitWrap {
         position: absolute;
-        right: 30rpx;
+        right: 10rpx;
         bottom: 20rpx;
         padding: 2rpx;
         background-color: rgba($color: #000000, $alpha: 0.2);
@@ -202,12 +204,12 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-bottom:10rpx;
+    padding-bottom: 10rpx;
 
     .like,
     .comment {
       display: flex;
-      align-items:center;
+      align-items: center;
       .likeIcon,
       .commentIcon {
         width: 32rpx;
@@ -215,7 +217,7 @@ export default {
         margin-right: 10rpx;
       }
     }
-    .like {
+    .comment {
       margin-right: 100rpx;
     }
   }

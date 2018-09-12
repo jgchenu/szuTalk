@@ -12,7 +12,7 @@
             <!-- <div class="identity">
                 <img src="../../static/images/me/auth.png" alt="auth">
             </div> -->
-            <div class="report"><img src="/static/images/index/report.png" alt="举报" @click="handleAction('comment')" v-if="selfId===detailData.user.id"></div>
+            <div class="report" @click="handleAction('comment')"><img src="/static/images/index/report.png" alt="举报"  v-if="selfId===detailData.user.id"></div>
         </div>
         <div class="content">
           <div class="message">
@@ -235,6 +235,9 @@ export default {
       .report {
         position: absolute;
         right: 40rpx;
+        width: 60rpx;
+        height:40rpx;
+        text-align: right;
         img {
           width: 28rpx;
           height: 28rpx;

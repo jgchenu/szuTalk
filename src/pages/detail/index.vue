@@ -1,12 +1,14 @@
 <template>
-  <div class="container" v-if="JSON.stringify(detailData)!=='{}'">
+  <div class="container" v-if="JSON.stringify(detailData)!=='{}'" >
     <div class="talkDetail">
       <talkListDetail :detailData="detailData" @showFirstComment="showFirstComment" :selfId="selfId" @handleAction="handleAction"></talkListDetail>
     </div>
     <div class="commentContent">
         <FComment @showSecondComment="showSecond" @showApply="showSecond" :detailData="item" v-for="(item,index) in detailData.comments" :key="index" :commentIndex="index" :selfId="selfId" @handleAction="handleAction"></FComment>
     </div>
+    <div class="whiteSpace">
 
+    </div>
     <div class="FcommentInput" >
         <div class="images" @click="preImage" v-show="imagePaths.length">
             <div class="imageItem" v-for="(item,index) in imagePaths" :key="index">
@@ -47,13 +49,19 @@ const { host } = require("./../../config.js");
 const util = require("../../utils/index.js");
 
 export default {
-  onLoad() {
-    this.resetData();
+  onLoad(option) {
+    // console.log(JSON.stringify(this.detailData));
+  },
+  onShow() {
     const session = qcloud.Session.get();
+    const pages = getCurrentPages();
     this.selfId = session.user.id;
-    this.id = this.$root.$mp.query.id;
-    console.log(this.id);
+    this.webViewId = pages[pages.length - 1].__wxWebviewId__;
+    this.id = pages[pages.length - 1].options.id;
     this.loadData();
+  },
+  onUnload() {
+    this.resetData();
   },
   onPullDownRefresh() {
     this.loadData();
@@ -73,8 +81,9 @@ export default {
       Fcontent: "",
       Scontent: "",
       toWho: {},
-      id: 0,
-      selfId: 0
+      id: "",
+      selfId: "",
+      webViewId: ""
     };
   },
   methods: {
@@ -301,11 +310,11 @@ export default {
         });
       }
     },
-    onFFocus(){
-      this.Fstatus=true;
+    onFFocus() {
+      this.Fstatus = true;
     },
-    onFBlur(){
-      this.Fstatus=false;
+    onFBlur() {
+      this.Fstatus = false;
     }
   }
 };
@@ -320,6 +329,11 @@ export default {
   }
   .commentContent {
     background-color: #ffffff;
+  }
+  .whiteSpace {
+    height: 90rpx;
+    width: 100%;
+    background: #ffffff;
   }
   .FcommentInput {
     position: fixed;
@@ -381,7 +395,6 @@ export default {
         border: 1px solid #dddddd;
         white-space: nowrap;
         border-radius: 10rpx;
-
       }
       .subButton {
         box-sizing: border-box;
@@ -391,7 +404,7 @@ export default {
         line-height: 60rpx;
         text-align: center;
         border: none;
-        color:$headerBg;
+        color: $headerBg;
         background-color: #ffffff;
       }
     }
@@ -432,7 +445,7 @@ export default {
         line-height: 60rpx;
         text-align: center;
         border: none;
-        color:$headerBg;
+        color: $headerBg;
         background-color: #ffffff;
       }
     }
@@ -449,7 +462,6 @@ export default {
     color: #dddddd;
     padding-left: 40rpx;
   }
-
 }
 </style>
 

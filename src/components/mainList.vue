@@ -95,12 +95,13 @@ export default {
     }
     .images {
       position: relative;
-      padding: 0 0 30rpx 0;
       overflow-x: scroll;
       overflow-y: hidden;
       white-space: nowrap;
       width: 100%;
       height: 200rpx;
+      justify-content: space-between;
+      display: flex;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -133,6 +134,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 30rpx;
     .like,
     .comment {
       display: flex;

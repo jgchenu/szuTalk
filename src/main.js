@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App'
-
 Vue.config.productionTip = false
 App.mpType = 'app'
 
@@ -32,8 +31,8 @@ export default {
         },
         {
           pagePath: 'pages/relTalk/main',
-          text: '',
-          iconPath: 'static/images/bottom/sub.png',
+          text: '发布',
+          iconPath: 'static/images/bottom/no-sub.png',
           selectedIconPath: 'static/images/bottom/sub.png'
         }, {
           pagePath: 'pages/me/main',
