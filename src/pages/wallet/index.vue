@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import recordList from '../../components/recordList'
+import recordList from '@/components/recordList'
 export default {
   components: {recordList},
 

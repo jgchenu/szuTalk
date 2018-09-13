@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import vuexMixin from "../../mixin/vuex.js";
-const qcloud = require("./../../wafer2/index.js");
-const util = require("../../utils/index.js");
-const {http} = require("../../utils/http.js");
-import Button from "../../components/Button";
+import vuexMixin from "@/mixin/vuex.js";
+const qcloud = require("@/wafer2/index.js");
+const util = require("@/utils/index.js");
+const {http} = require("@/utils/http.js");
+import Button from "@/components/Button";
 export default {
   mixins: [vuexMixin],
   onLoad(){

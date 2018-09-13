@@ -1,8 +1,7 @@
-import Vue from 'vue'
+import pageFactory from 'mpvue-page-factory'
 import App from './index'
 
-const app = new Vue(App)
-app.$mount()
+Page(pageFactory(App))
 
 export default {
   config: {

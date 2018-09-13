@@ -165,13 +165,9 @@ export default {
     .images {
       position: relative;
       padding: 10rpx 0;
-      overflow-x: scroll;
-      overflow-y: hidden;
       white-space: nowrap;
       width: 100%;
       height: 200rpx;
-      display: flex;
-      justify-content: space-between;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -179,6 +175,7 @@ export default {
         width: 200rpx;
         height: 200rpx;
         // margin: 0 10rpx;
+        margin-right: 42rpx;
       }
       .omitWrap {
         position: absolute;
@@ -192,6 +189,7 @@ export default {
         align-items: center;
         border-radius: 4rpx;
         img {
+          padding: 0;
           width: 30rpx;
           height: 30rpx;
           margin: 0 6rpx;

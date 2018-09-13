@@ -13,25 +13,25 @@
         <div class="images" @click="preImage" v-show="imagePaths.length">
             <div class="imageItem" v-for="(item,index) in imagePaths" :key="index">
               <img :src="item" alt="image" :data-id="index">
-              <div class="delete" @click.stop="deleteImage(index)">x</div>
+              <div class="delete" @click.stop="deleteImage(index)"><img src="../../../static/images/rel/delete.png" alt=""></div>
             </div>
         </div>
         <div class="sub">
           <img src="/static/images/rel/addPic-no.png" alt="addPic" class="addPicIcon" @click="chooseImage" v-show="imagePaths.length!==3">
-          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent" @focus="onFFocus" @blur="onFBlur">
+          <input type="text" placeholder="说说你的看法..." :focus="Fstatus" v-model="Fcontent" @focus="onFFocus" @blur="onFBlur" cursor-spacing="4">
           <form report-submit="true" @submit="relFComment" >
           <button formType="submit" type="default"  class="subButton">发送</button>
           </form>
         </div>
     </div>
 
-    <div class="commentInputButton" v-show="!Fstatus&&!Sstatus" @click="onFFocus">
+    <div class="commentInputButton" v-show="!Fstatus&&!Sstatus||imagePaths.length" @click="onFFocus">
         说说你的看法
     </div>   
 
       <div class="ScommentInput" v-show="Sstatus">
         <div class="sub">
-          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="onBlur" v-model="Scontent" >
+          <input type="text" :placeholder="'回复'+toWho.name+':'" :focus="Sstatus" @blur="onBlur" v-model="Scontent" cursor-spacing="4">
           <form report-submit="true" @submit="relScomment" >
           <button formType="submit" type="default"  class="subButton">发送</button>
           </form>
@@ -41,18 +41,16 @@
 </template>
 
 <script>
-import talkListDetail from "../../components/talkListDetail";
-import FComment from "../../components/FComment";
-const { http, uploadFile } = require("../../utils/http.js");
-const qcloud = require("./../../wafer2/index.js");
-const { host } = require("./../../config.js");
-const util = require("../../utils/index.js");
+import talkListDetail from "@/components/talkListDetail";
+import FComment from "@/components/FComment";
+const { http, uploadFile } = require("@/utils/http.js");
+const qcloud = require("@/wafer2/index.js");
+const { host } = require("@/config.js");
+const util = require("@/utils/index.js");
 
 export default {
   onLoad(option) {
     // console.log(JSON.stringify(this.detailData));
-  },
-  onShow() {
     const session = qcloud.Session.get();
     const pages = getCurrentPages();
     this.selfId = session.user.id;
@@ -60,6 +58,7 @@ export default {
     this.id = pages[pages.length - 1].options.id;
     this.loadData();
   },
+  onShow() {},
   onUnload() {
     this.resetData();
   },
@@ -365,14 +364,15 @@ export default {
         }
         .delete {
           position: absolute;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          text-align: center;
-          background-color: $meContentBg;
-          line-height: 20px;
-          right: 0;
-          top: 0;
+          width: 30rpx;
+          height: 30rpx;
+          right: 5rpx;
+          top: 5rpx;
+          line-height: 0;
+          img {
+            height: 100%;
+            width: 100%;
+          }
         }
       }
     }

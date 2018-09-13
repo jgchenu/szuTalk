@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import mainList from "../../components/mainList";
-const { http } = require("./../../utils/http.js");
-const util = require("./../../utils/index.js");
+import mainList from "@/components/mainList";
+const { http } = require("@/utils/http.js");
+const util = require("@/utils/index.js");
 
 export default {
   onPullDownRefresh: function() {
@@ -28,10 +28,6 @@ export default {
     this.loadMore();
   },
   onLoad(option) {
-    //由于在http中做了节流操作，时间为100ms，所以要进行计时之后才能进行第二个请求
-    // this.userId = this.$root.$mp.query.userId;
-  },
-  onShow() {
     const pages = getCurrentPages();
     this.userId = pages[pages.length - 1].options.userId;
     this.refresh();

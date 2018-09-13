@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import Tabs from "../../components/tabs";
-import talkList from "../../components/talkList";
-import taskList from "../../components/taskList";
+import Tabs from "@/components/tabs";
+import talkList from "@/components/talkList";
+import taskList from "@/components/taskList";
 export default {
   data() {
     return {

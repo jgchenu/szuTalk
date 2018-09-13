@@ -35,9 +35,9 @@
 </template>
 
 <script>
-var qcloud = require("./../../wafer2/index.js");
-const { http } = require("../../utils/http.js");
-import vuexMixin from "../../mixin/vuex.js";
+var qcloud = require("@/wafer2/index.js");
+const { http } = require("@/utils/http.js");
+import vuexMixin from "@/mixin/vuex.js";
 export default {
   onPullDownRefresh() {
     this.loadUserInfo(this.userId);

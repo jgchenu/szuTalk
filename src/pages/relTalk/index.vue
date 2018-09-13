@@ -11,7 +11,7 @@
         <div class="images" @click="preImage"  v-show="imagePaths.length">
             <div class="imageItem" v-for="(item,index) in imagePaths" :key="index">
               <img :src="item" alt="image" :data-id="index">
-              <div class="delete" @click.stop="deleteImage(index)">x</div>
+              <div class="delete" @click.stop="deleteImage(index)"><img src="../../../static/images/rel/delete.png" alt=""></div>
             </div>
         </div>
         <!-- <div class="subButtonWrap" @click="rel"> <Button buttonText="发布" /></div> -->
@@ -26,11 +26,11 @@
 
 <script>
 // import Button from "../../components/Button";
-const { host } = require("./../../config.js");
-const { http, uploadFile } = require("../../utils/http.js");
-const util = require("../../utils/index.js");
+const { host } = require("@/config.js");
+const { http, uploadFile } = require("@/utils/http.js");
+const util = require("@/utils/index.js");
 
-const qcloud = require("./../../wafer2/index.js");
+const qcloud = require("@/wafer2/index.js");
 export default {
   // components: { Button },
 
@@ -182,15 +182,16 @@ export default {
         height: 100%;
       }
       .delete {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        text-align: center;
-        background-color: $meContentBg;
-        line-height: 20px;
-        right: 0;
-        top: 0;
+          position: absolute;
+          width: 30rpx;
+          height: 30rpx;
+          right:5rpx;
+          top: 5rpx;
+          line-height: 0;
+        img{
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }

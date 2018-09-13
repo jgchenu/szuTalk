@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import vuexMixin from "../../mixin/vuex.js";
-const qcloud = require("./../../wafer2/index.js");
-const util = require("../../utils/index.js");
-const { host } = require("./../../config.js");
+import vuexMixin from "@/mixin/vuex.js";
+const qcloud = require("@/wafer2/index.js");
+const util = require("@/utils/index.js");
+const { host } = require("@/config.js");
 
 export default {
   mixins: [vuexMixin],

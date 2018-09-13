@@ -1,22 +1,22 @@
 <template>
   <div class="container">
-    <div class="header">
+    <!-- <div class="header">
       <div class="avatar">
         <img src="http://test.jgchen.xin/static/images/1.jpg" alt="头像">
       </div>
       <div class="apply">
         <div class="applyPerson">
-          <span class="from">光 </span>回复<span> 你</span>:
+          <span class="from">{{List.data.user.name}} </span>回复<span> 你</span>:
         </div>
-        <div class="time">2018/7/29 10:14</div>
+        <div class="time">{{List.updated_at}}</div>
       </div>
-      <div class="label">
-        学生
-      </div>
-    </div>
+    </div> -->
     <div class="content">
-      <div class="image"></div>
-      <div class="msg"> 我在马路边捡到一分钱，把它交到警察叔叔手里面~</div>
+      <!-- <div class="image"></div> -->
+      <div class="msg">{{List.content}}</div>
+      <!-- <div class="talkContent">
+        <div class="msg">我:{{List.data.say.summary}}</div>
+      </div> -->
     </div>
   </div>
 
@@ -24,8 +24,14 @@
 
 <script>
 export default {
+  props: {
+    List: {
+      type: Object,
+      default: {}
+    }
+  },
   components: {},
-
+  onLoad() {},
   data() {
     return {};
   },
@@ -35,11 +41,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./../style/vars.scss";
+@import "@/style/vars.scss";
 .container {
   padding: 10rpx 20rpx;
   box-sizing: border-box;
-  box-shadow: 0 2rpx 4rpx #bbbbbb;
+  // box-shadow: 0 2rpx 4rpx #bbbbbb;
+  border-bottom: 1rpx solid #dddddd;
   .header {
     display: flex;
     align-items: center;
@@ -78,6 +85,24 @@ export default {
   .content {
     font-size: 26rpx;
     padding: 20rpx 0;
+    color: #aaaaaa;
+  }
+  .talkContent {
+    margin-top: 14rpx;
+    width: 100%;
+    box-sizing: border-box;
+    background: $gray;
+    padding: 30rpx 0;
+    line-height: 50rpx;
+    padding-left: 20rpx;
+    font-size: 28rpx;
+    .title {
+      color: #000;
+      font-weight: bold;
+    }
+    .msg {
+      color: #bbbbbb;
+    }
   }
 }
 </style>
