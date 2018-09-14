@@ -25,11 +25,9 @@ import Tabs from "../../components/tabs";
 import mta from "mta-wechat-analysis";
 export default {
   onPullDownRefresh: function() {
-    console.log("下拉");
     this.refresh();
   },
   onReachBottom: function() {
-    console.log("上拉");
     this.loadMore();
   },
   mounted() {
@@ -106,7 +104,6 @@ export default {
       });
     },
     loadMore() {
-      console.log("到底了");
       this.loadData();
     },
     refresh() {

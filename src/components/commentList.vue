@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <!-- <div class="header">
+  <div class="container" @click="goDetail">
+    <div class="header">
       <div class="avatar">
         <img src="http://test.jgchen.xin/static/images/1.jpg" alt="头像">
       </div>
@@ -10,13 +10,13 @@
         </div>
         <div class="time">{{List.updated_at}}</div>
       </div>
-    </div> -->
+    </div>
     <div class="content">
-      <!-- <div class="image"></div> -->
+      <div class="image"></div>
       <div class="msg">{{List.content}}</div>
-      <!-- <div class="talkContent">
+      <div class="talkContent">
         <div class="msg">我:{{List.data.say.summary}}</div>
-      </div> -->
+      </div>
     </div>
   </div>
 
@@ -35,8 +35,13 @@ export default {
   data() {
     return {};
   },
-
-  created() {}
+  methods: {
+    goDetail() {
+      wx.navigateTo({
+        url: `../detail/main?id=${this.List.data.say.id}`
+      });
+    }
+  }
 };
 </script>
 

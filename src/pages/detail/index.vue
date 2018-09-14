@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="commentInputButton" v-show="!Fstatus&&!Sstatus||imagePaths.length" @click="onFFocus">
+    <div class="commentInputButton" v-show="!Fstatus&&!Sstatus" @click="onFFocus">
         说说你的看法
     </div>   
 
@@ -54,7 +54,6 @@ export default {
     const session = qcloud.Session.get();
     const pages = getCurrentPages();
     this.selfId = session.user.id;
-    this.webViewId = pages[pages.length - 1].__wxWebviewId__;
     this.id = pages[pages.length - 1].options.id;
     this.loadData();
   },
@@ -82,7 +81,6 @@ export default {
       toWho: {},
       id: "",
       selfId: "",
-      webViewId: ""
     };
   },
   methods: {

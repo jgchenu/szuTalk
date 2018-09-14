@@ -257,14 +257,13 @@ export default {
       }
       .images {
         padding: 20rpx 0;
+        white-space: nowrap;
         width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
+        
         img {
           width: 160rpx;
           height: 160rpx;
-          margin: 0 6rpx;
+          margin-right: 40rpx;
         }
       }
     }

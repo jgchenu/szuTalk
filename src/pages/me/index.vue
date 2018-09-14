@@ -27,7 +27,7 @@
               <div class="customer"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">客服</div></div>
               <div class="customer" @click="goRegister"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">注册</div></div> -->
 
-              <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.say_count!==0">{{userInfo.say_count}}</div></div></div>
+              <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.say_count!==0">{{computedCount}}</div></div></div>
               <div class="customer"><img src="/static/images/me/customer.png" alt="客服"><div class="detail">客服</div></div>
             </div>
         </div>
@@ -85,6 +85,15 @@ export default {
         current: this.userInfo.avatar_url, // 当前显示图片的http链接
         urls: [this.userInfo.avatar_url] // 需要预览的图片http链接列表
       });
+    }
+  },
+  computed: {
+    computedCount() {
+      let count = this.userInfo.say_count;
+      if (count > 99) {
+        count = "99+";
+      }
+      return count;
     }
   }
 };
@@ -148,14 +157,15 @@ export default {
       box-shadow: 5rpx 5rpx 10rpx #aaaaaa;
       color: $headerBg;
       font-weight: bold;
-      .index,.edit{
-        flex:99;
+      .index,
+      .edit {
+        flex: 99;
         display: flex;
         align-items: center;
-        justify-content:center;
+        justify-content: center;
       }
       .line {
-        flex:1;
+        flex: 1;
         background-color: #dddddd;
         height: 50rpx;
         width: 1rpx;
@@ -209,12 +219,13 @@ export default {
             position: absolute;
             right: -24rpx;
             top: -10rpx;
-            width: 24rpx;
-            height: 24rpx;
+            line-height: 22rpx;
+            padding: 2rpx 3rpx;
             border-radius: 50%;
-            background-color: $meCountBg;
+            background-color: red;
             color: #fff;
-            line-height: 24rpx;
+            text-align: center;
+            font-size: 19rpx;
           }
         }
       }
