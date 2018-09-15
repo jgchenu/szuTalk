@@ -29,7 +29,6 @@ export default {
             }).then(() => {
               wx.openSetting({
                 success: res => {
-                  console.log(res);
                 }
               });
             });

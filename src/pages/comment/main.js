@@ -6,7 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    "navigationBarTitleText": "回复",
+    "navigationBarTitleText": "消息",
     enablePullDownRefresh: true,
     "backgroundTextStyle": "dark"
   }

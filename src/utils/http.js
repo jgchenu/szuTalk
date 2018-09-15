@@ -27,8 +27,17 @@ exports.http = function ({
         success: (res) => {
           timer = false;
           wx.hideLoading();
-          if (res.statusCode === 400) {
-            util.showModel('提醒', res.data.message);
+          if (/(400|404)/.test(res.statusCode)) {
+            wx.showModal({
+              title: '提醒',
+              content: res.data.message,
+              showCancel: false,
+              success: () => {
+                wx.navigateBack({
+                  delta: 1
+                });
+              }
+            });
             return;
           }
           success(res)

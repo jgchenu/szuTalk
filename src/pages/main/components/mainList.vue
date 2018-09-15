@@ -14,15 +14,15 @@
         </div>
         <div class="footer">
           <div class="time">{{computedTime}}</div>
-          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"  >{{starCount}}</div>
           <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">{{List.comment_count}}</div>
+          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"  >{{starCount}}</div>
         </div>
     </div>
 </template>
 
 <script>
 import listMixin from "@/mixin/list.js";
-import computedMixin from '@/mixin/list.js';
+import computedMixin from '@/mixin/computed.js';
 
 export default {
   mixins: [listMixin,computedMixin],
@@ -135,13 +135,16 @@ export default {
     .like,
     .comment {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       .likeIcon,
       .commentIcon {
         width: 40rpx;
         height: 40rpx;
         margin-right: 10rpx;
       }
+    }
+    .comment{
+      margin-right: 100rpx;
     }
     .time {
       color: #cccccc;

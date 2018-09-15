@@ -100,7 +100,6 @@ export default {
         wx.showActionSheet({
           itemList: [`回复 ${item.user.name}:`, "删除"],
           success: res => {
-            console.log(res.tapIndex);
             if (res.tapIndex === 0) {
               this.$emit("showApply", {
                 id: this.List.id,
@@ -109,10 +108,23 @@ export default {
                 commentIndex: this.commentIndex
               });
             } else if (res.tapIndex === 1) {
-              this.$emit("handleAction", {
-                type: "apply",
-                id: item.id,
-                commentIndex: this.commentIndex
+              wx.showModal({
+                title: "删除",
+                content: "确定要狠心删除吗？",
+                cancelText: "删除",
+                cancelColor: "#198AF4",
+                confirmText: "取消",
+                confirmColor: "#000000",
+                success: res => {
+                  if (res.cancel) {
+                    this.$emit("handleAction", {
+                      type: "apply",
+                      id: item.id,
+                      commentIndex: this.commentIndex
+                    });
+                  }
+                },
+                fail: () => {}
               });
             }
           }
@@ -121,7 +133,6 @@ export default {
         wx.showActionSheet({
           itemList: [`回复 ${item.user.name}:`],
           success: res => {
-            console.log(res.tapIndex);
             if (res.tapIndex === 0)
               this.$emit("showApply", {
                 id: this.List.id,
@@ -170,7 +181,20 @@ export default {
         itemList: ["删除"],
         success: res => {
           if (res.tapIndex === 0) {
-            this.$emit("handleAction", { type, id: this.List.id });
+            wx.showModal({
+              title: "删除",
+              content: "确定要狠心删除吗？",
+              cancelText: "删除",
+              cancelColor: "#198AF4",
+              confirmText: "取消",
+              confirmColor: "#000000",
+              success: res => {
+                if (res.cancel) {
+                  this.$emit("handleAction", { type, id: this.List.id });
+                }
+              },
+              fail: () => {}
+            });
           }
         }
       });
@@ -239,7 +263,7 @@ export default {
         position: absolute;
         right: 40rpx;
         width: 60rpx;
-        height:40rpx;
+        height: 40rpx;
         text-align: right;
         img {
           width: 28rpx;
@@ -262,7 +286,7 @@ export default {
         padding: 20rpx 0;
         white-space: nowrap;
         width: 100%;
-        
+
         img {
           width: 160rpx;
           height: 160rpx;

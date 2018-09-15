@@ -9,19 +9,30 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    userInfo: {}
+    userInfo: {},
+   
   },
   mutations: {
     setUserInfo: (state, userInfo) => {
       state.userInfo = userInfo;
-    }
+      if (state.userInfo.unread_notification_count) {
+        wx.setTabBarBadge({
+          index: 2,
+          text: String(state.userInfo.unread_notification_count)
+        });
+      } else {
+        wx.removeTabBarBadge({
+          index: 2
+        })
+      }
+    },
 
   },
   actions: {
     loadUserInfo({
       commit
     }, userId) {
-      let api=userId?`/user/${userId}`:`/user`;
+      let api = userId ? `/user/${userId}` : `/user`;
       http({
         api,
         method: 'GET',
@@ -29,8 +40,6 @@ const store = new Vuex.Store({
           if (res.statusCode === 200) {
             commit('setUserInfo', res.data.data)
             wx.stopPullDownRefresh();
-
-            console.log(res)
           }
         }
       })

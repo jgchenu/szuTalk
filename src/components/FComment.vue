@@ -97,7 +97,6 @@ export default {
         wx.showActionSheet({
           itemList: [`回复 ${item.user.name}:`, "删除"],
           success: res => {
-            console.log(res.tapIndex);
             if (res.tapIndex === 0) {
               this.$emit("showApply", {
                 id: this.detailData.id,
@@ -118,7 +117,6 @@ export default {
         wx.showActionSheet({
           itemList: [`回复 ${item.user.name}:`],
           success: res => {
-            console.log(res.tapIndex);
             if (res.tapIndex === 0)
               this.$emit("showApply", {
                 id: this.detailData.id,

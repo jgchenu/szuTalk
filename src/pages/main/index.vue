@@ -4,7 +4,7 @@
             <img class="avatar" :src="userInfo.avatar_url" alt="头像" @click="preImage" >
             <div class="right">
             <div class="msg"><div class="name">{{userInfo.name}}</div></div>
-            <div class="like"><img class="likeIcon" src="/static/images/me/like.png" alt="点赞"><span class="likeText">获得<span>{{userInfo.star_count}}赞</span></span></div>
+            <div class="like"><img class="likeIcon" src="/static/images/me/like.png" alt="点赞"><span class="likeText">获得<span>{{userInfo.star_count}}&nbsp;</span>赞</span></div>
             </div>
       </div>
         <div  class="dataBox">
@@ -66,7 +66,6 @@ export default {
         method: "GET",
         data: { page: this.page },
         success: res => {
-          console.log(res);
           this.loading = false;
           this.isRefresh = false;
           if (res.statusCode === 200) {

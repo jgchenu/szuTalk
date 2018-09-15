@@ -50,7 +50,6 @@ const util = require("@/utils/index.js");
 
 export default {
   onLoad(option) {
-    // console.log(JSON.stringify(this.detailData));
     const session = qcloud.Session.get();
     const pages = getCurrentPages();
     this.selfId = session.user.id;
@@ -89,7 +88,6 @@ export default {
         api: `/say/${this.id}`,
         method: "GET",
         success: res => {
-          console.log(res);
           if (res.statusCode === 200) {
             this.detailData = res.data.data;
           }
@@ -142,7 +140,6 @@ export default {
               filePath: paths[i],
               name: "image",
               success: res => {
-                console.log(res);
                 if (res.statusCode === 200) {
                   this.imageIds.push(res.data.data.id);
                 }
@@ -164,7 +161,6 @@ export default {
     },
     showSecond(event) {
       this.toWho = event;
-      console.log(event);
       this.Fstatus = false;
       this.Sstatus = true;
     },
@@ -183,7 +179,6 @@ export default {
           form_id: event.mp.detail.formId
         },
         success: res => {
-          console.log("add Fcomment:", res);
           if (res.statusCode === 200) {
             util.showSuccess("发布成功");
             this.imagePaths = [];
@@ -209,7 +204,6 @@ export default {
             form_id: formId
           },
           success: res => {
-            console.log("add Scomment:", res);
             if (res.statusCode === 200) {
               this.refreshFcomment(this.toWho.commentIndex);
             }
@@ -225,7 +219,6 @@ export default {
             form_id: formId
           },
           success: res => {
-            console.log("add apply:", res);
             if (res.statusCode === 200) {
               this.refreshFcomment(this.toWho.commentIndex);
             }
@@ -242,11 +235,8 @@ export default {
         api: `/say/comment/${this.detailData.comments[index].id}`,
         method: "GET",
         success: res => {
-          console.log(res);
           if (res.statusCode === 200) {
             this.$set(this.detailData.comments, index, res.data.data);
-            // this.detailData.comments[index] = res.data.data;
-            console.log(this.detailData.comments[index]);
           }
         }
       });
@@ -420,7 +410,7 @@ export default {
       width: 100%;
       display: flex;
       align-items: center;
-      // justify-content: space-around;
+      justify-content: space-around;
       .addPicIcon {
         width: 50rpx;
         height: 50rpx;
@@ -429,7 +419,7 @@ export default {
       input {
         padding-left: 10rpx;
         margin-left: 10rpx;
-        width: 90%;
+        width: 80%;
         height: 60rpx;
         border: 1px solid #dddddd;
         white-space: nowrap;

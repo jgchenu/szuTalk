@@ -66,12 +66,8 @@ export default {
               filePath: paths[i],
               name: "image",
               success: res => {
-                console.log(res);
                 if (res.statusCode === 200) {
                   this.imageIds.push(res.data.data.id);
-                  // if (i === this.imagePaths.length - 1) {
-                  //   wx.hideToast();
-                  // }
                 }
               },
               fail: error => {}
@@ -109,15 +105,19 @@ export default {
         data: {
           content: str,
           images: this.imageIds,
-          form_id:event.mp.detail.formId
+          form_id: event.mp.detail.formId
         },
         success: res => {
-          console.log("add say:", res);
           if (res.statusCode === 200) {
             util.showSuccess("发布成功");
             this.imagePaths = [];
             this.imageIds = [];
             this.content = "";
+            setTimeout(() => {
+              wx.switchTab({
+                url: "../index/main"
+              });
+            }, 1000);
           }
         }
       });
@@ -182,13 +182,13 @@ export default {
         height: 100%;
       }
       .delete {
-          position: absolute;
-          width: 30rpx;
-          height: 30rpx;
-          right:5rpx;
-          top: 5rpx;
-          line-height: 0;
-        img{
+        position: absolute;
+        width: 30rpx;
+        height: 30rpx;
+        right: 5rpx;
+        top: 5rpx;
+        line-height: 0;
+        img {
           width: 100%;
           height: 100%;
         }

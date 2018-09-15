@@ -12,7 +12,7 @@ const {
 //   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 // }
 const formatTime = (timeStamp) => {
-  let timeDiff = parseInt(Date.now()/1000+2) - timeStamp;
+  let timeDiff = parseInt(Date.now()/1000+4) - timeStamp;
   let computedTime = "";
   if (timeDiff < 60) {
     computedTime = `${timeDiff}秒前`;

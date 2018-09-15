@@ -64,10 +64,8 @@ export default {
             },
             success: res => {
               wx.hideToast();
-              let data = JSON.parse(res.data);
-              console.log(data)
               if (res.statusCode === 200) {
-                this.setUserInfo(data.data);
+                this.setUserInfo(res.data.data.data);
               }
             },
             fail: error => {

@@ -100,7 +100,6 @@ export default {
       wx.showActionSheet({
         itemList: ["删除"],
         success: res => {
-          console.log(res);
           this.$emit("handleAction", { type, id: this.detailData.id });
         }
       });

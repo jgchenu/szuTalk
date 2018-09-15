@@ -104,8 +104,20 @@ export default {
       wx.showActionSheet({
         itemList: ["删除"],
         success: res => {
-          console.log(res);
-          this.$emit("handleAction", { type, id: this.List.id });
+          wx.showModal({
+            title: "删除",
+            content: "确定要狠心删除吗？",
+            cancelText: "删除",
+            cancelColor: "#198AF4",
+            confirmText: "取消",
+            confirmColor: "#000000",
+            success: res => {
+              if (res.cancel) {
+                this.$emit("handleAction", { type, id: this.List.id });
+              }
+            },
+            fail: () => {}
+          });
         }
       });
     },

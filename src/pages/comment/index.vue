@@ -1,14 +1,16 @@
 <template>
-  <div>
+  <div class="wrap">
   <div class="container"  v-if="indexList.length>0">
     <div  class="dataBox">
     <commentList v-for="(item,index) in indexList" :key="index" :List="item"/>
       <div class="loadMore" v-show="(loading&&!isRefresh)||finish">{{finish?'全部加载完成':'正在加载...'}}</div>
     </div>
   </div>
-  <div v-else class="noneApply">
-     还没有人回复你呀，快点去发说说吧
-  </div>
+    <div class="noneApply" v-if="indexList.length===0">
+      <img src="/static/images/me/no-message.png" alt="暂无消息">
+      <div>暂无消息</div>
+      <div>去发个说说吧</div>
+    </div>
   </div>
 </template>
 
@@ -20,6 +22,7 @@ export default {
   onLoad() {
     this.refresh();
   },
+
   onPullDownRefresh: function() {
     this.refresh();
   },
@@ -50,7 +53,6 @@ export default {
         method: "GET",
         data: { page: this.page },
         success: res => {
-          console.dir(res);
           this.loading = false;
           this.isRefresh = false;
           if (res.statusCode === 200) {
@@ -96,36 +98,45 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/style/vars.scss";
-.container {
-  background-color: $gray;
-  .dataBox {
-    box-sizing: border-box;
-    // height: calc( 100% - 81px );
-    // padding-top: 80rpx;
-    .refresh {
-      line-height: 60rpx;
-      text-align: center;
-      color: #dddddd;
-    }
-    .scrollView {
-      &::-webkit-scrollbar {
-        display: none;
+.wrap {
+    background-color: $gray;
+  .container {
+    .dataBox {
+      box-sizing: border-box;
+      // height: calc( 100% - 81px );
+      // padding-top: 80rpx;
+      .refresh {
+        line-height: 60rpx;
+        text-align: center;
+        color: #dddddd;
       }
-      -webkit-overflow-scrolling: touch;
-      overflow: scroll;
-      text-align: center;
-      height: 100%;
-    }
-    .loadMore {
-      @extend .refresh;
-      color: #000;
+      .scrollView {
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        -webkit-overflow-scrolling: touch;
+        overflow: scroll;
+        text-align: center;
+        height: 100%;
+      }
+      .loadMore {
+        @extend .refresh;
+        color: #000;
+      }
     }
   }
-}
 
-.noneApply {
-  text-align: center;
-  color: #000000;
+  .noneApply {
+    height: 100vh;
+    box-sizing: border-box;
+    text-align: center;
+    color: #bbbbbb;
+    padding-top: 300rpx;
+    img {
+      height: 100rpx;
+      width: 100rpx;
+    }
+  }
 }
 </style>
 

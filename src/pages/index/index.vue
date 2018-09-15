@@ -22,6 +22,8 @@ var util = require("@/utils/index.js");
 import mta from "mta-wechat-analysis";
 import talkList from "./components/talkList.vue";
 import Tabs from "./components/tabs.vue";
+import vuexMixin from "@/mixin/vuex.js";
+
 export default {
   onPullDownRefresh: function() {
     this.refresh();
@@ -32,10 +34,15 @@ export default {
   mounted() {
     auth();
   },
+
   onLoad() {
     mta.Page.init();
     this.loadData();
+    setTimeout(() => {
+      this.loadUserInfo("");
+    }, 300);
   },
+  mixins: [vuexMixin],
   data() {
     return {
       userInfo: {},
@@ -77,7 +84,6 @@ export default {
         method: "GET",
         data: { page: this.page },
         success: res => {
-          console.log(res);
           this.loading = false;
           this.isRefresh = false;
           if (res.statusCode === 200) {
@@ -111,7 +117,7 @@ export default {
       this.page = 1;
       this.indexList = [];
       this.loadData();
-    }
+    },
   }
 };
 </script>

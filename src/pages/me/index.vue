@@ -4,7 +4,7 @@
             <div class="person">
               <img :src="userInfo.avatar_url" @click="preImage" alt="头像" class="avatar">
               <div class="name" >{{userInfo.name}}</div>
-              <div class="likeAll"><img src="/static/images/me/like.png" alt="点赞">&nbsp;<span class="likeText">获得<span class="likeCount">{{userInfo.star_count}}</span></span>赞</div>
+              <div class="likeAll"><img src="/static/images/me/like.png" alt="点赞">&nbsp;<span class="likeText">获得<span class="likeCount">{{userInfo.star_count}}</span></span>&nbsp;赞</div>
             </div>
             <!-- <div class="msg">
               <div class="like"><img src="/static/images/me/index.png" alt="我的主页"><div class="detail">获赞数:<span>66</span></div></div>
@@ -137,8 +137,8 @@ export default {
         align-items: center;
         color: #fff;
         img {
-          width: 42rpx;
-          height: 42rpx;
+          width: 38rpx;
+          height: 38rpx;
         }
         .likeText {
           .likeCount {

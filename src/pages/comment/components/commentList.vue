@@ -4,7 +4,7 @@
       <div class="header">
         <div class="apply">
           <div class="applyPerson">
-            <span class="from">{{List.data.user.name}} </span>评论<span> 你</span>:
+            <span class="from">{{List.data.user.name}} </span>回复<span> 你</span>:
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
     <div class="header">
       <div class="apply">
       <div class="applyPerson"  v-if="List.type===4">
-          <span class="from" >{{List.data.user.name}} </span>点赞<span> 你</span>:{{List.data.say}}         
+          <span class="from" >{{List.data.user.name}} </span>点赞<span> 你</span>:       
         </div>
       </div>
     </div>
@@ -108,14 +108,14 @@ export default {
   box-sizing: border-box;
   box-shadow: 0 2rpx 4rpx #aaaaaa;
   background-color: #ffffff;
-  margin: 10rpx 0;
+  margin: 16rpx 0;
 
   .section {
     background: #ffffff;
     .header {
       display: flex;
       align-items: center;
-      font-size: 28rpx;
+      font-size: 32rpx;
       background: #ffffff;
       .apply {
         display: flex;
@@ -155,11 +155,11 @@ export default {
         width: 100%;
         box-sizing: border-box;
         background: $gray;
-        padding: 20rpx 0;
+        padding: 24rpx 0 24rpx 10rpx;
         word-wrap: break-word;
         overflow: auto;
         .msg {
-          color: #aaaaaabe;
+          color: #6B6B6B;
         }
       }
       .time {
@@ -167,7 +167,7 @@ export default {
         color: #dddddd;
         text-align: left;
         color: #aaaaaa;
-        margin-top: 10rpx;
+        margin-top: 20rpx;
       }
     }
   }
