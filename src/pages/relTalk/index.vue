@@ -44,10 +44,6 @@ export default {
   methods: {
     chooseImage() {
       new Promise((resolve, reject) => {
-        // if (this.imagePaths.length ===9) {
-        //   reject("最多只能上传九张哦");
-        //   return;
-        // }
         wx.chooseImage({
           count: 9 - this.imagePaths.length, // 默认9
           sizeType: ["compressed", "original"], // 可以指定是原图还是压缩图，默认二者都有
@@ -95,7 +91,6 @@ export default {
       this.imagePaths.splice(index, 1);
       this.imageIds.splice(index, 1);
     },
-    rel() {},
     formSubmit(event) {
       let reg = new RegExp("\n", "g");
       let str = this.content.replace(reg, "<br>");
@@ -113,11 +108,12 @@ export default {
             this.imagePaths = [];
             this.imageIds = [];
             this.content = "";
+            wx.setStorageSync("relData", res.data.data);
             setTimeout(() => {
               wx.switchTab({
                 url: "../index/main"
               });
-            }, 1000);
+            }, 200);
           }
         }
       });

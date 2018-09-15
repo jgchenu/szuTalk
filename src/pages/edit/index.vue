@@ -20,9 +20,9 @@
 
 <script>
 import vuexMixin from "@/mixin/vuex.js";
-const qcloud = require("@/wafer2/index.js");
 const util = require("@/utils/index.js");
-const { host } = require("@/config.js");
+const {  uploadFile } = require("@/utils/http.js");
+
 
 export default {
   mixins: [vuexMixin],
@@ -51,8 +51,8 @@ export default {
         });
       }).then(
         path => {
-          qcloud.upload({
-            url: `${host}/user/${this.userInfo.id}`,
+          uploadFile({
+            api: `/user/${this.userInfo.id}`,
             filePath: path,
             header: {
               accept: "application/json" // 默认值
@@ -63,9 +63,9 @@ export default {
               name: this.userInfo.name
             },
             success: res => {
-              wx.hideToast();
               if (res.statusCode === 200) {
-                this.setUserInfo(res.data.data.data);
+                console.log(res)
+                this.setUserInfo(res.data.data);
               }
             },
             fail: error => {

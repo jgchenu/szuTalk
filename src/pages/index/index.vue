@@ -38,6 +38,13 @@ export default {
   onLoad() {
     mta.Page.init();
     this.loadData();
+  },
+  onShow() {
+    let data = wx.getStorageSync("relData");
+    if (data) {
+      this.indexList.unshift(data);
+      wx.removeStorageSync("relData");
+    }
     setTimeout(() => {
       this.loadUserInfo("");
     }, 300);
@@ -117,7 +124,7 @@ export default {
       this.page = 1;
       this.indexList = [];
       this.loadData();
-    },
+    }
   }
 };
 </script>
