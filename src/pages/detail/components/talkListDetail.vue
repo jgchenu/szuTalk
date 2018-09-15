@@ -2,28 +2,28 @@
     <div class="talkList">
         <div class="header">
             <div class="avatar">
-                <img :src="detailData.user.avatar_url" alt="头像" @click="toUserMain(detailData.user.id)">
+                <img :src="List.user.avatar_url" alt="头像" @click="toUserMain(List.user.id)">
             </div>
             <div class="msg">
-                <div class="name" >{{detailData.user.name}}</div>
-                <div class="time">{{detailData.updated_at}}</div>
+                <div class="name" >{{List.user.name}}</div>
+                <div class="time">{{computedTime}}</div>
             </div>
             <!-- <div class="identity">
                 <img src="../../static/images/me/auth.png" alt="auth">
             </div> -->
-            <div class="report"><img src="/static/images/index/report.png" alt="举报" @click="handleAction('detail')" v-if="selfId===detailData.user.id"></div>
+            <div class="report"><img src="/static/images/index/report.png" alt="举报" @click="handleAction('detail')" v-if="selfId===List.user.id"></div>
         </div>
         <div class="content">
-          <div class="message" v-html="detailData.content">
+          <div class="message" v-html="List.content">
             <!-- <div class="label">#南区#</div> -->
           </div>
           <div class="images">
-              <img :src="item.url"  v-for="(item,index) in detailData.file_urls" :key="index" :data-id="index" @click="preImage">  
+              <img :src="item.url"  v-for="(item,index) in List.file_urls" :key="index" :data-id="index" @click="preImage">  
           </div>
         </div>
         <div class="footer">
            <!-- <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon"><span>分享</span></div> -->
-          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" ><span>{{detailData.comments.length}}</span></div>
+          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" ><span>{{List.comments.length}}</span></div>
            <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span>{{starCount}}</span></div>
         </div>
     </div>
@@ -31,9 +31,11 @@
 
 <script>
 const { http } = require("@/utils/http.js");
+import computedMixin from "@/mixin/computed.js";
+
 export default {
   props: {
-    detailData: {
+    List: {
       type: Object,
       default: {}
     },
@@ -42,10 +44,12 @@ export default {
       default: 0
     }
   },
+  mixins: [computedMixin],
+
   data() {
     return {
-      isStar: this.detailData.is_star,
-      starCount: this.detailData.star_count
+      isStar: this.List.is_star,
+      starCount: this.List.star_count
     };
   },
   computed: {
@@ -54,7 +58,7 @@ export default {
       return url;
     },
     computedUrls() {
-      let urls = this.detailData.file_urls.map(item => {
+      let urls = this.List.file_urls.map(item => {
         return item.url;
       });
       return urls;
@@ -64,7 +68,7 @@ export default {
     handleStar() {
       let method = this.isStar ? "DELETE" : "POST";
       http({
-        api: `/say/${this.detailData.id}/star`,
+        api: `/say/${this.List.id}/star`,
         method,
         success: res => {
           if (res.statusCode === 200) {
@@ -101,7 +105,7 @@ export default {
         itemList: ["删除"],
         success: res => {
           console.log(res);
-          this.$emit("handleAction", { type, id: this.detailData.id });
+          this.$emit("handleAction", { type, id: this.List.id });
         }
       });
     },

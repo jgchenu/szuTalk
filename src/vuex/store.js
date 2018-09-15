@@ -21,8 +21,9 @@ const store = new Vuex.Store({
     loadUserInfo({
       commit
     }, userId) {
+      let api=userId?`/user/${userId}`:`/user`;
       http({
-        api: `/user/${userId}`,
+        api,
         method: 'GET',
         success: res => {
           if (res.statusCode === 200) {

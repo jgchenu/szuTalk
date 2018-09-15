@@ -1,10 +1,10 @@
 <template>
   <div class="container" v-if="JSON.stringify(detailData)!=='{}'" >
     <div class="talkDetail">
-      <talkListDetail :detailData="detailData" @showFirstComment="showFirstComment" :selfId="selfId" @handleAction="handleAction"></talkListDetail>
+      <talkListDetail :List="detailData" @showFirstComment="showFirstComment" :selfId="selfId" @handleAction="handleAction"></talkListDetail>
     </div>
     <div class="commentContent">
-        <FComment @showSecondComment="showSecond" @showApply="showSecond" :detailData="item" v-for="(item,index) in detailData.comments" :key="index" :commentIndex="index" :selfId="selfId" @handleAction="handleAction"></FComment>
+        <FComment @showSecondComment="showSecond" @showApply="showSecond" :List="item" v-for="(item,index) in detailData.comments" :key="index" :commentIndex="index" :selfId="selfId" @handleAction="handleAction"></FComment>
     </div>
     <div class="whiteSpace">
 
@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import talkListDetail from "@/components/talkListDetail";
-import FComment from "@/components/FComment";
+import talkListDetail from "./components/talkListDetail";
+import FComment from "./components/FComment";
 const { http, uploadFile } = require("@/utils/http.js");
 const qcloud = require("@/wafer2/index.js");
 const { host } = require("@/config.js");
@@ -318,7 +318,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../style/vars.scss";
+@import "@/style/vars.scss";
 .container {
   background-color: #eeeeee;
   .talkDetail {

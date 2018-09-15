@@ -14,15 +14,14 @@
 </template>
 
 <script>
-var qcloud = require("./../../wafer2/index.js");
-const { http } = require("../../utils/http.js");
-var auth = require("../../utils/auth.js");
-var util = require("../../utils/index.js");
+var qcloud = require("@/wafer2/index.js");
+const { http } = require("@/utils/http.js");
+var auth = require("@/utils/auth.js");
+var util = require("@/utils/index.js");
 
-import talkList from "../../components/talkList";
-import taskList from "../../components/taskList";
-import Tabs from "../../components/tabs";
 import mta from "mta-wechat-analysis";
+import talkList from "./components/talkList.vue";
+import Tabs from "./components/tabs.vue";
 export default {
   onPullDownRefresh: function() {
     this.refresh();
@@ -53,7 +52,6 @@ export default {
   },
   components: {
     talkList,
-    taskList,
     Tabs
   },
 
@@ -94,7 +92,8 @@ export default {
               wx.stopPullDownRefresh();
               this.indexList = this.indexList.concat(res.data.data.data);
             } else {
-              util.showTip("已经加载完了", 1000);
+              this.finish = true;
+              this.page = 1;
             }
           }
         },
@@ -112,13 +111,13 @@ export default {
       this.page = 1;
       this.indexList = [];
       this.loadData();
-    },
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../../style/vars.scss";
+@import "@/style/vars.scss";
 .container {
   height: 100%;
   overflow: auto;

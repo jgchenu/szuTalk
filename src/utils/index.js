@@ -1,15 +1,46 @@
 const {
   host
 } = require('./../config')
-const formatTime = date => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
+// const formatTime = date => {
+//   const year = date.getFullYear()
+//   const month = date.getMonth() + 1
+//   const day = date.getDate()
+//   const hour = date.getHours()
+//   const minute = date.getMinutes()
+//   const second = date.getSeconds()
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+//   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+// }
+const formatTime = (timeStamp) => {
+  let timeDiff = parseInt(Date.now()/1000+2) - timeStamp;
+  let computedTime = "";
+  if (timeDiff < 60) {
+    computedTime = `${timeDiff}秒前`;
+  } else if (timeDiff < 3600) {
+    let m = parseInt(timeDiff / 60);
+    computedTime = `${m}分钟前`;
+  } else if (timeDiff >= 3600 && timeDiff < 24 * 3600) {
+    let h = parseInt(timeDiff / 3600);
+    computedTime = `${h}小时前`;
+  } else if (timeDiff >= 24 * 3600) {
+    let date = new Date(timeStamp);
+    let h = date.getHours();
+    let m = date.getMinutes();
+    if (timeDiff < 48 * 3600) {
+      computedTime = `昨天 ${h}:${m}`;
+    } else if (timeDiff >= 48 * 3600) {
+      let M =
+        date.getMonth() + 1 < 10 ?
+        "0" + (date.getMonth() + 1) :
+        date.getMonth() + 1;
+      let Y = date.getFullYear();
+      let D = date.getDate();
+      let h = date.getHours();
+      let m = date.getMinutes();
+      computedTime = `${Y}-${M}-${D} ${h}:${m}`;
+    }
+  }
+  return computedTime;
 }
 
 const formatNumber = n => {

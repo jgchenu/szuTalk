@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import mainList from "@/components/mainList";
+import mainList from "./components/mainList";
 const { http } = require("@/utils/http.js");
 const util = require("@/utils/index.js");
 

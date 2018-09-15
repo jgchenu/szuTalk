@@ -27,8 +27,8 @@
               <div class="customer"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">客服</div></div>
               <div class="customer" @click="goRegister"><img src="/static/images/me/customer.png" alt="点赞"><div class="detail">注册</div></div> -->
 
-              <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.say_count!==0">{{computedCount}}</div></div></div>
-              <div class="customer"><img src="/static/images/me/customer.png" alt="客服"><div class="detail">客服</div></div>
+              <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.unread_notification_count!==0">{{computedCount}}</div></div></div>
+              <div class="customer" @click="contactServer"><img src="/static/images/me/customer.png" alt="客服"><div class="detail">客服</div></div>
             </div>
         </div>
     </div>
@@ -38,15 +38,15 @@
 var qcloud = require("@/wafer2/index.js");
 const { http } = require("@/utils/http.js");
 import vuexMixin from "@/mixin/vuex.js";
+const wechat =
+  "https://weapp-1254552770.cos.ap-guangzhou.myqcloud.com/szusay/contact.png";
 export default {
   onPullDownRefresh() {
-    this.loadUserInfo(this.userId);
+    this.loadUserInfo("");
   },
-  onLoad() {
-    this.userId = qcloud.Session.get().user.id;
-  },
+
   onShow() {
-    this.loadUserInfo(this.userId);
+    this.loadUserInfo("");
   },
   mixins: [vuexMixin],
   data() {
@@ -85,11 +85,17 @@ export default {
         current: this.userInfo.avatar_url, // 当前显示图片的http链接
         urls: [this.userInfo.avatar_url] // 需要预览的图片http链接列表
       });
+    },
+    contactServer() {
+      wx.previewImage({
+        current: wechat, // 当前显示图片的http链接
+        urls: [wechat] // 需要预览的图片http链接列表
+      });
     }
   },
   computed: {
     computedCount() {
-      let count = this.userInfo.say_count;
+      let count = this.userInfo.unread_notification_count;
       if (count > 99) {
         count = "99+";
       }
@@ -220,8 +226,8 @@ export default {
             right: -24rpx;
             top: -10rpx;
             line-height: 22rpx;
-            padding: 2rpx 3rpx;
-            border-radius: 50%;
+            padding: 2rpx 10rpx;
+            border-radius: 30%;
             background-color: red;
             color: #fff;
             text-align: center;

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="searchNav">
+    <!-- <div class="searchNav">
       <input type="text" class="searchInput" placeholder="输入回车搜索" @input="typeInput">
       <img src="/static/images/index/no-search.png" alt="搜索" class="searchIcon" >
     </div>
@@ -31,50 +31,48 @@
               <taskList></taskList>
             </swiper-item>
         </swiper>   
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import Tabs from "@/components/tabs";
-import talkList from "@/components/talkList";
-import taskList from "@/components/taskList";
-export default {
-  data() {
-    return {
-      tabs: ["说说", "任务"],
-      tabW: 375,
-      activeIndex: 0,
-      labels: [
-        "深大盒子",
-        "四六级考试",
-        "基哥基哥",
-        "深大汪峰",
-        "李清泉校长",
-        "新生入学"
-      ],
-      contentShow: false
-    };
-  },
-  components: { Tabs, talkList, taskList },
-  methods: {
-    typeInput(e) {
-      let value = e.target.value;
-      if (value.length !== 0) {
-        this.contentShow = true;
-      } else {
-        this.contentShow = false;
-      }
-    },
-    bindChange(e) {
-      var current = e.target.current;
-      // if ((current + 1) % 4 == 0) {
-      // }
-      // console.log(this.activeIndex)
-      this.activeIndex = current;
-    }
-  }
-};
+// import Tabs from "@/components/tabs";
+// import talkList from "@/components/talkList";
+// import taskList from "@/components/taskList";
+// export default {
+//   data() {
+//     return {
+//       tabs: ["说说", "任务"],
+//       tabW: 375,
+//       activeIndex: 0,
+//       labels: [
+//         "深大盒子",
+//         "四六级考试",
+//         "基哥基哥",
+//         "深大汪峰",
+//         "李清泉校长",
+//         "新生入学"
+//       ],
+//       contentShow: false
+//     };
+//   },
+//   components: { Tabs, talkList, taskList },
+//   methods: {
+//     typeInput(e) {
+//       let value = e.target.value;
+//       if (value.length !== 0) {
+//         this.contentShow = true;
+//       } else {
+//         this.contentShow = false;
+//       }
+//     },
+//     bindChange(e) {
+//       var current = e.target.current;
+
+//       this.activeIndex = current;
+//     }
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

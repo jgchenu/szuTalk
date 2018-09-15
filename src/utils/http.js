@@ -13,7 +13,7 @@ exports.http = function ({
 }) {
   if (!timer) {
     timer = true;
-    if (!/(^(\/say\/(comment)?).*\/star$|^\/user\/\d+$)/.test(api)) {
+    if (!/(^(\/say\/(comment)?).*\/star$|^\/user(\/\d+)?$)/.test(api)) {
       wx.showLoading({
         title: '加载中...',
         mask: true

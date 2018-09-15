@@ -16,9 +16,6 @@ export default {
     };
   },
   computed: {
-    computedTime() {
-      return this.List.updated_at.split(" ")[1];
-    },
     computedContent() {
       let reg = new RegExp("<br>", "g");
       let str = this.List.content.replace(reg, "\n");
