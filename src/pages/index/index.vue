@@ -41,7 +41,11 @@ export default {
   },
   onShow() {
     let data = wx.getStorageSync("relData");
-    if (data) {
+    if (data && this.activeIndex === 1) {
+      this.activeIndex = 0;
+      this.refresh();
+      wx.removeStorageSync("relData");
+    } else if (data && this.activeIndex === 0) {
       this.indexList.unshift(data);
       wx.removeStorageSync("relData");
     }
