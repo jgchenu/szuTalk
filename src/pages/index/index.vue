@@ -41,12 +41,17 @@ export default {
   },
   onShow() {
     let data = wx.getStorageSync("relData");
-    if (data && this.activeIndex === 1) {
-      this.activeIndex = 0;
-      this.refresh();
-      wx.removeStorageSync("relData");
-    } else if (data && this.activeIndex === 0) {
-      this.indexList.unshift(data);
+    if (data) {
+      if (this.activeIndex === 1) {
+        this.activeIndex = 0;
+        this.refresh();
+      } else if (this.activeIndex === 0) {
+        this.indexList.unshift(data);
+      }
+      wx.pageScrollTo({
+        scrollTop: 0,
+        duration: 300
+      });
       wx.removeStorageSync("relData");
     }
     setTimeout(() => {
