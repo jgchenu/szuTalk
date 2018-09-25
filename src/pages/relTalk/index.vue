@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+<div>
+  <div class="container" v-if="userInfo.version==='1.0.1'">
         <div class="typeText">
           <!-- <input type="text" class="topicInput" v-model="topic" v-show="topic"> -->
           <textarea  cols="30" rows="10" placeholder="写下在深大遇到的趣事吧~" v-model="content"></textarea>
@@ -22,6 +23,17 @@
         </div>
 
   </div>
+  <div class="coverUp" v-else-if="userInfo.version==='1.0.0'">
+        <div class="typeText">
+          <!-- <input type="text" class="topicInput" v-model="topic" v-show="topic"> -->
+          <textarea  placeholder="填入校园推送链接，审核通过后将出现在首页" v-model="coverUpInput"></textarea>
+        </div>
+        <div class="subButtonWrap">
+          <button  type="default"  class="submitButton" @click="handleCoverUpInput">发布</button>
+        </div>
+  </div>
+</div>
+
 </template>
 
 <script>
@@ -29,16 +41,19 @@
 const { host } = require("@/config.js");
 const { http, uploadFile } = require("@/utils/http.js");
 const util = require("@/utils/index.js");
+import vuexMixin from "@/mixin/vuex.js";
 
 const qcloud = require("@/wafer2/index.js");
 export default {
   // components: { Button },
+  mixins: [vuexMixin],
 
   data() {
     return {
       imagePaths: [],
       imageIds: [],
-      content: ""
+      content: "",
+      coverUpInput: ""
     };
   },
   methods: {
@@ -117,6 +132,10 @@ export default {
           }
         }
       });
+    },
+    handleCoverUpInput() {
+      this.coverUpInput=''
+      util.showModel('提醒',"提交成功,等待后台审核通过推文");
     }
   }
 };
@@ -208,6 +227,34 @@ export default {
       font-weight: bold;
       box-shadow: 0 0 8rpx #aaaaaa;
     }
+  }
+}
+.coverUp {
+  .typeText {
+    width: 100%;
+    font-size: 30rpx;
+    text-align: left;
+    padding: 10rpx 20rpx;
+    box-sizing: border-box;
+    border-bottom: 1px solid #dddddd;
+    textarea {
+      width: 100%;
+    }
+  }
+  text-align: center;
+  .submitButton {
+    margin-top: 100rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    padding: 4rpx 60rpx;
+    text-align: center;
+    background-color: $identityBg;
+    color: #ffffff;
+    display: inline-block;
+    border-radius: 10rpx;
+    font-size: 34rpx;
+    font-weight: bold;
+    box-shadow: 0 0 8rpx #aaaaaa;
   }
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+<div>
+  <div class="container" v-if="userInfo.version==='1.0.0'">
         <div class="header">
         <Tabs :tabs="tabs" :activeIndex="activeIndex" :tabW="tabW" @bindChange="bindChange"></Tabs>
          <!-- <div class="tabItem search"><img src="/static/images/index/no-search.png" alt="搜索" @click="goSearch"></div> -->
@@ -8,9 +9,24 @@
           <!-- <div class="refresh" v-show="loading&&isRefresh">下拉刷新</div> -->
           <talkList v-for="(item,index) in indexList" :key="index" :List="item"/>
            <div class="loadMore" v-show="(loading&&!isRefresh)||finish">{{finish?'全部加载完成':'正在加载...'}}</div>
-          </div>
-      </div>     
-  
+        </div>
+        <div class="add" @click="goRelTalk">
+          <img src="/static/images/index/add.png" alt="add">
+        </div>
+  </div>  
+  <div v-else-if="userInfo.version==='1.0.1'" class="coverUp">
+    <div class="title">校园资讯</div>
+    <div class="list" v-for="(item,index) in coverUpData" :key="index" :data-id="index" @click="goNews">
+      <div class="title">{{item.title}}</div>
+      <div class="detail">
+        <div class="msg">
+            {{item.content}}
+        </div>
+        <img :src="item.img" alt="img" class="rightImg">
+      </div>
+    </div>
+  </div>   
+  </div>
 </template>
 
 <script>
@@ -54,14 +70,11 @@ export default {
       });
       wx.removeStorageSync("relData");
     }
-    setTimeout(() => {
-      this.loadUserInfo("");
-    }, 300);
+    this.loadUserInfo("");
   },
   mixins: [vuexMixin],
   data() {
     return {
-      userInfo: {},
       tabs: ["全部", "热门"],
       activeIndex: 0,
       tabsApi: ["/say", "/say/hot"],
@@ -70,7 +83,41 @@ export default {
       finish: false,
       loading: false,
       isRefresh: false,
-      tabW: 187.5
+      tabW: 187.5,
+      coverUpData: [
+        {
+          title: "英语四六级报名即将开始，报名缴费方式有变？",
+          content:
+            " 最近有不少童鞋来问荔知，下半年四六级什么时候开始报名缴费？为什么ehall系统提示缴费已经截止？",
+          img:
+            "https://mmbiz.qpic.cn/mmbiz/HDIiaiaI4UQdqVtKroLuvV7ibcSgLpLlSDBibxvtSFaiaPrk74glUS6jWpMiceD7DG477cOibtZMK6QaheqXwaWt7KXHA/640?wx_fmt=other",
+          id: 1
+        },
+        {
+          title: "国庆节补课安排确定啦，你放多少天假呀？",
+          content:
+            " 今天下午学校公布了今年中秋节国庆节的放假安排，大家关心的9月29日、30日的补课安排也出了，下面一同分享给大家。",
+          img:
+            "https://mmbiz.qpic.cn/mmbiz_png/YK1RvGdJYbUfSW3ia8uFOFh4GEqeYluBnX85ypKEw0aZRAWicpMjDh1taTzYiaQapqib3AiboK0dicRqqqWQjdGtoLIg/640?",
+          id: 2
+        },
+        {
+          title: "超激动！今天深大新生报到现场超级精彩！",
+          content:
+            " 好激动好激动！2018级来了！！小编给你送上新鲜热辣的迎新报到，真的好精彩，小编早上转了一圈，各种羡慕和感慨啊",
+          img:
+            "https://mmbiz.qpic.cn/mmbiz_jpg/YK1RvGdJYbWiaHXlShHow5SmCGFoDDyBEETicibulQY9wI1ZVQfEicbicDkvcjCg6lSgeI38x1G5UJ12TWMABNtUtMQ/640?wx_fmt=jpeg",
+          id: 3
+        },
+        {
+          title: "深大周一确定停课！请各位同学做好准备，抵御台风灾害",
+          content:
+            " 世纪最强台风“山竹”正在靠近广东沿海，深圳气象台已经发布橙色，预计今晚将会对深圳造成严重影响带来狂风暴雨",
+          img:
+            "https://mmbiz.qpic.cn/mmbiz/HDIiaiaI4UQdqVtKroLuvV7ibcSgLpLlSDBibxvtSFaiaPrk74glUS6jWpMiceD7DG477cOibtZMK6QaheqXwaWt7KXHA/640?wx_fmt=other",
+          id: 4
+        }
+      ]
     };
   },
   components: {
@@ -133,6 +180,17 @@ export default {
       this.page = 1;
       this.indexList = [];
       this.loadData();
+    },
+    goRelTalk() {
+      wx.navigateTo({
+        url: "../relTalk/main"
+      });
+    },
+    goNews(event) {
+      let id = event.currentTarget.dataset.id || 0;
+      wx.navigateTo({
+        url:`../news/main?id=${id}`
+      })
     }
   }
 };
@@ -187,6 +245,56 @@ export default {
     }
     .loadMore {
       @extend .refresh;
+    }
+  }
+  .add {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 60rpx;
+    right: 60rpx;
+    box-shadow: 2rpx 4rpx 10rpx #aaaaaa;
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+.coverUp {
+  width: 100%;
+  .title{
+    text-align: center;
+    font-size: 40rpx;
+  }
+  .list {
+    border-bottom: 1px solid #dddddd;
+    height: 300rpx;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10rpx 20rpx;
+    box-sizing: border-box;
+    margin-bottom: 20rpx;
+    .title {
+      font-size: 40rpx;
+      font-weight: bold;
+    }
+    .detail {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      .msg {
+        flex: 3;
+        color: #dddddd;
+        font-size: 30rpx;
+      }
+      .rightImg {
+        flex: 1;
+        height: 100rpx;
+        width: 100rpx;
+      }
     }
   }
 }

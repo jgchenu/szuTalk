@@ -4,21 +4,21 @@
             <div class="person">
               <img :src="userInfo.avatar_url" @click="preImage" alt="头像" class="avatar">
               <div class="name" >{{userInfo.name}}</div>
-              <div class="likeAll"><img src="/static/images/me/like.png" alt="点赞">&nbsp;<span class="likeText">获得<span class="likeCount">{{userInfo.star_count}}</span></span>&nbsp;赞</div>
+              <div class="likeAll"  v-if="userInfo.version==='1.0.0'"><img src="/static/images/me/like.png" alt="点赞">&nbsp;<span class="likeText">获得<span class="likeCount">{{userInfo.star_count}}</span></span>&nbsp;赞</div>
             </div>
             <!-- <div class="msg">
               <div class="like"><img src="/static/images/me/index.png" alt="我的主页"><div class="detail">获赞数:<span>66</span></div></div>
               <div class="auth"><img src="/static/images/me/auth.png" alt="认证"><div class="detail">认证:<span>学生</span></div></div>
               <div class="evaluate"><img src="/static/images/me/evaluate.png" alt="好评"><div class="detail">好评:<span>77%</span></div></div>
             </div> -->
-            <div class="msg">
+            <div class="msg" v-if="userInfo.version==='1.0.0'">
               <div class="index" @click="goMain"><img src="/static/images/me/index.png" alt="我的主页"><span class="detail">我的主页</span></div>
               <div class="line"></div>
               <div class="edit" @click="goEdit"><img src="/static/images/me/edit.png" alt="编辑资料"><span class="detail">编辑资料</span></div>
              
             </div>
         </div>
-        <div class="container">
+        <div class="container" v-if="userInfo.version==='1.0.0'">
             <div class="menus">
               <!-- <div class="main" @click="goMain"><img src="/static/images/me/main.png" alt="点赞"><div class="detail">我的主页</div></div>
               <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="点赞"><div class="detail">评论</div></div>
@@ -30,6 +30,10 @@
               <div class="comment" @click="goComment"><img src="/static/images/me/comment.png" alt="消息"><div class="detail">消息<div class="count" v-show="userInfo.unread_notification_count!==0">{{computedCount}}</div></div></div>
               <div class="customer" @click="contactServer"><img src="/static/images/me/customer.png" alt="客服"><div class="detail">客服</div></div>
             </div>
+        </div>
+        <div class="buttons" v-if="userInfo.version==='1.0.1'">
+          <button @click="showLikes">资讯收藏</button>
+          <button @click="contactServer">联系客服</button>
         </div>
     </div>
 </template>
@@ -91,6 +95,9 @@ export default {
         current: wechat, // 当前显示图片的http链接
         urls: [wechat] // 需要预览的图片http链接列表
       });
+    },
+    showLikes() {
+      wx.showModal({title:"提醒", content:"暂未上线"});
     }
   },
   computed: {

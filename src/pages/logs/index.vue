@@ -1,30 +1,20 @@
 <template>
   <div class="container">
-  
   </div>
 </template>
 
 <script>
-
-
 export default {
-  components: {
+  components: {},
 
+  data() {
+    return {};
   },
 
-  data () {
-    return {
-  
-    }
-  },
-
-  created () {
-
-  }
-}
+  created() {}
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>
 
