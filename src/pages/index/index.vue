@@ -10,8 +10,8 @@
           <talkList v-for="(item,index) in indexList" :key="index" :List="item"/>
            <div class="loadMore" v-show="(loading&&!isRefresh)||finish">{{finish?'全部加载完成':'正在加载...'}}</div>
         </div>
-        <div class="add" @click="goRelTalk">
-          <img src="/static/images/index/add.png" alt="add">
+        <div class="add" @click="goRelTalk" v-if="userInfo.version==='1.0.1'">
+          <img src="/static/images/index/add.png"  alt="add">
         </div>
   </div>  
   <div v-else-if="userInfo.version==='1.0.1'" class="coverUp">
