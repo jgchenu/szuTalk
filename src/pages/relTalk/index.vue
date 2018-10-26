@@ -1,6 +1,5 @@
 <template>
-<div>
-  <div class="container" v-if="userInfo.version==='1.0.1'">
+  <div class="container" >
         <div class="typeText">
           <!-- <input type="text" class="topicInput" v-model="topic" v-show="topic"> -->
           <textarea  cols="30" rows="10" placeholder="写下在深大遇到的趣事吧~" v-model="content"></textarea>
@@ -23,17 +22,6 @@
         </div>
 
   </div>
-  <div class="coverUp" v-else-if="userInfo.version==='1.0.0'">
-        <div class="typeText">
-          <!-- <input type="text" class="topicInput" v-model="topic" v-show="topic"> -->
-          <textarea  placeholder="填入校园推送链接，审核通过后将出现在首页" v-model="coverUpInput"></textarea>
-        </div>
-        <div class="subButtonWrap">
-          <button  type="default"  class="submitButton" @click="handleCoverUpInput">发布</button>
-        </div>
-  </div>
-</div>
-
 </template>
 
 <script>
@@ -52,8 +40,7 @@ export default {
     return {
       imagePaths: [],
       imageIds: [],
-      content: "",
-      coverUpInput: ""
+      content: ""
     };
   },
   methods: {
@@ -132,10 +119,6 @@ export default {
           }
         }
       });
-    },
-    handleCoverUpInput() {
-      this.coverUpInput=''
-      util.showModel('提醒',"提交成功,等待后台审核通过推文");
     }
   }
 };
