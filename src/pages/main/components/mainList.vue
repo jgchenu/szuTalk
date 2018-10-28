@@ -16,7 +16,7 @@
           <div class="time">{{computedTime}}</div>
           <div class="right">
           <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon"><span>{{List.comment_count}}</span></div>
-          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span>{{starCount}}</span></div>
+          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span :class="{selectStar:isStar}">{{starCount}}</span></div>
           </div>
 
         </div>
@@ -135,13 +135,14 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding-top: 30rpx;
-    .right{
+    .right {
       display: flex;
-      flex:1;
+      flex: 1;
       justify-content: flex-end;
     }
     .like,
     .comment {
+      color: $commentNumColor;
       display: flex;
       align-items: center;
       .likeIcon,
@@ -150,6 +151,9 @@ export default {
         height: 40rpx;
         margin-right: 10rpx;
       }
+    }
+    .selectStar {
+      color: $starNumColor;
     }
     .comment {
       margin-right: 100rpx;

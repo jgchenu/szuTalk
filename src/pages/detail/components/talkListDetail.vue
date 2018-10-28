@@ -23,8 +23,8 @@
         </div>
         <div class="footer">
            <!-- <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon"><span>分享</span></div> -->
-          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" ><span>{{List.comments.length}}</span></div>
-           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span>{{starCount}}</span></div>
+          <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" ><span>{{List.comments.length||'&nbsp;'}}</span></div>
+           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span :class="{selectStar:isStar}">{{starCount||'&nbsp;'}}</span></div>
         </div>
     </div>
 </template>
@@ -217,6 +217,7 @@ export default {
     align-items: center;
     padding: 10rpx;
     .like {
+      color: $commentNumColor;
       display: flex;
       align-items: center;
       font-size: 24rpx;
@@ -233,6 +234,9 @@ export default {
       .commentIcon {
         @extend .likeIcon;
       }
+    }
+    .selectStar {
+      color: $starNumColor;
     }
     .share {
       @extend .like;

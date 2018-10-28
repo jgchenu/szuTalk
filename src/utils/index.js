@@ -23,7 +23,7 @@ const formatTime = (timeStamp) => {
     let h = parseInt(timeDiff / 3600);
     computedTime = `${h}小时前`;
   } else if (timeDiff >= 24 * 3600) {
-    let date = new Date(timeStamp);
+    let date = new Date(timeStamp*1000);
     let h = date.getHours();
     let m = date.getMinutes();
     if (timeDiff < 48 * 3600) {
@@ -35,8 +35,6 @@ const formatTime = (timeStamp) => {
         date.getMonth() + 1;
       let Y = date.getFullYear();
       let D = date.getDate();
-      let h = date.getHours();
-      let m = date.getMinutes();
       computedTime = `${Y}-${M}-${D} ${h}:${m}`;
     }
   }

@@ -5,7 +5,7 @@ Page(pageFactory(App))
 
 export default {
     config: {
-      navigationBarTitleText: '详情',
+      navigationBarTitleText: '说说',
       enablePullDownRefresh:true,
      "backgroundTextStyle": "dark"
 

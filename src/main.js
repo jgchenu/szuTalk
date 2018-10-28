@@ -25,19 +25,19 @@ export default {
       list: [{
           pagePath: 'pages/index/main',
           iconPath: 'static/images/bottom/no-index.png',
-          text: '首页',
+          text: '说说',
           selectedIconPath: 'static/images/bottom/index.png'
         },
         {
           pagePath: 'pages/relTalk/main',
           iconPath: 'static/images/bottom/no-sub.png',
-          text: '发布',
+          text: '',
           selectedIconPath: 'static/images/bottom/sub.png'
         },
         {
           pagePath: 'pages/me/main',
           iconPath: 'static/images/bottom/no-me.png',
-          text: '我',
+          text: '我的',
           selectedIconPath: 'static/images/bottom/me.png'
         }
       ]

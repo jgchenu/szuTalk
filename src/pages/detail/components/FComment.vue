@@ -24,8 +24,8 @@
           </div>
         </div>
         <div class="footer">
-          <div class="comment"  @click="showSecondComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon"><span>{{List.comments.length}}</span></div>
-           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span>{{starCount}}</span></div>
+          <div class="comment"  @click="showSecondComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon"><span>{{List.comments.length||'&nbsp;'}}</span></div>
+           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span :class="{selectStar:isStar}">{{starCount||'&nbsp;'}}</span></div>
         </div>
         <div class="secondComments" >
           <div class="secondContainer"  v-for="(item,index) in List.comments" :key="index"  @click="handleApply(item)">
@@ -304,6 +304,7 @@ export default {
         display: flex;
         align-items: center;
         font-size: 20rpx;
+        color: $commentNumColor;
         .likeIcon {
           width: 30rpx;
           height: 30rpx;
@@ -316,6 +317,9 @@ export default {
         .commentIcon {
           @extend .likeIcon;
         }
+      }
+      .selectStar {
+        color: $starNumColor;
       }
     }
     .secondComments {
