@@ -1,7 +1,7 @@
 <template>
     <div class="loginPage">
             <p>深大说</p>
-            <img src="http://test.jgchen.xin/canvas/logo.jpg" alt="logo">
+            <img src="/static/images/logo.jpg" alt="logo">
             <button @getuserinfo="doLogin" open-type="getUserInfo" class="loginButton">允许</button>
     </div>
 </template>
