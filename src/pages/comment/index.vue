@@ -96,6 +96,13 @@ export default {
 };
 </script>
 
+<style lang='scss' >
+@import "@/style/vars.scss";
+page{
+    background-color: $gray;  
+}
+</style>
+
 <style lang="scss" scoped>
 @import "@/style/vars.scss";
 .wrap {
@@ -103,8 +110,6 @@ export default {
   .container {
     .dataBox {
       box-sizing: border-box;
-      // height: calc( 100% - 81px );
-      // padding-top: 80rpx;
       .refresh {
         line-height: 60rpx;
         text-align: center;

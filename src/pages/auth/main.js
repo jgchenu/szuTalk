@@ -7,5 +7,7 @@ app.$mount()
 export default {
   config: {
     "navigationBarTitleText": "授权页面",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": '#ffffff',
   }
 }

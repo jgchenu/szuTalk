@@ -10,8 +10,12 @@
 var util = require("@/utils/index.js");
 var qcloud = require("@/wafer2/index.js");
 var config = require("@/config.js");
+var auth = require("@/utils/auth.js");
 qcloud.setLoginUrl(`${config.loginUrl}`);
 export default {
+  mounted() {
+    auth();
+  },
   methods: {
     onGetUserinfo(e) {
       wx.getSetting({
@@ -28,8 +32,7 @@ export default {
               }, 1000);
             }).then(() => {
               wx.openSetting({
-                success: res => {
-                }
+                success: res => {}
               });
             });
           }
@@ -50,7 +53,10 @@ export default {
               this.userInfo = res;
               this.logged = true;
               util.showSuccess("登录成功");
-              wx.navigateBack({ delta: 1 });
+              // wx.navigateBack({ delta: 1 });
+              wx.switchTab({
+                url: "../index/main"
+              });
             },
             fail: err => {
               console.error(err);
@@ -64,7 +70,10 @@ export default {
               this.userInfo = res;
               this.logged = true;
               util.showSuccess("登录成功");
-              wx.navigateBack({ delta: 1 });
+              // wx.navigateBack({ delta: 1 });
+              wx.switchTab({
+                url: "../index/main"
+              });
             },
             fail: err => {
               console.error(err);

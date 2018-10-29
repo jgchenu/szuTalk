@@ -16,7 +16,7 @@
           <div class="time">{{computedTime}}</div>
           <div class="right">
           <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon"><span>{{List.comment_count}}</span></div>
-          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span :class="{selectStar:isStar}">{{starCount}}</span></div>
+          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon" :class="{selectStarIcon:isStar}"><span :class="{selectStar:isStar}">{{starCount}}</span></div>
           </div>
 
         </div>
@@ -36,9 +36,10 @@ export default {
 @import "@/style/vars.scss";
 .talkList {
   border-bottom: 4rpx solid #dddddd;
-  padding: 20rpx 20rpx;
+  padding: 30rpx 20rpx;
+  background-color: #ffffff;
   // box-shadow: 0 0 20rpx #bbbbbb;
-  margin: 10px;
+  margin: 0 0 10rpx 0;
   .header {
     display: flex;
     flex-wrap: nowrap;
@@ -154,6 +155,20 @@ export default {
     }
     .selectStar {
       color: $starNumColor;
+    }
+    .selectStarIcon {
+      animation: star 0.4s linear;
+    }
+    @keyframes star {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.4);
+      }
+      100% {
+        transform: rotate(1);
+      }
     }
     .comment {
       margin-right: 100rpx;

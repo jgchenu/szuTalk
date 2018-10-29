@@ -108,8 +108,7 @@ export default {
   box-sizing: border-box;
   box-shadow: 0 2rpx 4rpx #aaaaaa;
   background-color: #ffffff;
-  margin: 16rpx 0;
-
+  margin:0 0 16rpx 0;
   .section {
     background: #ffffff;
     .header {

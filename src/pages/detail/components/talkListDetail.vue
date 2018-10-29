@@ -24,7 +24,7 @@
         <div class="footer">
            <!-- <div class="share"><img src="/static/images/index/share.png" alt="" class="shareIcon"><span>分享</span></div> -->
           <div class="comment" @click="showFirstComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon" ><span>{{List.comments.length||'&nbsp;'}}</span></div>
-           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span :class="{selectStar:isStar}">{{starCount||'&nbsp;'}}</span></div>
+           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon" :class="{selectStarIcon:isStar}"><span :class="{selectStar:isStar}">{{starCount||'&nbsp;'}}</span></div>
         </div>
     </div>
 </template>
@@ -135,7 +135,7 @@ export default {
 .talkList {
   position: relative;
   padding: 10rpx 20rpx;
-  margin: 10px;
+  margin: 0 10rpx 10rpx 10rpx;
   .header {
     display: flex;
     flex-wrap: nowrap;
@@ -215,7 +215,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 10rpx;
+    padding: 20rpx;
     .like {
       color: $commentNumColor;
       display: flex;
@@ -237,6 +237,20 @@ export default {
     }
     .selectStar {
       color: $starNumColor;
+    }
+    .selectStarIcon {
+      animation: star 0.4s linear;
+    }
+    @keyframes star {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.4);
+      }
+      100% {
+        transform: rotate(1);
+      }
     }
     .share {
       @extend .like;

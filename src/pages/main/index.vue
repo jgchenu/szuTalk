@@ -7,6 +7,9 @@
             <div class="like"><img class="likeIcon" src="/static/images/me/like.png" alt="点赞"><span class="likeText">获得<span>{{userInfo.star_count}}&nbsp;</span>赞</span></div>
             </div>
       </div>
+      <div class="noDataTip" v-if="!indexList.length">
+        暂无说说
+      </div>
         <div  class="dataBox">
           <!-- <div class="refresh" v-show="loading&&isRefresh">下拉刷新</div> -->
           <mainList v-for="(item,index) in indexList" :key="index" :List="item"/>
@@ -80,7 +83,7 @@ export default {
               wx.stopPullDownRefresh();
               this.indexList = this.indexList.concat(res.data.data.data);
             } else {
-              util.showTip("已经加载完了", 1000);
+              // 初始化没有数据处理
             }
           }
         },
@@ -126,6 +129,11 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+page {
+  background-color: #eeeeee;
+}
+</style>
 
 <style lang="scss" scoped>
 @import "../../style/vars.scss";
@@ -183,6 +191,12 @@ export default {
         }
       }
     }
+  }
+  .noDataTip {
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: center;
+    color: #9f9f9f;
   }
   .dataBox {
     box-sizing: border-box;

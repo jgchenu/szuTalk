@@ -16,7 +16,6 @@
 <script>
 var qcloud = require("@/wafer2/index.js");
 const { http } = require("@/utils/http.js");
-var auth = require("@/utils/auth.js");
 var util = require("@/utils/index.js");
 
 import mta from "mta-wechat-analysis";
@@ -32,7 +31,6 @@ export default {
     this.loadMore();
   },
   mounted() {
-    auth();
   },
 
   onLoad() {

@@ -27,7 +27,7 @@ exports.http = function ({
       if (/(400|404)/.test(res.statusCode)) {
         wx.showModal({
           title: '提醒',
-          content: res.data.message,
+          content: JSON.stringify(res.data.message),
           showCancel: false,
           success: () => {
             wx.navigateBack({

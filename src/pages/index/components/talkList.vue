@@ -27,7 +27,7 @@
         </div>
         <div class="footer">
           <div class="comment"><img src="/static/images/index/comment.png" alt="" class="commentIcon">{{List.comment_count||'&nbsp;'}}</div>
-          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"  ><span :class="{selectStar:isStar}">{{starCount||'&nbsp;'}}</span></div>
+          <div class="like" @click.stop="handleStar"><img :src="computedStar" alt="" class="likeIcon"  :class="{selectStarIcon:isStar}"><span :class="{selectStar:isStar}">{{starCount||'&nbsp;'}}</span></div>
         </div>
     </div>
 </template>
@@ -200,8 +200,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-bottom: 10rpx;
-
+    padding-bottom: 20rpx;
     .like,
     .comment {
       color: $commentNumColor;
@@ -209,13 +208,27 @@ export default {
       align-items: center;
       .likeIcon,
       .commentIcon {
-        width: 32rpx;
-        height: 32rpx;
+        width: 40rpx;
+        height: 40rpx;
         margin-right: 10rpx;
       }
     }
-    .selectStar{
+    .selectStar {
       color: $starNumColor;
+    }
+    .selectStarIcon {
+      animation: star .4s linear;
+    }
+    @keyframes star {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.4);
+      }
+      100% {
+        transform: rotate(1);
+      }
     }
     .comment {
       margin-right: 100rpx;

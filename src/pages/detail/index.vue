@@ -7,7 +7,7 @@
         <FComment @showSecondComment="showSecond" @showApply="showSecond" :List="item" v-for="(item,index) in detailData.comments" :key="index" :commentIndex="index" :selfId="selfId" @handleAction="handleAction"></FComment>
     </div>
     <div class="whiteSpace">
-
+      {{detailData.comments.length?'':'快来抢沙发吧~'}}
     </div>
     <div class="FcommentInput" >
         <div class="images" @click="preImage" v-show="imagePaths.length">
@@ -79,7 +79,7 @@ export default {
       Scontent: "",
       toWho: {},
       id: "",
-      selfId: "",
+      selfId: ""
     };
   },
   methods: {
@@ -307,8 +307,15 @@ export default {
 };
 </script>
 
+<style>
+page {
+  background: #eeeeee;
+}
+</style>
+
 <style lang="scss" scoped>
 @import "@/style/vars.scss";
+
 .container {
   background-color: #eeeeee;
   .talkDetail {
@@ -320,7 +327,10 @@ export default {
   .whiteSpace {
     height: 90rpx;
     width: 100%;
-    background: #ffffff;
+    text-align: center;
+    line-height: 90rpx;
+    color: #9F9F9F;
+    background: #eeeeee;
   }
   .FcommentInput {
     position: fixed;
@@ -447,7 +457,7 @@ export default {
     background-color: #ffffff;
     height: 93rpx;
     line-height: 93rpx;
-    color: #dddddd;
+    color: #434343;
     padding-left: 40rpx;
   }
 }

@@ -25,7 +25,7 @@
         </div>
         <div class="footer">
           <div class="comment"  @click="showSecondComment"><img src="/static/images/index/comment.png" alt="" class="commentIcon"><span>{{List.comments.length||'&nbsp;'}}</span></div>
-           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon"><span :class="{selectStar:isStar}">{{starCount||'&nbsp;'}}</span></div>
+           <div class="like" @click="handleStar"><img :src="computedStar" alt="" class="likeIcon" :class="{selectStarIcon:isStar}"><span :class="{selectStar:isStar}">{{starCount||'&nbsp;'}}</span></div>
         </div>
         <div class="secondComments" >
           <div class="secondContainer"  v-for="(item,index) in List.comments" :key="index"  @click="handleApply(item)">
@@ -227,7 +227,6 @@ export default {
   .container {
     box-sizing: border-box;
     padding-left: 100rpx;
-    border-bottom: 1rpx solid #dddddd;
     .header {
       display: flex;
       flex-wrap: nowrap;
@@ -295,7 +294,7 @@ export default {
       }
     }
     .footer {
-      padding: 10rpx;
+      padding: 20rpx;
       box-sizing: border-box;
       display: flex;
       justify-content: flex-end;
@@ -306,8 +305,8 @@ export default {
         font-size: 20rpx;
         color: $commentNumColor;
         .likeIcon {
-          width: 30rpx;
-          height: 30rpx;
+          width: 36rpx;
+          height: 36rpx;
           margin-right: 20rpx;
         }
       }
@@ -320,6 +319,20 @@ export default {
       }
       .selectStar {
         color: $starNumColor;
+      }
+      .selectStarIcon {
+        animation: star 0.4s linear;
+      }
+      @keyframes star {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.4);
+        }
+        100% {
+          transform: rotate(1);
+        }
       }
     }
     .secondComments {
