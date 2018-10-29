@@ -63,7 +63,7 @@
     </div>
     <div class="content">
       <div class="talkContent">
-        <div class="msg">我:{{List.data.say.summary}}</div>
+        <div class="msg">我:{{List.data.say.comment.summary}}</div>
       </div>
         <div class="time">{{computedTime}}</div>
     </div>
