@@ -227,6 +227,7 @@ export default {
   .container {
     box-sizing: border-box;
     padding-left: 100rpx;
+    border-bottom: 1rpx solid #ddd;
     .header {
       display: flex;
       flex-wrap: nowrap;
